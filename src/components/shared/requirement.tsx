@@ -8,9 +8,9 @@ interface RequirementProps {
 
 export const Requirement = ({ hasBoolean, children }: RequirementProps) => {
   return (
-    <div className='flex flex-row gap-1'>
+    <span className='flex flex-row gap-1'>
       { hasBoolean ? <Check className='text-green-400' /> : <X className='text-red-400' /> }
       { children }
-    </div>
+    </span>
   )
 }
