@@ -18,6 +18,7 @@ import { Route as authAuthImport } from './routes/(auth)/_auth'
 import { Route as authAuthIndexImport } from './routes/(auth)/_auth.index'
 import { Route as publicPublicRegisterImport } from './routes/(public)/_public.register'
 import { Route as publicPublicLoginImport } from './routes/(public)/_public.login'
+import { Route as authAuthSelectGenresImport } from './routes/(auth)/_auth.select-genres'
 
 // Create Virtual Routes
 
@@ -64,6 +65,12 @@ const publicPublicLoginRoute = publicPublicLoginImport.update({
   getParentRoute: () => publicPublicRoute,
 } as any)
 
+const authAuthSelectGenresRoute = authAuthSelectGenresImport.update({
+  id: '/select-genres',
+  path: '/select-genres',
+  getParentRoute: () => authAuthRoute,
+} as any)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -96,6 +103,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof publicPublicImport
       parentRoute: typeof publicRoute
     }
+    '/(auth)/_auth/select-genres': {
+      id: '/(auth)/_auth/select-genres'
+      path: '/select-genres'
+      fullPath: '/select-genres'
+      preLoaderRoute: typeof authAuthSelectGenresImport
+      parentRoute: typeof authAuthImport
+    }
     '/(public)/_public/login': {
       id: '/(public)/_public/login'
       path: '/login'
@@ -123,10 +137,12 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 interface authAuthRouteChildren {
+  authAuthSelectGenresRoute: typeof authAuthSelectGenresRoute
   authAuthIndexRoute: typeof authAuthIndexRoute
 }
 
 const authAuthRouteChildren: authAuthRouteChildren = {
+  authAuthSelectGenresRoute: authAuthSelectGenresRoute,
   authAuthIndexRoute: authAuthIndexRoute,
 }
 
@@ -171,12 +187,14 @@ const publicRouteWithChildren =
 
 export interface FileRoutesByFullPath {
   '/': typeof authAuthIndexRoute
+  '/select-genres': typeof authAuthSelectGenresRoute
   '/login': typeof publicPublicLoginRoute
   '/register': typeof publicPublicRegisterRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof authAuthIndexRoute
+  '/select-genres': typeof authAuthSelectGenresRoute
   '/login': typeof publicPublicLoginRoute
   '/register': typeof publicPublicRegisterRoute
 }
@@ -187,6 +205,7 @@ export interface FileRoutesById {
   '/(auth)/_auth': typeof authAuthRouteWithChildren
   '/(public)': typeof publicRouteWithChildren
   '/(public)/_public': typeof publicPublicRouteWithChildren
+  '/(auth)/_auth/select-genres': typeof authAuthSelectGenresRoute
   '/(public)/_public/login': typeof publicPublicLoginRoute
   '/(public)/_public/register': typeof publicPublicRegisterRoute
   '/(auth)/_auth/': typeof authAuthIndexRoute
@@ -194,15 +213,16 @@ export interface FileRoutesById {
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/login' | '/register'
+  fullPaths: '/' | '/select-genres' | '/login' | '/register'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/login' | '/register'
+  to: '/' | '/select-genres' | '/login' | '/register'
   id:
     | '__root__'
     | '/(auth)'
     | '/(auth)/_auth'
     | '/(public)'
     | '/(public)/_public'
+    | '/(auth)/_auth/select-genres'
     | '/(public)/_public/login'
     | '/(public)/_public/register'
     | '/(auth)/_auth/'
@@ -243,6 +263,7 @@ export const routeTree = rootRoute
       "filePath": "(auth)/_auth.tsx",
       "parent": "/(auth)",
       "children": [
+        "/(auth)/_auth/select-genres",
         "/(auth)/_auth/"
       ]
     },
@@ -259,6 +280,10 @@ export const routeTree = rootRoute
         "/(public)/_public/login",
         "/(public)/_public/register"
       ]
+    },
+    "/(auth)/_auth/select-genres": {
+      "filePath": "(auth)/_auth.select-genres.tsx",
+      "parent": "/(auth)/_auth"
     },
     "/(public)/_public/login": {
       "filePath": "(public)/_public.login.tsx",
