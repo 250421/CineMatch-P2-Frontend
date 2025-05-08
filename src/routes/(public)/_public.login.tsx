@@ -84,7 +84,7 @@ function LoginPage() {
                 </FormItem>
               )}
             />
-            <Button type="submit">Submit</Button>
+            <Button type="submit" className="w-[100%]">Submit</Button>
           </form>
         </Form>
       </CardContent>
