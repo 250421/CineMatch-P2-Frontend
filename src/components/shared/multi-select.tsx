@@ -32,7 +32,7 @@ export function MultiSelect({ values, onSelect, options, maxLimit, label }: Mult
 
   function handleSelect(value: string) {
     if(values.length === maxLimit && !values.includes(value)) {
-      toast(`You can only select up to ${maxLimit} items.`)
+      toast(`You can only select up to ${maxLimit} ${label}.`)
       return
     }
     const newValues = values.includes(value)? values.filter(item => item !== value) : [...values, value]
@@ -46,19 +46,19 @@ export function MultiSelect({ values, onSelect, options, maxLimit, label }: Mult
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-[100%] justify-between"
+          className="w-[100%] justify-between h-fit"
         >
-          <div className="flex gap-2 justify-start">
-          {values.length > 0
-            ? values.map((value) => (
-              <Badge key={value} variant="outline">{ options.find(option => option === value) }</Badge>
-            ))
-            : `Select ${label}...`}
+          <div className="flex gap-2 justify-start flex-wrap">
+            {values.length > 0
+              ? values.map((value) => (
+                <Badge key={value} variant="outline">{ options.find(option => option === value) }</Badge>
+              ))
+              : `Select ${label}...`}
           </div>
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[200px] p-0">
+      <PopoverContent className="w-[var(--radix-popover-trigger-width)] p-0">
         <Command>
           <CommandInput placeholder={ `Search ${label}...` } />
           <CommandList>
