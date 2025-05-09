@@ -18,19 +18,20 @@ import {
 import { useState } from 'react'
 import { Badge } from "../ui/badge"
 import { toast } from "sonner"
+import type { Genre } from "@/features/genres/models/genres"
 
-interface MultiSelectProps {
-  values: string[]
-  onSelect: (value: string[]) => void
-  options: string[]
+interface MultiGenreSelectProps {
+  values: number[]
+  onSelect: (value: number[]) => void
+  options: Genre[]
   maxLimit: number
   label: string
 }
 
-export function MultiSelect({ values, onSelect, options, maxLimit, label }: MultiSelectProps) {
+export function MultiGenreSelect({ values, onSelect, options, maxLimit, label }: MultiGenreSelectProps) {
   const [open, setOpen] = useState(false)
 
-  function handleSelect(value: string) {
+  function handleSelect(value: number) {
     if(values.length === maxLimit && !values.includes(value)) {
       toast(`You can only select up to ${maxLimit} ${label}.`)
       return
@@ -51,7 +52,7 @@ export function MultiSelect({ values, onSelect, options, maxLimit, label }: Mult
           <div className="flex gap-2 justify-start flex-wrap">
             {values.length > 0
               ? values.map((value) => (
-                <Badge key={value} variant="outline">{ options.find(option => option === value) }</Badge>
+                <Badge key={value} variant="outline">{ options.find(option => option.id === value)?.name }</Badge>
               ))
               : `Select ${label}...`}
           </div>
@@ -66,17 +67,17 @@ export function MultiSelect({ values, onSelect, options, maxLimit, label }: Mult
             <CommandGroup>
               {options.map((option) => (
                 <CommandItem
-                  key={option}
-                  value={option}
-                  onSelect={(currentValue) => handleSelect(currentValue) }
+                  key={option.id}
+                  value={String(option.id)}
+                  onSelect={(currentValue) => handleSelect(Number(currentValue)) }
                 >
                   <Check
                     className={cn(
                       "mr-2 h-4 w-4",
-                      values.includes(option) ? "opacity-100" : "opacity-0"
+                      values.includes(option.id) ? "opacity-100" : "opacity-0"
                     )}
                   />
-                  {option}
+                  {option.name}
                 </CommandItem>
               ))}
             </CommandGroup>
