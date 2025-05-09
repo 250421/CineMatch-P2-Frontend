@@ -12,7 +12,7 @@ import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { useGetGenres } from '@/features/genres/hooks/use-get-genres'
 import { Loader2 } from 'lucide-react'
-import { MultiMovieSelect } from '@/components/shared/mult-movie-select'
+import { MultiMovieSelect } from '@/components/shared/multi-movie-select'
 import { useGetMovies } from '@/features/genres/hooks/use-get-movies'
 
 export const Route = createFileRoute('/(auth)/_auth/select-genres')({
