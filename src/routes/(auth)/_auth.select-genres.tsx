@@ -49,12 +49,12 @@ function SelectGenresPage() {
 
   function handleSelectMovies(value: string[]) {
     setMovies(value);
-}
+  }
 
-function onSubmit() {
-  console.log(genres);
-  console.log(movies);
-}
+  function onSubmit() {
+    console.log(genres);
+    console.log(movies);
+  }
 
   return (
     <div className="flex items-center justify-center h-screen">
