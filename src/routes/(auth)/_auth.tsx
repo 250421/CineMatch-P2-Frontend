@@ -1,5 +1,9 @@
+import { Navbar } from "@/components/shared/navbar";
+import { AppSidebar } from "@/components/shared/sidebar/app-sidebar";
+import { SidebarContainer } from "@/components/shared/sidebar/sidebar-container";
+import { SidebarMainWrapper } from "@/components/shared/sidebar/sidebar-main-wrapper";
 import { useAuth } from "@/features/auth/hooks/use-auth";
-import { createFileRoute, Navigate } from "@tanstack/react-router";
+import { createFileRoute, Navigate, Outlet } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/(auth)/_auth")({
   component: Auth,
@@ -13,8 +17,15 @@ function Auth() {
   }
 
   return (
-    <div className="p-2">
-      <h3>Welcome Home!</h3>
-    </div>
+    <SidebarContainer>
+      <AppSidebar />
+      <SidebarMainWrapper>
+        <Navbar />
+        <main className="max-w-screen mx-auto w-11/12 py-10">
+          <Outlet />
+          <h3>This is auth</h3>
+        </main>
+      </SidebarMainWrapper>
+    </SidebarContainer>
   );
 }
