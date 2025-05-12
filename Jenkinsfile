@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = 'cinematch_frontend'
+        DOCKER_IMAGE = 'cinematch-frontend'
         DOCKER_TAG = "${BUILD_NUMBER}"
     }
 
@@ -25,7 +25,7 @@ pipeline {
                     sh """
                         docker run -d \\
                             --name ${DOCKER_IMAGE} \\
-                            -p 5173:5173 \\
+                            -p 80:80 \\
                             --restart unless-stopped \\
                             ${DOCKER_IMAGE}:${DOCKER_TAG}
                     """
