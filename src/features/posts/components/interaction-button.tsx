@@ -36,7 +36,10 @@ export const InteractionButton = ({ Icon, value, label, onClick }: InteractionBu
   return (
     <TooltipProvider>
       <Tooltip>
-        <TooltipTrigger className="flex items-center gap-1 p-2 rounded-md hover:bg-slate-300 min-w-[85px]" onClick={ e => onClick(e) }>
+        <TooltipTrigger 
+          className="flex items-center gap-1 p-2 rounded-md hover:bg-slate-300 min-w-[85px] hover:cursor-pointer" 
+          onClick={ onClick }
+        >
           <Icon /> { convertValue(value) }
         </TooltipTrigger>
         <TooltipContent side="bottom">

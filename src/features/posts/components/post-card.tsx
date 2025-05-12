@@ -10,10 +10,12 @@ import { Link, useNavigate } from "@tanstack/react-router"
 import { ProfileIcon } from "../../../components/shared/profile-icon"
 import { Dot, Heart, MessageSquare } from "lucide-react"
 import { InteractionButton } from "./interaction-button"
-import type { MouseEvent } from "react"
+import { useState, type MouseEvent } from "react"
+import { Image } from "@/components/shared/image"
 
 export const PostCard = () => {
   const navigate = useNavigate();
+  const [viewSpoiler, setViewSpoiler] = useState(false);
 
   function handleClickUsername(event: MouseEvent<HTMLAnchorElement>) {
     event.stopPropagation();
@@ -30,8 +32,13 @@ export const PostCard = () => {
     console.log("user commented");
   }
 
+  function handleViewSpoiler(event: MouseEvent<HTMLDivElement>) {
+    event.stopPropagation();
+    setViewSpoiler(true);
+  }
+
   return (
-    <Card className="w-[100%] py-2 gap-2 hover:bg-slate-100" onClick={ () => navigate({ to: "/login" }) }>
+    <Card className="w-[100%] py-2 gap-2 hover:bg-slate-100 w-full hover:cursor-pointer" onClick={ () => navigate({ to: "/login" }) }>
       <CardHeader className="px-4">
         <div className="flex flex-row items-center">
           <Link to="/" onClick={ e => handleClickUsername(e) } className="flex flex-row items-center gap-1 hover:text-slate-500">
@@ -42,7 +49,12 @@ export const PostCard = () => {
         <CardTitle className="text-xl mt-2">Post Title</CardTitle>
       </CardHeader>
       <CardContent className="px-4">
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer mattis orci eu viverra hendrerit. Aliquam consectetur nec tellus at fermentum. Duis euismod convallis nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Phasellus elit nulla, ornare id dapibus ut, lobortis in odio. Nam accumsan interdum</p>
+        {
+          true && !viewSpoiler ? 
+            <Image setViewSpoiler={ handleViewSpoiler } />
+          :
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer mattis orci eu viverra hendrerit. Aliquam consectetur nec tellus at fermentum. Duis euismod convallis nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Phasellus elit nulla, ornare id dapibus ut, lobortis in odio. Nam accumsan interdum</p>
+        }
       </CardContent>
       <CardFooter className="flex flex-row gap-4 px-4 pt-2">
         <InteractionButton Icon={ Heart } value={ 999999 } label="like" onClick={ handleClickLike } />
