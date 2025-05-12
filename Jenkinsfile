@@ -4,6 +4,7 @@ pipeline {
     environment {
         DOCKER_IMAGE = 'cinematch-frontend'
         DOCKER_TAG = "${BUILD_NUMBER}"
+        BACKEND_URL = credentials('BACKEND_URL')
     }
 
     stages {
@@ -26,6 +27,7 @@ pipeline {
                         docker run -d \\
                             --name ${DOCKER_IMAGE} \\
                             -p 80:80 \\
+                            -e VITE_API_URL=${BACKEND_URL} \\
                             --restart unless-stopped \\
                             ${DOCKER_IMAGE}:${DOCKER_TAG}
                     """
