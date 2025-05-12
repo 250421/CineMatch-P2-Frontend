@@ -12,7 +12,9 @@ pipeline {
         stage('Docker Build') {
             steps {
                 script {
-                    sh "docker build -t ${DOCKER_IMAGE}:${DOCKER_TAG} ."
+                    sh "docker build \
+                        --build-arg VITE_API_URL=${BACKEND_URL} \
+                        -t ${DOCKER_IMAGE}:${DOCKER_TAG} ."
                 }
             }
         }
@@ -27,7 +29,6 @@ pipeline {
                         docker run -d \\
                             --name ${DOCKER_IMAGE} \\
                             -p 80:80 \\
-                            -e VITE_API_URL=${BACKEND_URL} \\
                             --restart unless-stopped \\
                             ${DOCKER_IMAGE}:${DOCKER_TAG}
                     """
