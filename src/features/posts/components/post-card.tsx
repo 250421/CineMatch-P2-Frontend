@@ -13,6 +13,7 @@ import { InteractionButton } from "./interaction-button"
 import { useState, type MouseEvent } from "react"
 import { HiddenContent } from "@/components/shared/hidden-content"
 import { FormattedDate } from "@/components/shared/formatted-date"
+import { Image } from "@/components/shared/image"
 
 interface PostCardProps {
   post: any
@@ -57,7 +58,7 @@ export const PostCard = ({ post }: PostCardProps) => {
         { post?.hasSpoiler && !viewSpoiler ? 
           <HiddenContent setViewSpoiler={ handleViewSpoiler } />
         :
-          <p>{ post?.image ?? post.content }</p>
+          post?.image ? <Image src={ post.image } /> : <p>{ post.content }</p>
         }
       </CardContent>
       <CardFooter className="flex flex-row gap-4 px-4 pt-2">
