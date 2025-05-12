@@ -1,11 +1,11 @@
 import type { MouseEvent } from "react";
 import { Button } from "../ui/button"
 
-interface ImageProps {
+interface HiddenContentProps {
   setViewSpoiler: (event: MouseEvent<HTMLDivElement>) => void;
 }
 
-export const Image = ({ setViewSpoiler }: ImageProps) => {
+export const HiddenContent = ({ setViewSpoiler }: HiddenContentProps) => {
   return (
     <div className="overflow-hidden w-full aspect-3/2 rounded-lg border-2 relative" onClick={ e => setViewSpoiler(e) }>
       <div className="z-1 blur-xl bg-slate-300 w-full h-full hover:bg-slate-400">

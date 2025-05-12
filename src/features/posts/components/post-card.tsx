@@ -11,9 +11,14 @@ import { ProfileIcon } from "../../../components/shared/profile-icon"
 import { Dot, Heart, MessageSquare } from "lucide-react"
 import { InteractionButton } from "./interaction-button"
 import { useState, type MouseEvent } from "react"
-import { Image } from "@/components/shared/image"
+import { HiddenContent } from "@/components/shared/hidden-content"
+import { FormattedDate } from "@/components/shared/formatted-date"
 
-export const PostCard = () => {
+interface PostCardProps {
+  post: any
+}
+
+export const PostCard = ({ post }: PostCardProps) => {
   const navigate = useNavigate();
   const [viewSpoiler, setViewSpoiler] = useState(false);
 
@@ -44,16 +49,15 @@ export const PostCard = () => {
           <Link to="/" onClick={ e => handleClickUsername(e) } className="flex flex-row items-center gap-1 hover:text-slate-500">
             <ProfileIcon name="username" /><span className="hover:underline">username</span>
           </Link>
-          <CardDescription className="flex flex-row items-center"><Dot /> 5 hrs ago</CardDescription>
+          <CardDescription className="flex flex-row items-center"><Dot /> <FormattedDate date={ post?.dateCreated ?? "" } /></CardDescription>
         </div>
-        <CardTitle className="text-xl mt-2">Post Title</CardTitle>
+        <CardTitle className="text-xl mt-2">{ post?.title }</CardTitle>
       </CardHeader>
       <CardContent className="px-4">
-        {
-          true && !viewSpoiler ? 
-            <Image setViewSpoiler={ handleViewSpoiler } />
-          :
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer mattis orci eu viverra hendrerit. Aliquam consectetur nec tellus at fermentum. Duis euismod convallis nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Phasellus elit nulla, ornare id dapibus ut, lobortis in odio. Nam accumsan interdum</p>
+        { post?.hasSpoiler && !viewSpoiler ? 
+          <HiddenContent setViewSpoiler={ handleViewSpoiler } />
+        :
+          <p>{ post?.image ?? post.content }</p>
         }
       </CardContent>
       <CardFooter className="flex flex-row gap-4 px-4 pt-2">
