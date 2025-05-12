@@ -7,11 +7,6 @@ pipeline {
     }
 
     stages {
-        stage('Build') {
-            steps {
-                sh 'npm run build'
-            }
-        }
 
         stage('Docker Build') {
             steps {
