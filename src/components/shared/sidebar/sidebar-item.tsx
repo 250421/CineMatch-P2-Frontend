@@ -2,7 +2,6 @@ import { Button } from "@/components/ui/button";
 import { Link } from "@tanstack/react-router";
 import type { LucideIcon } from "lucide-react";
 
-
 interface SidebarItemProps {
     label: string;
     icon: LucideIcon;
@@ -18,7 +17,6 @@ export const SidebarItem = ({ label, icon: Icon, href }: SidebarItemProps) => {
                 {label}
             </Button>
             </Link>
-           
         </div>
     );
 };

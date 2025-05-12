@@ -7,9 +7,7 @@ import { toast } from 'sonner';
 export const useLogout = () => {
     const navigate = useNavigate();
     const queryClient = useQueryClient();
-
-
-
+    
     return useMutation({
         mutationFn: async () => {
             const resp = await axiosInstance.post("/auth/logout");

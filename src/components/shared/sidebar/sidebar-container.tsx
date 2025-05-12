@@ -8,6 +8,5 @@ interface sidebarContainerProps {
 export const SidebarContainer = ({ children }: sidebarContainerProps) => {
   const { mounted } = useSidebarJotai();
   if (!mounted) return null;
-
   return <div>{children}</div>;
 };

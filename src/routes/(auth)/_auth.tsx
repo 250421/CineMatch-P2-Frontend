@@ -20,11 +20,11 @@ function Auth() {
     <SidebarContainer>
       <AppSidebar />
       <SidebarMainWrapper>
-      <Navbar/>
-                <main className="max-w-screen mx-auto w-11/12 py-10">
-                  <Outlet />
-                  <h3>This is auth</h3>
-                </main>
+        <Navbar />
+        <main className="max-w-screen mx-auto w-11/12 py-10">
+          <Outlet />
+          <h3>This is auth</h3>
+        </main>
       </SidebarMainWrapper>
     </SidebarContainer>
   );

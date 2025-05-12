@@ -6,7 +6,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dailog";
+} from "@/components/ui/dialog";
 import { type JSX, useState } from "react";
 
 interface ConfirmDialogProps {

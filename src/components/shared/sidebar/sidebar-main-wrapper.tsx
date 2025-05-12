@@ -15,7 +15,7 @@ export const SidebarMainWrapper = ({ children }: sidebarMainWrapper) => {
         variant={"ghost"}
         size={"icon"}
         onClick={toggle}
-        className="fixed m-3 z-50 cursor-pointer"
+        className="fixed m-3 my-4.5 z-50 cursor-pointer"
       >
         <Sidebar />
       </Button>
