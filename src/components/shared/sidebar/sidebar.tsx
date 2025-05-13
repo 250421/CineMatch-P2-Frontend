@@ -11,7 +11,7 @@ export const Sidebar = ({ children }: SidebarProps) => {
   return (
     <div className=
     {cn(
-      "fixed top-0 left-0 h-screen transition-all duration-300 ease-in-out",
+      "z-0 fixed top-0 left-0 h-screen transition-all duration-300 ease-in-out mt-[72px] pt-4",
       isOpen ? "w-64 bg-sky-200 border-r" : "w-0"
     )}>
       {children}
