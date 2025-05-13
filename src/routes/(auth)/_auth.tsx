@@ -14,7 +14,11 @@ function Auth() {
   const { data: user, isLoading } = useAuth();
 
   if(isLoading) {
-    return <div className="flex items-center justify-center h-screen"><Loader2 className="animate-spin size-8" /></div>
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <Loader2 className="animate-spin size-8" />
+      </div>
+    );
   }
 
   if (!user) {
