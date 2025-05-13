@@ -11,7 +11,7 @@ export const ProfileIcon = ({ name }: ProfileIconProps) => {
 
   return (
     <Avatar>
-      <AvatarFallback>{ getInitials(name) }</AvatarFallback>
+      <AvatarFallback className="bg-slate-200">{ getInitials(name) }</AvatarFallback>
     </Avatar>
   )
 }
