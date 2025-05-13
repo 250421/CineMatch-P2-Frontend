@@ -22,6 +22,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import { useCreatePost } from '@/features/posts/hooks/use-create-post'
 
 const messageBoards = [
   { id: 1, genre: "Action" },
@@ -34,19 +35,21 @@ export const Route = createFileRoute('/(auth)/_auth/new-post')({
 })
 
 function RouteComponent() {
-    const form = useForm<CreatePostSchemaType>({
+  const { mutate: createPost } = useCreatePost();
+
+  const form = useForm<CreatePostSchemaType>({
     resolver: zodResolver(CreatePostSchema),
     defaultValues: {
       title: "",
-      content: "",
+      text: "",
       hasSpoiler: false,
-      image: undefined
+      image: undefined,
+      boardId: undefined
     },
   })
 
   function onSubmit(values: any) {
-    console.log("submit");
-    console.log(values);
+    createPost(values);
   }
 
   return (
@@ -61,7 +64,7 @@ function RouteComponent() {
               <FormItem>
                 <FormLabel>Select a Message Board</FormLabel>
                 <FormControl>
-                  <Select onValueChange={ field.onChange } value={ String(field.value) }>
+                  <Select onValueChange={ (field.onChange) } value={ field.value ? String(field.value) : "" }>
                     <SelectTrigger className="w-[180px]">
                       <SelectValue placeholder="message board*" />
                     </SelectTrigger>
@@ -95,7 +98,7 @@ function RouteComponent() {
 
           <FormField
             control={form.control}
-            name="content"
+            name="text"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Content</FormLabel>
@@ -115,6 +118,7 @@ function RouteComponent() {
                 <FormLabel>Image</FormLabel>
                 <FormControl>
                   <Input 
+                    disabled
                     placeholder="image" 
                     accept="image/*" 
                     type="file"
@@ -123,7 +127,28 @@ function RouteComponent() {
                     onChange={(e) => {
                       onChange(e.target.files?.[0]);
                     }}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
+          <FormField
+            control={form.control}
+            name="hasSpoiler"
+            render={({ field: { value, ref, onChange, ...fieldProps } }) => (
+              <FormItem className="flex flex-row items-center gap-4">
+                <FormLabel>Contains Spoiler?</FormLabel>
+                <FormControl>
+                  <Input 
+                    type="checkbox"
+                    ref={ ref }
+                    { ...fieldProps }
+                    onChange={() => {
+                      onChange(!value);
+                    }}
+                    className="size-4"
                   />
                 </FormControl>
                 <FormMessage />
