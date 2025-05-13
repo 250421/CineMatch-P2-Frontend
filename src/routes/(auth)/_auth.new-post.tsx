@@ -23,6 +23,11 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 
+const messageBoards = [
+  { id: 1, genre: "Action" },
+  { id: 2, genre: "Adventure" },
+  { id: 3, genre: "Comedy" },
+]
 
 export const Route = createFileRoute('/(auth)/_auth/new-post')({
   component: RouteComponent,
@@ -34,7 +39,8 @@ function RouteComponent() {
     defaultValues: {
       title: "",
       content: "",
-      hasSpoiler: false
+      hasSpoiler: false,
+      image: undefined
     },
   })
 
@@ -44,25 +50,27 @@ function RouteComponent() {
   }
 
   return (
-    <div className="flex items-center justify-center h-screen">
+    <div className="flex justify-center h-screen">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 w-[30em]">
-          <h1 className="text-xl mb-0">Create Post</h1>
+          <h1 className="text-xl mb-4">Create Post</h1>
           <FormField
             control={form.control}
-            name="title"
+            name="boardId"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Title</FormLabel>
+                <FormLabel>Select a Message Board</FormLabel>
                 <FormControl>
-                  <Select>
+                  <Select onValueChange={ field.onChange } value={ String(field.value) }>
                     <SelectTrigger className="w-[180px]">
-                      <SelectValue placeholder="Theme" />
+                      <SelectValue placeholder="message board*" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="light">Light</SelectItem>
-                      <SelectItem value="dark">Dark</SelectItem>
-                      <SelectItem value="system">System</SelectItem>
+                      {
+                        messageBoards.map((value) => (
+                          <SelectItem value={ String(value.id) } key={ value.genre }>{ value.genre }</SelectItem>
+                        ))
+                      }
                     </SelectContent>
                   </Select>
                 </FormControl>
