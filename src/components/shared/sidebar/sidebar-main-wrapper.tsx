@@ -10,16 +10,18 @@ export const SidebarMainWrapper = ({ children }: sidebarMainWrapper) => {
   const { isOpen, toggle } = useSidebarJotai();
 
   return (
-    <div className={cn(isOpen ? "ml-64" : "ml-0")}>
+    <div>
       <Button
         variant={"ghost"}
         size={"icon"}
         onClick={toggle}
-        className="fixed m-3 my-4.5 z-50 cursor-pointer"
+        className="z-1 fixed m-3 my-4.5 z-50 cursor-pointer"
       >
         <Sidebar />
       </Button>
-      {children}
+      <div className={cn(isOpen ? "ml-64" : "ml-0")}>
+        {children}
+      </div>
     </div>
   );
 };
