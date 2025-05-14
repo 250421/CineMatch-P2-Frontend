@@ -42,7 +42,7 @@ function RouteComponent() {
     defaultValues: {
       title: "",
       text: "",
-      hasSpoiler: false,
+      hasSpoiler: 0,
       image: undefined,
       boardId: undefined
     },

@@ -18,6 +18,7 @@ import { Route as authAuthImport } from './routes/(auth)/_auth'
 import { Route as authAuthIndexImport } from './routes/(auth)/_auth.index'
 import { Route as publicPublicRegisterImport } from './routes/(public)/_public.register'
 import { Route as publicPublicLoginImport } from './routes/(public)/_public.login'
+import { Route as authAuthNewPostImport } from './routes/(auth)/_auth.new-post'
 import { Route as authAuthMessageBoardBoardIdImport } from './routes/(auth)/_auth.message-board.$boardId'
 
 // Create Virtual Routes
@@ -63,6 +64,12 @@ const publicPublicLoginRoute = publicPublicLoginImport.update({
   id: '/login',
   path: '/login',
   getParentRoute: () => publicPublicRoute,
+} as any)
+
+const authAuthNewPostRoute = authAuthNewPostImport.update({
+  id: '/new-post',
+  path: '/new-post',
+  getParentRoute: () => authAuthRoute,
 } as any)
 
 const authAuthMessageBoardBoardIdRoute =
@@ -226,9 +233,14 @@ export interface FileRoutesById {
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/login' | '/register' | '/message-board/$boardId'
+  fullPaths:
+    | '/'
+    | '/new-post'
+    | '/login'
+    | '/register'
+    | '/message-board/$boardId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/login' | '/register' | '/message-board/$boardId'
+  to: '/' | '/new-post' | '/login' | '/register' | '/message-board/$boardId'
   id:
     | '__root__'
     | '/(auth)'
@@ -277,6 +289,7 @@ export const routeTree = rootRoute
       "filePath": "(auth)/_auth.tsx",
       "parent": "/(auth)",
       "children": [
+        "/(auth)/_auth/new-post",
         "/(auth)/_auth/",
         "/(auth)/_auth/message-board/$boardId"
       ]
