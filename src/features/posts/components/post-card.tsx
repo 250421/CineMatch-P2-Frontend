@@ -13,7 +13,7 @@ import { useState, type MouseEvent } from "react"
 import { HiddenContent } from "@/components/shared/hidden-content"
 import { FormattedDate } from "@/components/shared/formatted-date"
 import { Image } from "@/components/shared/image"
-import { UserProfile } from "@/components/user-profile"
+import { ProfileIcon } from "@/components/shared/profile-icon"
 
 interface PostCardProps {
   post: any
@@ -48,7 +48,10 @@ export const PostCard = ({ post }: PostCardProps) => {
       <CardHeader className="px-4">
         <div className="flex flex-row items-center">
           <Link to="/" onClick={ e => handleClickUsername(e) } className="flex flex-row items-center gap-1 hover:text-slate-500">
-            <UserProfile /><span className="hover:underline">username</span>
+            <ProfileIcon name={ post?.user?.username ?? "Anonymous" } />
+            <span className="hover:underline">
+              { post?.user?.username ?? "Anonymous" }
+            </span>
           </Link>
           <CardDescription className="flex flex-row items-center"><Dot /> <FormattedDate date={ post?.created ?? "" } /></CardDescription>
         </div>

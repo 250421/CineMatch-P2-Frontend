@@ -1,3 +1,5 @@
+import type { Creator } from "@/features/auth/model/creator";
+
 export interface Post {
     id: number;
     title: string;
@@ -6,4 +8,5 @@ export interface Post {
     image: File | undefined;
     hasSpoiler: boolean;
     created: string;
+    user: Creator;
 }
