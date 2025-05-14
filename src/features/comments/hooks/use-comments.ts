@@ -2,7 +2,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { axiosInstance } from "@/lib/axios-config";
 import { AxiosError } from "axios";
 import { toast } from "sonner";
-import { commentSchema, type CommentSchemaType } from "../schemas/comment-schema";
+import { commentSchema } from "../schemas/comment-schema";
 
 export const useComments = (postId: number) => {
     const queryClient = useQueryClient();
@@ -11,7 +11,7 @@ export const useComments = (postId: number) => {
         queryKey: ["comments", postId],
         queryFn: async () => {
             try {
-                const res = await axiosInstance.get(`/api/post/{id}/comment`);
+                const res = await axiosInstance.get(`/api/post/${postId}/comment`);
                 return res.data;
             } catch (error) {
                 console.error(error);
@@ -20,23 +20,6 @@ export const useComments = (postId: number) => {
             }
         },
         refetchInterval: 5000,
-    });
-
-    const addComment = useMutation({
-        mutationFn: async (body: CommentSchemaType) => {
-            const resp = await axiosInstance.post(`/api/post/{id}/comments`, body);
-            return resp;
-        },
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ["comments", postId] });
-            toast.success("Comment added!");
-        },
-        onError: (error) => {
-            if (error instanceof AxiosError) {
-                console.log(error);
-                toast.error(error.response?.data.message || "Failed to add comment.");
-            }
-        }
     });
 
     const deleteComment = useMutation({
@@ -73,7 +56,6 @@ export const useComments = (postId: number) => {
 
     return {
         comments: data || [],
-        addComment,
         deleteComment,
         editComment
     };

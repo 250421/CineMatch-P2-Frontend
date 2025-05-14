@@ -1,4 +1,3 @@
-import { useComments } from "@/features/auth/hooks/use-comments";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
@@ -7,10 +6,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import {
   commentSchema,
   type CommentSchemaType,
-} from "@/features/auth/schemas/comment-schema";
+} from "@/features/comments/schemas/comment-schema";
+import { useAddComment } from "@/features/comments/hooks/use-add-comment";
 
 export function CommentBox({ postId }: { postId: number }) {
-  const { addComment } = useComments(postId);
+  const addComment = useAddComment(postId);
 
   const {
     register,
@@ -21,15 +21,14 @@ export function CommentBox({ postId }: { postId: number }) {
   } = useForm<CommentSchemaType>({
     resolver: zodResolver(commentSchema),
     defaultValues: {
-      content: "",
+      text: "",
     },
   });
 
-  const content = useWatch({ control, name: "content" });
+  const text = useWatch({ control, name: "text" });
   const onSubmit = (data: CommentSchemaType) => {
     addComment.mutate(data, {
       onSuccess: () => {
-        toast.success("Comment posted!");
         reset();
       },
       onError: () => {
@@ -41,18 +40,18 @@ export function CommentBox({ postId }: { postId: number }) {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-2">
       <Textarea
-        {...register("content")}
+        {...register("text")}
         maxLength={500}
         placeholder="Write a comment..."
-        className={errors.content ? "border-red-500" : ""}
+        className={errors.text ? "border-red-500" : ""}
       />
-      {errors.content && (
-        <p className="text-sm text-red-500">{errors.content.message}</p>
+      {errors.text && (
+        <p className="text-sm text-red-500">{errors.text.message}</p>
       )}
 
       <div className="flex justify-between items-center">
         <span className="text-sm text-muted-foreground">
-          {content?.length || 0}/500
+          {text?.length || 0}/500
         </span>
         <Button type="submit" disabled={isSubmitting}>
           {isSubmitting ? "Posting..." : "Post"}
