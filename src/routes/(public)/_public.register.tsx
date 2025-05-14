@@ -29,7 +29,7 @@ export const Route = createFileRoute('/(public)/_public/register')({
   component: Register,
 })
 
-function Register() {
+export function Register() {
   const { mutate: registerUser } = useRegister();
   const form = useForm<RegisterSchemaType>({
     resolver: zodResolver(registerSchema),
