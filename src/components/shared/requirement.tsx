@@ -1,5 +1,5 @@
+import React from 'react';
 import { Check, X } from 'lucide-react'
-import type React from 'react'
 
 interface RequirementProps {
   hasBoolean: boolean
