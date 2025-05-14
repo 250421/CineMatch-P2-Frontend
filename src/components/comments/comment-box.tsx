@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { toast } from "sonner";
 import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -45,7 +44,6 @@ export function CommentBox({ postId }: { postId: number }) {
       {errors.text && (
         <p className="text-sm text-red-500">{errors.text.message}</p>
       )}
-
       <div className="flex justify-between items-center">
         <span className="text-sm text-muted-foreground">
           {text?.length || 0}/500
