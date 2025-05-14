@@ -1,3 +1,5 @@
+import { CommentBox } from "@/components/comments/comment-box";
+import { CommentList } from "@/components/comments/comment-list";
 import { Navbar } from "@/components/shared/navbar";
 import { AppSidebar } from "@/components/shared/sidebar/app-sidebar";
 import { SidebarContainer } from "@/components/shared/sidebar/sidebar-container";
@@ -24,6 +26,8 @@ function Auth() {
         <main className="max-w-screen mx-auto w-11/12 py-10">
           <Outlet />
           <h3>This is auth</h3>
+          <CommentBox postId={1}/>
+          {/* <CommentList postId="1"/> */}
         </main>
       </SidebarMainWrapper>
     </SidebarContainer>

@@ -4,14 +4,14 @@ import { AxiosError } from "axios";
 import { toast } from "sonner";
 import { commentSchema, type CommentSchemaType } from "../schemas/comment-schema";
 
-export const useComments = (postId: string) => {
+export const useComments = (postId: number) => {
     const queryClient = useQueryClient();
 
     const { data } = useQuery({
         queryKey: ["comments", postId],
         queryFn: async () => {
             try {
-                const res = await axiosInstance.get(`/posts/${postId}/comments`);
+                const res = await axiosInstance.get(`/api/post/{id}/comment`);
                 return res.data;
             } catch (error) {
                 console.error(error);
@@ -24,7 +24,7 @@ export const useComments = (postId: string) => {
 
     const addComment = useMutation({
         mutationFn: async (body: CommentSchemaType) => {
-            const resp = await axiosInstance.post(`/posts/${postId}/comments`, body);
+            const resp = await axiosInstance.post(`/api/post/{id}/comments`, body);
             return resp;
         },
         onSuccess: () => {
@@ -40,7 +40,7 @@ export const useComments = (postId: string) => {
     });
 
     const deleteComment = useMutation({
-        mutationFn: (id: string) => axiosInstance.delete(`/comments/${id}`),
+        mutationFn: (id: number) => axiosInstance.delete(`/comments/${id}`),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["comments", postId] });
             toast.success("Comment deleted.");
@@ -54,7 +54,7 @@ export const useComments = (postId: string) => {
     });
 
     const editComment = useMutation({
-        mutationFn: async ({ id, content }: { id: string; content: string }) => {
+        mutationFn: async ({ id, content }: { id: number; content: string }) => {
             const parsed = commentSchema.parse({ content });
             return await axiosInstance.put(`/comments/${id}`, parsed);
         },
