@@ -1,5 +1,4 @@
 import { CommentBox } from "@/components/comments/comment-box";
-import { CommentList } from "@/components/comments/comment-list";
 import { Navbar } from "@/components/shared/navbar";
 import { AppSidebar } from "@/components/shared/sidebar/app-sidebar";
 import { SidebarContainer } from "@/components/shared/sidebar/sidebar-container";
