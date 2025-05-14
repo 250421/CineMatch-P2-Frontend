@@ -1,12 +1,24 @@
-export { };
-module.exports = {
+export default {
   collectCoverage: true,
   collectCoverageFrom: ['src/**/*.{ts,tsx}', '!src/**/*.d.ts',
     '!**/vendor/**'],
   coverageDirectory: 'coverage',
   testEnvironment: 'jsdom',
+  preset: 'ts-jest',
   transform: {
-    ".(ts|tsx)": "ts-jest"
+    '^.+\\.(ts|tsx)?$': 'ts-jest',
+    '^.+\\.(js|jsx|ts|tsx|mjs)$': 'babel-jest',
+  },
+  transformIgnorePatterns: [
+    "axios-config.ts",
+    "routeTree.gen.ts",
+    "node_modules/(?!axios)/"
+  ],
+
+  moduleNameMapper: {
+    "\\.(css|less|sass|scss)$": "identity-obj-proxy",
+    "^.+\\.svg$": "jest-transformer-svg",
+    "^@/(.*)$": "<rootDir>/src/$1",
   },
 
   coveragePathIgnorePatterns: [
@@ -18,7 +30,8 @@ module.exports = {
     "setupTests.ts",
     "index.tsx",
     "/components/ui/",
-    "axios-config.ts"
+    "axios-config.ts",
+    "routeTree.gen.ts"
   ],
-  setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
+  setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
 }
