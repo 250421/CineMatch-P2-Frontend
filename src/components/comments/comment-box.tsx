@@ -31,9 +31,6 @@ export function CommentBox({ postId }: { postId: number }) {
       onSuccess: () => {
         reset();
       },
-      onError: () => {
-        toast.error("Error posting comment.");
-      },
     });
   };
 
