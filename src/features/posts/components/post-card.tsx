@@ -50,7 +50,7 @@ export const PostCard = ({ post }: PostCardProps) => {
           <Link to="/" onClick={ e => handleClickUsername(e) } className="flex flex-row items-center gap-1 hover:text-slate-500">
             <ProfileIcon name="username" /><span className="hover:underline">username</span>
           </Link>
-          <CardDescription className="flex flex-row items-center"><Dot /> <FormattedDate date={ post?.dateCreated ?? "" } /></CardDescription>
+          <CardDescription className="flex flex-row items-center"><Dot /> <FormattedDate date={ post?.created ?? "" } /></CardDescription>
         </div>
         <CardTitle className="text-xl mt-2">{ post?.title }</CardTitle>
       </CardHeader>
@@ -58,7 +58,7 @@ export const PostCard = ({ post }: PostCardProps) => {
         { post?.hasSpoiler && !viewSpoiler ? 
           <HiddenContent setViewSpoiler={ handleViewSpoiler } />
         :
-          post?.image ? <Image src={ post.image } /> : <p>{ post.content }</p>
+          post?.image ? <Image src={ post.image } /> : <p>{ post.text }</p>
         }
       </CardContent>
       <CardFooter className="flex flex-row gap-4 px-4 pt-2">
