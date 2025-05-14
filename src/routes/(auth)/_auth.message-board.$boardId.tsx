@@ -25,7 +25,7 @@ function MessageBoardComponent() {
           <Loader2 className="size-8 animate-spin" />
         </div>
       :
-        posts ?
+        posts && posts.length > 0 ?
           <MessageBoard posts={ posts } />
         :
           <NoPostFound />
