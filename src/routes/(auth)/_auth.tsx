@@ -1,4 +1,3 @@
-import { CommentBox } from "@/components/comments/comment-box";
 import { Navbar } from "@/components/shared/navbar";
 import { AppSidebar } from "@/components/shared/sidebar/app-sidebar";
 import { SidebarContainer } from "@/components/shared/sidebar/sidebar-container";
