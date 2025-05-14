@@ -10,7 +10,7 @@ export const CreatePostSchema = z.object({
     message: "Image size is greater than 20mb.",
     path: ["image"],
   }).optional(),
-  hasSpoiler: z.boolean(),
+  hasSpoiler: z.coerce.number(),
   boardId: z.coerce.number({
     message: "A message board is required."
   })
