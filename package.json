@@ -8,7 +8,7 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "test": "jest --transformIgnorePatterns \"node_modules/(?!axios)/\""
+    "test": "jest --transformIgnorePatterns \"node_modules/(?!axios)/\" --no-cache"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.0.1",

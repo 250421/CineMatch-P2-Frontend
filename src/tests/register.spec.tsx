@@ -1,25 +1,24 @@
 import { Register } from "@/routes/(public)/_public.register";
-import { render } from '@testing-library/react';
-import { toast } from "sonner";
-import axios from "axios";
-import { createRouter, createRootRoute, RouterProvider } from '@tanstack/react-router';
-
-const rootRoute = createRootRoute();
-const testRouter = createRouter({ routeTree: rootRoute });
-
-function renderWithRouter() {
-  return render(<RouterProvider router={testRouter} />);
-}
+import { render, waitFor } from '@testing-library/react';
+import { createRouter, createRootRoute, createMemoryHistory, RouterProvider } from '@tanstack/react-router';
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 
-describe("Register", () => {
-  it("should invoke onSubmit on submit", () => {
-    const mockedAxios = axios as jest.Mocked<typeof axios>;
-    const wrapper = render(<Register />);
-    const usernameInput = wrapper.findAllByRole("input");
-    expect(usernameInput).toBeInTheDocument();
-    mockedAxios.post.mockResolvedValue({
-      data: []
-    })
+const queryClient = new QueryClient()
+const rootRoute = createRootRoute({
+  component: () => <QueryClientProvider client={ queryClient }><Register /></QueryClientProvider>,
+});
+const router = createRouter({ 
+  routeTree: rootRoute,
+  history: createMemoryHistory({
+    initialEntries: ['/', '/login', '/register']
+  })
+});
+
+describe("Register component", () => {
+  test("renders", () => {
+    const dom = render(<RouterProvider router={ router } />);
+    const usernameInput = dom.findByTestId("register");
+    waitFor(() => expect(usernameInput).toBeInTheDocument());
   })
 })

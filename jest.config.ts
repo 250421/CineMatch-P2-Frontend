@@ -12,7 +12,6 @@ export default {
   transformIgnorePatterns: [
     "axios-config.ts",
     "routeTree.gen.ts",
-    "node_modules/(?!axios)/"
   ],
 
   moduleNameMapper: {
