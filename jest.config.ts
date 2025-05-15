@@ -1,16 +1,23 @@
 export default {
+  globals: {
+    "ts-jest": {
+      tsconfig: false,
+       useESM: true,
+      babelConfig: true,
+    },
+  },
+
   collectCoverage: true,
   collectCoverageFrom: ['src/**/*.{ts,tsx}', '!src/**/*.d.ts',
     '!**/vendor/**'],
   coverageDirectory: 'coverage',
-  testEnvironment: 'jsdom',
+  testEnvironment: "jest-environment-jsdom",
   preset: 'ts-jest',
   transform: {
     '^.+\\.(ts|tsx)?$': 'ts-jest',
-    '^.+\\.(js|jsx|ts|tsx|mjs)$': 'babel-jest',
+    "^.+\\.[t|j]sx?$": "babel-jest",
   },
   transformIgnorePatterns: [
-    "axios-config.ts",
     "routeTree.gen.ts",
   ],
 

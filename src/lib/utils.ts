@@ -6,6 +6,6 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function getApiUrl() {
-  const url = process.env.VITE_API_URL
+  const url = import.meta.env.VITE_API_URL
   return url;
 }
