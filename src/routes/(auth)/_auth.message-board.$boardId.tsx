@@ -16,24 +16,27 @@ function MessageBoardComponent() {
   const { data: posts, isLoading } = useGetPosts(boardId);
 
   return (
-    <div className={cn(
-      "flex flex-row gap-4 mx-auto mt-[56px] transition-all duration-300 ease-in-out",
-      isOpen ? "xl:px-20" : "lg:px-20 xl:px-40"
-    )}>
-      { isLoading ?
+    <>
+      { isLoading ? 
         <div className="flex items-center justify-center w-full h-screen">
           <Loader2 className="size-8 animate-spin" />
         </div>
       :
-        posts && (typeof posts === "object") && posts.length > 0 ?
-          <MessageBoard posts={ posts } />
-        :
-          <NoPostFound />
+        <div className={cn(
+          "flex flex-row gap-4 mx-auto mt-[56px] transition-all duration-300 ease-in-out",
+          isOpen ? "xl:px-20" : "lg:px-20 xl:px-40"
+        )}>
+          { posts && (typeof posts === "object") && posts.length > 0 ?
+              <MessageBoard posts={ posts } />
+            :
+              <NoPostFound />
+          }
+          <div className={ cn(
+            "w-[25em] hidden",
+            isOpen ? "lg:block" : "md:block"
+          )}></div>
+        </div>
       }
-      <div className={ cn(
-        "w-[25em] hidden",
-        isOpen ? "lg:block" : "md:block"
-      )}></div>
-    </div>
+    </>
   );
 }

@@ -18,6 +18,7 @@ import { Route as authAuthImport } from './routes/(auth)/_auth'
 import { Route as authAuthIndexImport } from './routes/(auth)/_auth.index'
 import { Route as publicPublicRegisterImport } from './routes/(public)/_public.register'
 import { Route as publicPublicLoginImport } from './routes/(public)/_public.login'
+import { Route as authAuthNewPostImport } from './routes/(auth)/_auth.new-post'
 import { Route as authAuthMessageBoardBoardIdImport } from './routes/(auth)/_auth.message-board.$boardId'
 
 // Create Virtual Routes
@@ -65,6 +66,12 @@ const publicPublicLoginRoute = publicPublicLoginImport.update({
   getParentRoute: () => publicPublicRoute,
 } as any)
 
+const authAuthNewPostRoute = authAuthNewPostImport.update({
+  id: '/new-post',
+  path: '/new-post',
+  getParentRoute: () => authAuthRoute,
+} as any)
+
 const authAuthMessageBoardBoardIdRoute =
   authAuthMessageBoardBoardIdImport.update({
     id: '/message-board/$boardId',
@@ -104,6 +111,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof publicPublicImport
       parentRoute: typeof publicRoute
     }
+    '/(auth)/_auth/new-post': {
+      id: '/(auth)/_auth/new-post'
+      path: '/new-post'
+      fullPath: '/new-post'
+      preLoaderRoute: typeof authAuthNewPostImport
+      parentRoute: typeof authAuthImport
+    }
     '/(public)/_public/login': {
       id: '/(public)/_public/login'
       path: '/login'
@@ -138,11 +152,13 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 interface authAuthRouteChildren {
+  authAuthNewPostRoute: typeof authAuthNewPostRoute
   authAuthIndexRoute: typeof authAuthIndexRoute
   authAuthMessageBoardBoardIdRoute: typeof authAuthMessageBoardBoardIdRoute
 }
 
 const authAuthRouteChildren: authAuthRouteChildren = {
+  authAuthNewPostRoute: authAuthNewPostRoute,
   authAuthIndexRoute: authAuthIndexRoute,
   authAuthMessageBoardBoardIdRoute: authAuthMessageBoardBoardIdRoute,
 }
@@ -188,6 +204,7 @@ const publicRouteWithChildren =
 
 export interface FileRoutesByFullPath {
   '/': typeof authAuthIndexRoute
+  '/new-post': typeof authAuthNewPostRoute
   '/login': typeof publicPublicLoginRoute
   '/register': typeof publicPublicRegisterRoute
   '/message-board/$boardId': typeof authAuthMessageBoardBoardIdRoute
@@ -195,6 +212,7 @@ export interface FileRoutesByFullPath {
 
 export interface FileRoutesByTo {
   '/': typeof authAuthIndexRoute
+  '/new-post': typeof authAuthNewPostRoute
   '/login': typeof publicPublicLoginRoute
   '/register': typeof publicPublicRegisterRoute
   '/message-board/$boardId': typeof authAuthMessageBoardBoardIdRoute
@@ -206,6 +224,7 @@ export interface FileRoutesById {
   '/(auth)/_auth': typeof authAuthRouteWithChildren
   '/(public)': typeof publicRouteWithChildren
   '/(public)/_public': typeof publicPublicRouteWithChildren
+  '/(auth)/_auth/new-post': typeof authAuthNewPostRoute
   '/(public)/_public/login': typeof publicPublicLoginRoute
   '/(public)/_public/register': typeof publicPublicRegisterRoute
   '/(auth)/_auth/': typeof authAuthIndexRoute
@@ -214,15 +233,21 @@ export interface FileRoutesById {
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/login' | '/register' | '/message-board/$boardId'
+  fullPaths:
+    | '/'
+    | '/new-post'
+    | '/login'
+    | '/register'
+    | '/message-board/$boardId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/login' | '/register' | '/message-board/$boardId'
+  to: '/' | '/new-post' | '/login' | '/register' | '/message-board/$boardId'
   id:
     | '__root__'
     | '/(auth)'
     | '/(auth)/_auth'
     | '/(public)'
     | '/(public)/_public'
+    | '/(auth)/_auth/new-post'
     | '/(public)/_public/login'
     | '/(public)/_public/register'
     | '/(auth)/_auth/'
@@ -264,6 +289,7 @@ export const routeTree = rootRoute
       "filePath": "(auth)/_auth.tsx",
       "parent": "/(auth)",
       "children": [
+        "/(auth)/_auth/new-post",
         "/(auth)/_auth/",
         "/(auth)/_auth/message-board/$boardId"
       ]
@@ -281,6 +307,10 @@ export const routeTree = rootRoute
         "/(public)/_public/login",
         "/(public)/_public/register"
       ]
+    },
+    "/(auth)/_auth/new-post": {
+      "filePath": "(auth)/_auth.new-post.tsx",
+      "parent": "/(auth)/_auth"
     },
     "/(public)/_public/login": {
       "filePath": "(public)/_public.login.tsx",

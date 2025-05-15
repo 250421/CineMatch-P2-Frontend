@@ -6,7 +6,7 @@ export interface Post {
     text: string;
     boardId: number;
     image: File | undefined;
-    hasSpoiler: boolean;
+    has_spoiler: boolean;
     created: string;
     user: Creator;
 }

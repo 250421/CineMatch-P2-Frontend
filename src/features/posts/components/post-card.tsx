@@ -58,7 +58,7 @@ export const PostCard = ({ post }: PostCardProps) => {
         <CardTitle className="text-xl mt-2">{ post?.title }</CardTitle>
       </CardHeader>
       <CardContent className="px-4">
-        { post?.hasSpoiler && !viewSpoiler ? 
+        { post?.has_spoiler && !viewSpoiler ? 
           <HiddenContent setViewSpoiler={ handleViewSpoiler } />
         :
           post?.image ? <Image src={ post.image } /> : <p>{ post.text }</p>
