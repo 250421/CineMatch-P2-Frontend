@@ -47,7 +47,7 @@ function LoginPage() {
   }
 
   return (
-    <Card className="w-[400px]">
+    <Card data-testid="login" className="w-[400px]">
       <CardHeader>
         <CardTitle className="font-bold text-2xl"> Login</CardTitle>
         <CardDescription>

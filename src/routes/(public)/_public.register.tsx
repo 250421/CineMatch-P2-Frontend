@@ -101,7 +101,7 @@ export function Register() {
                 <FormItem>
                   <FormLabel>Confirm Password</FormLabel>
                   <FormControl>
-                    <Input placeholder="Confirm Password*" {...field} type='password' />
+                    <Input data-testid="re-password-input" placeholder="Confirm Password*" {...field} type='password' />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
