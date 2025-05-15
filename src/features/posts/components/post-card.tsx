@@ -78,7 +78,7 @@ export const PostCard = ({ post, user, setOpen }: PostCardProps) => {
           <div>
             <DropdownMenu>
               <DropdownMenuTrigger 
-                disabled={ post?.username !== user?.username } 
+                disabled={ post?.username !== user?.username && user?.role !== "ADMIN" } 
                 className="hover:bg-slate-200 p-1 rounded-full"
               >
                 <TooltipProvider>
@@ -102,7 +102,13 @@ export const PostCard = ({ post, user, setOpen }: PostCardProps) => {
                     <DropdownMenuItem onClick={ e => handleDelete(e) }>Delete</DropdownMenuItem>
                   </>
                 :
-                  <></>
+                  user?.role === "ADMIN" ? 
+                  <>
+                    <DropdownMenuItem>Contains spoiler</DropdownMenuItem>
+                    <DropdownMenuItem onClick={ e => handleDelete(e) }>Delete</DropdownMenuItem>
+                  </>
+                  :
+                    <></>
                 }
               </DropdownMenuContent>
             </DropdownMenu>
