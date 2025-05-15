@@ -14,6 +14,7 @@ import { HiddenContent } from "@/components/shared/hidden-content"
 import { FormattedDate } from "@/components/shared/formatted-date"
 import { Image } from "@/components/shared/image"
 import { ProfileIcon } from "@/components/shared/profile-icon"
+import { CommentBox } from "@/components/comments/comment-box";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -36,6 +37,7 @@ interface PostCardProps {
 export const PostCard = ({ post, user, setOpen }: PostCardProps) => {
   const navigate = useNavigate();
   const [viewSpoiler, setViewSpoiler] = useState(false);
+  const [showComment, setShowComment] = useState(false);
 
   function handleClickUsername(event: MouseEvent<HTMLAnchorElement>) {
     event.stopPropagation();
@@ -50,6 +52,7 @@ export const PostCard = ({ post, user, setOpen }: PostCardProps) => {
   function handleClickComment(event: MouseEvent<HTMLButtonElement>) {
     event.stopPropagation();
     console.log("user commented");
+    setShowComment((prev) => !prev);
   }
 
   function handleViewSpoiler(event: MouseEvent<HTMLDivElement>) {
@@ -63,7 +66,9 @@ export const PostCard = ({ post, user, setOpen }: PostCardProps) => {
   }
 
   return (
-    <Card className="w-[100%] py-2 gap-2 hover:bg-slate-100 w-full hover:cursor-pointer min-w-[18rem]" onClick={ () => navigate({ to: "/login" }) }>
+    <Card className="w-[100%] py-2 gap-2 hover:bg-slate-100 w-full hover:cursor-pointer min-w-[18rem]" 
+    // onClick={ () => navigate({ to: "/login" })}
+    >
       <CardHeader className="px-4">
         <div className="flex flex-row items-center justify-between">
           <div className="flex flex-row items-center">
@@ -127,6 +132,8 @@ export const PostCard = ({ post, user, setOpen }: PostCardProps) => {
         <InteractionButton Icon={ Heart } value={ 999999 } label="like" onClick={ handleClickLike } />
         <InteractionButton Icon={ MessageSquare } value={ 9999 } label="comment" onClick={ handleClickComment } />
       </CardFooter>
+        {showComment && (<div className="px-4 pb-4 w-full"><CommentBox postId={post.id}  onCommentPosted={() => setShowComment(false)}/> </div>
+        )}
     </Card>
   )
 }
