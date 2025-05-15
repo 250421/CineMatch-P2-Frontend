@@ -7,10 +7,10 @@ interface MessageBoardProps {
 
 export const MessageBoard = ({ posts }: MessageBoardProps) => {
   return (
-    <div className="flex flex-col gap-4 w-full">
+    <div data-testid="message-board" className="flex flex-col gap-4 w-full">
       {
         posts.map((post, index) => (
-          <article key={ index } className="border-b-2 pb-4 px-2">
+          <article data-testid="post-card" key={ index } className="border-b-2 pb-4 px-2">
             <PostCard post={ post } />
           </article>
         ))
