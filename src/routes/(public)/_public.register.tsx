@@ -80,7 +80,7 @@ export function Register() {
                 <FormItem>
                   <FormLabel>Password</FormLabel>
                   <FormControl>
-                    <Input placeholder="Password*" {...field} type='password' />
+                    <Input data-testid="password-input" placeholder="Password*" {...field} type='password' />
                   </FormControl>
                   <FormDescription>
                     <span>Password must contain: </span>
@@ -107,7 +107,7 @@ export function Register() {
                 </FormItem>
               )}
             />
-            <Button type="submit" className="w-[100%]">Submit</Button>
+            <Button data-testid="register-submit" type="submit" className="w-[100%]">Submit</Button>
           </form>
         </Form>
         <CardFooter className='flex flex-row gap-2 mt-4'>
