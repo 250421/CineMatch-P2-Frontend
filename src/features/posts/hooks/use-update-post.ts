@@ -1,26 +1,25 @@
 
 import {
-  useMutation
+  useMutation,
+  useQueryClient
 } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
 import { toast } from 'sonner'
-import { useNavigate } from '@tanstack/react-router'
 import { axiosInstance } from '@/lib/axios-config'
-import type { CreatePostSchemaType } from '../schemas/create-post-schema'
+import { UpdatePostSchemaType } from '../schemas/update-post-schema'
 
 export const useUpdatePost = () => {
-  const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (body: CreatePostSchemaType) => {
-      // TODO: I just get all of the boards right now, need to switch this endpoint to grabbing 
-      //       The current user's message boards.
-      const response = await axiosInstance.patch(`api/post`, body);
+    mutationFn: async (body: UpdatePostSchemaType) => {
+      body.hasSpoiler = body.has_spoiler;
+      const response = await axiosInstance.patch(`/api/post`, body);
       return response;
     },
-    onSuccess: (response) => {
-      toast("Post created successfully.");
-      navigate({ to: `/message-board/${response.data.boardId}` });
+    onSuccess: () => {
+      toast("Post updated successfully.");
+      queryClient.invalidateQueries();
     },
     onError: (error) => {
       if(error instanceof AxiosError) {
