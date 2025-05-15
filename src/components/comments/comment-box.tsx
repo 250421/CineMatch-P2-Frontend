@@ -8,7 +8,13 @@ import {
 } from "@/features/comments/schemas/comment-schema";
 import { useAddComment } from "@/features/comments/hooks/use-add-comment";
 
-export function CommentBox({ postId }: { postId: number }) {
+interface CommentBoxProps {
+  postId: number;
+  onCommentPosted?: () => void; 
+}
+
+
+export function CommentBox({ postId, onCommentPosted }: CommentBoxProps) {
   const addComment = useAddComment(postId);
 
   const {
@@ -29,6 +35,7 @@ export function CommentBox({ postId }: { postId: number }) {
     addComment.mutate(data, {
       onSuccess: () => {
         reset();
+        onCommentPosted?.();
       },
     });
   };

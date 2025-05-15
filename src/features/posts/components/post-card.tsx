@@ -14,14 +14,16 @@ import { HiddenContent } from "@/components/shared/hidden-content"
 import { FormattedDate } from "@/components/shared/formatted-date"
 import { Image } from "@/components/shared/image"
 import { ProfileIcon } from "@/components/shared/profile-icon"
+import { CommentBox } from "@/components/comments/comment-box";
 
 interface PostCardProps {
   post: any
 }
 
 export const PostCard = ({ post }: PostCardProps) => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [viewSpoiler, setViewSpoiler] = useState(false);
+  const [showComment, setShowComment] = useState(false);
 
   function handleClickUsername(event: MouseEvent<HTMLAnchorElement>) {
     event.stopPropagation();
@@ -36,6 +38,7 @@ export const PostCard = ({ post }: PostCardProps) => {
   function handleClickComment(event: MouseEvent<HTMLButtonElement>) {
     event.stopPropagation();
     console.log("user commented");
+    setShowComment((prev) => !prev);
   }
 
   function handleViewSpoiler(event: MouseEvent<HTMLDivElement>) {
@@ -44,7 +47,9 @@ export const PostCard = ({ post }: PostCardProps) => {
   }
 
   return (
-    <Card className="w-[100%] py-2 gap-2 hover:bg-slate-100 w-full hover:cursor-pointer" onClick={ () => navigate({ to: "/login" }) }>
+    <Card className="w-[100%] py-2 gap-2 hover:bg-slate-100 w-full hover:cursor-pointer" 
+    // onClick={ () => navigate({ to: "/login" })}
+    >
       <CardHeader className="px-4">
         <div className="flex flex-row items-center">
           <Link to="/" onClick={ e => handleClickUsername(e) } className="flex flex-row items-center gap-1 hover:text-slate-500">
@@ -68,6 +73,8 @@ export const PostCard = ({ post }: PostCardProps) => {
         <InteractionButton Icon={ Heart } value={ 999999 } label="like" onClick={ handleClickLike } />
         <InteractionButton Icon={ MessageSquare } value={ 9999 } label="comment" onClick={ handleClickComment } />
       </CardFooter>
+        {showComment && (<div className="px-4 pb-4 w-full"><CommentBox postId={post.id}  onCommentPosted={() => setShowComment(false)}/> </div>
+        )}
     </Card>
   )
 }

@@ -9,7 +9,7 @@ export const useAddComment = (postId: number) => {
     return (
         useMutation({
             mutationFn: async (body: CommentSchemaType) => {
-                const resp = await axiosInstance.post(`/api/post/${postId}/comments`, body);
+                const resp = await axiosInstance.post(`/api/post/${postId}/comment`, body);
                 return resp;
             },
             onSuccess: () => {
