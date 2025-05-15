@@ -1,5 +1,5 @@
 import { DeletePromptDialog } from "@/components/shared/delete-prompt-dialog";
-import { UpdatePostDialog } from "@/components/shared/update-post-dialog";
+import { UpdatePostDialog } from "@/features/posts/components/update-post-dialog";
 import { useAuth } from "@/features/auth/hooks/use-auth";
 import { PostCard } from "@/features/posts/components/post-card"
 import { useDeletePost } from "@/features/posts/hooks/use-delete-post";
