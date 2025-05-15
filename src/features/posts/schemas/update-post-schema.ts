@@ -11,7 +11,8 @@ export const UpdatePostSchema = z.object({
     message: "Image size is greater than 20mb.",
     path: ["image"],
   }).optional(),
-  hasSpoiler: z.coerce.number(),
+  has_spoiler: z.coerce.number(),
+  hasSpoiler: z.coerce.number().optional(),
 });
 
 export type UpdatePostSchemaType = z.infer<typeof UpdatePostSchema>;

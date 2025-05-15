@@ -20,20 +20,16 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip"
+import { Post } from "../models/post"
 
 interface PostCardProps {
   post: any;
   user: any;
-  setOpen: (open: boolean, id: number) => void;
+  setDeleteOpen: (open: boolean, id: number) => void;
+  setUpdateOpen: (open: boolean, post: Post) => void;
 }
 
-export const PostCard = ({ post, user, setOpen }: PostCardProps) => {
+export const PostCard = ({ post, user, setDeleteOpen, setUpdateOpen }: PostCardProps) => {
   const navigate = useNavigate();
   const [viewSpoiler, setViewSpoiler] = useState(false);
 
@@ -59,7 +55,12 @@ export const PostCard = ({ post, user, setOpen }: PostCardProps) => {
 
   function handleDelete(event: MouseEvent<HTMLDivElement>) {
     event.stopPropagation();
-    setOpen(true, post?.id)
+    setDeleteOpen(true, post?.id);
+  }
+
+  function handleUpdate(event: MouseEvent<HTMLDivElement>) {
+    event.stopPropagation();
+    setUpdateOpen(true, post);
   }
 
   return (
@@ -77,28 +78,19 @@ export const PostCard = ({ post, user, setOpen }: PostCardProps) => {
           </div>
           <div>
             <DropdownMenu>
-              <DropdownMenuTrigger 
-                disabled={ post?.username !== user?.username && user?.role !== "ADMIN" } 
-                className="hover:bg-slate-200 p-1 rounded-full"
-              >
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger 
-                      className="flex items-center rounded-full" 
-                    >
-                      <Ellipsis />
-                    </TooltipTrigger>
-                    <TooltipContent side="top">
-                      <p>options</p>
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
-              </DropdownMenuTrigger>
+              <div className="relative aspect-1/1 size-8">
+                <DropdownMenuTrigger 
+                  disabled={ post?.username !== user?.username && user?.role !== "ADMIN" } 
+                  className="w-full h-full rounded-full flex justify-center items-center hover:bg-slate-200 hover:border-2"
+                >
+                  <Ellipsis />
+                </DropdownMenuTrigger>
+              </div>
               <DropdownMenuContent>
                 {
                   post?.username === user?.username ?
                   <>
-                    <DropdownMenuItem>Edit</DropdownMenuItem>
+                    <DropdownMenuItem onClick={ e => handleUpdate(e) }>Edit</DropdownMenuItem>
                     <DropdownMenuItem onClick={ e => handleDelete(e) }>Delete</DropdownMenuItem>
                   </>
                 :
