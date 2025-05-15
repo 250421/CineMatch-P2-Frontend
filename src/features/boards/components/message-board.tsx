@@ -38,18 +38,11 @@ export const MessageBoard = ({ posts }: MessageBoardProps) => {
 
   return (
     <div data-testid="message-board" className="flex flex-col gap-4 w-full">
-<<<<<<< HEAD
-      {
-        posts.map((post, index) => (
-          <article data-testid="post-card" key={ index } className="border-b-2 pb-4 px-2">
-            <PostCard post={ post } />
-=======
       <DeletePromptDialog open={ deleteDetails.open } setOpen={ handleSetOpen } id={ deleteDetails.id } useDeleteMutate={ deletePost } />
       {
         posts.map((post, index) => (
           <article data-testid="post-card" key={ index } className="border-b-2 pb-4 px-2">
             <PostCard post={ post } user={ user } setOpen={ handleSetDeleteDetails } />
->>>>>>> dev
           </article>
         ))
       }
