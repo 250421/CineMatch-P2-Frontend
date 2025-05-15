@@ -8,15 +8,14 @@ import { useNavigate } from '@tanstack/react-router'
 import { axiosInstance } from '@/lib/axios-config'
 import type { CreatePostSchemaType } from '../schemas/create-post-schema'
 
-export const useCreatePost = () => {
+export const useUpdatePost = () => {
   const navigate = useNavigate();
 
   return useMutation({
     mutationFn: async (body: CreatePostSchemaType) => {
       // TODO: I just get all of the boards right now, need to switch this endpoint to grabbing 
       //       The current user's message boards.
-      const response = await axiosInstance.post(`/api/board/${body.boardId}/post`, body);
-      response.data.boardId = body.boardId;
+      const response = await axiosInstance.patch(`api/post`, body);
       return response;
     },
     onSuccess: (response) => {
