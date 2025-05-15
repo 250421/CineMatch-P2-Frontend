@@ -63,7 +63,7 @@ export function Register() {
                 <FormItem>
                   <FormLabel>Username</FormLabel>
                   <FormControl>
-                    <Input placeholder="Username*" {...field} />
+                    <Input data-testid="username-input" placeholder="Username*" {...field} />
                   </FormControl>
                   <FormDescription>
                     This is your public display name.
