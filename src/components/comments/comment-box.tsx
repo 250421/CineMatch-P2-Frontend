@@ -13,7 +13,6 @@ interface CommentBoxProps {
   onCommentPosted?: () => void; 
 }
 
-
 export function CommentBox({ postId, onCommentPosted }: CommentBoxProps) {
   const addComment = useAddComment(postId);
 
