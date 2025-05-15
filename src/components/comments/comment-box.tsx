@@ -44,7 +44,7 @@ export function CommentBox({ postId, onCommentPosted }: CommentBoxProps) {
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-2">
       <Textarea
         {...register("text")}
-        maxLength={500}
+        maxLength={255}
         placeholder="Write a comment..."
         className={errors.text ? "border-red-500" : ""}
       />
@@ -53,7 +53,7 @@ export function CommentBox({ postId, onCommentPosted }: CommentBoxProps) {
       )}
       <div className="flex justify-between items-center">
         <span className="text-sm text-muted-foreground">
-          {text?.length || 0}/500
+          {text?.length || 0}/255
         </span>
         <Button type="submit" disabled={isSubmitting}>
           {isSubmitting ? "Posting..." : "Post"}
