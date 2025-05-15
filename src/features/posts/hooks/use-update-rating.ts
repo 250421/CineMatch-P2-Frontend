@@ -14,7 +14,7 @@ interface UpdateRatingProps {
 export const useUpdateRating = () => {
   return useMutation({
     mutationFn: async ({ id, body }: UpdateRatingProps) => {
-      const response = await axiosInstance.post(`/api/post/${id}`, body);
+      const response = await axiosInstance.patch(`/api/post/${id}`, body);
       return response;
     },
     onSuccess: () => {
