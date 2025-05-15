@@ -8,4 +8,5 @@ export interface Post {
     created: string;
     username: string;
     deleted: number;
+    rating: number;
 }

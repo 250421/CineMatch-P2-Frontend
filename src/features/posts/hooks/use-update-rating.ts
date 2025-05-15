@@ -6,9 +6,14 @@ import { AxiosError } from 'axios'
 import { toast } from 'sonner'
 import { axiosInstance } from '@/lib/axios-config'
 
-export const useUpdateRating = (id: number) => {
+interface UpdateRatingProps {
+  id: number;
+  body: number;
+}
+
+export const useUpdateRating = () => {
   return useMutation({
-    mutationFn: async (body: number) => {
+    mutationFn: async ({ id, body }: UpdateRatingProps) => {
       const response = await axiosInstance.post(`/api/post/${id}`, body);
       return response;
     },

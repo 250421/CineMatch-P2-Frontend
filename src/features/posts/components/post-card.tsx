@@ -34,6 +34,7 @@ export const PostCard = ({ post, user, setDeleteOpen, setUpdateOpen }: PostCardP
   const navigate = useNavigate();
   const [viewSpoiler, setViewSpoiler] = useState(false);
   const [showComment, setShowComment] = useState(false);
+  const { mutate: ratePost } =  useUpdateRating();
 
   function handleClickUsername(event: MouseEvent<HTMLAnchorElement>) {
     event.stopPropagation();
@@ -121,7 +122,7 @@ export const PostCard = ({ post, user, setDeleteOpen, setUpdateOpen }: PostCardP
         }
       </CardContent>
       <CardFooter className="flex flex-row gap-4 px-4 pt-2">
-        <InteractionButton Icon={ Heart } value={ 999999 } label="like" onClick={ handleClickLike } />
+        <InteractionButton Icon={ Heart } value={ post?.rating } label="like" onClick={ handleClickLike } />
         <InteractionButton Icon={ MessageSquare } value={ 9999 } label="comment" onClick={ handleClickComment } />
       </CardFooter>
         {showComment && (<div className="px-4 pb-4 w-full"><CommentBox postId={post.id}  onCommentPosted={() => setShowComment(false)}/> </div>
