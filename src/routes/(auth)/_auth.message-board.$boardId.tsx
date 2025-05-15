@@ -10,7 +10,7 @@ export const Route = createFileRoute("/(auth)/_auth/message-board/$boardId")({
   component: MessageBoardComponent,
 })
 
-function MessageBoardComponent() {
+export function MessageBoardComponent() {
   const { isOpen } = useSidebarJotai();
   const { boardId } = Route.useParams();
   const { data: posts, isLoading } = useGetPosts(boardId);
@@ -18,14 +18,14 @@ function MessageBoardComponent() {
   return (
     <>
       { isLoading ? 
-        <div className="flex items-center justify-center w-full h-screen">
+        <div data-testid="loader" className="flex items-center justify-center w-full h-screen">
           <Loader2 className="size-8 animate-spin" />
         </div>
       :
         <div className={cn(
           "flex flex-row gap-4 mx-auto mt-[56px] transition-all duration-300 ease-in-out",
           isOpen ? "xl:px-20" : "lg:px-20 xl:px-40"
-        )}>
+        )} data-test-id="message-board-container">
           { posts && (typeof posts === "object") && posts.length > 0 ?
               <MessageBoard posts={ posts } />
             :

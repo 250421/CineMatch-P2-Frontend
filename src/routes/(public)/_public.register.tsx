@@ -29,7 +29,7 @@ export const Route = createFileRoute('/(public)/_public/register')({
   component: Register,
 })
 
-function Register() {
+export function Register() {
   const { mutate: registerUser } = useRegister();
   const form = useForm<RegisterSchemaType>({
     resolver: zodResolver(registerSchema),
@@ -63,7 +63,7 @@ function Register() {
                 <FormItem>
                   <FormLabel>Username</FormLabel>
                   <FormControl>
-                    <Input placeholder="Username*" {...field} />
+                    <Input data-testid="username-input" placeholder="Username*" {...field} />
                   </FormControl>
                   <FormDescription>
                     This is your public display name.
@@ -80,7 +80,7 @@ function Register() {
                 <FormItem>
                   <FormLabel>Password</FormLabel>
                   <FormControl>
-                    <Input placeholder="Password*" {...field} type='password' />
+                    <Input data-testid="password-input" placeholder="Password*" {...field} type='password' />
                   </FormControl>
                   <FormDescription>
                     <span>Password must contain: </span>
@@ -101,13 +101,13 @@ function Register() {
                 <FormItem>
                   <FormLabel>Confirm Password</FormLabel>
                   <FormControl>
-                    <Input placeholder="Confirm Password*" {...field} type='password' />
+                    <Input data-testid="re-password-input" placeholder="Confirm Password*" {...field} type='password' />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <Button type="submit" className="w-[100%]">Submit</Button>
+            <Button data-testid="register-submit" type="submit" className="w-[100%]">Submit</Button>
           </form>
         </Form>
         <CardFooter className='flex flex-row gap-2 mt-4'>
