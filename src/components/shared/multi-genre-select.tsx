@@ -18,12 +18,12 @@ import {
 import { useState } from 'react'
 import { Badge } from "../ui/badge"
 import { toast } from "sonner"
-import type { Genre } from "@/features/genres/models/genres"
+import { Board } from "@/features/boards/models/board"
 
 interface MultiGenreSelectProps {
   values: number[]
   onSelect: (value: number[]) => void
-  options: Genre[]
+  options: Board[]
   maxLimit: number
   label: string
 }
