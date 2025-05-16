@@ -5,8 +5,6 @@ import { toast } from "sonner";
 import { commentSchema } from "../schemas/comment-schema";
 import { Comment } from "../model/comment";
 
-
-
 export const useComments = (postId: number) => {
   const queryClient = useQueryClient();
 
