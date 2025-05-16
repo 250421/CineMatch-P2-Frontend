@@ -16,14 +16,14 @@ import { useGetMovies } from '@/features/genres/hooks/use-get-movies'
 import { useFavoriteGenres } from '@/features/genres/hooks/use-favorite-genres'
 import { useFavoriteMovies } from '@/features/genres/hooks/use-favorite-movies'
 import { useGetFavoriteGenres } from '@/features/genres/hooks/use-get-favorite-genres'
-import { useGetBoard } from '@/features/boards/hooks/use-get-board'
+import { useGetGenres } from '@/features/genres/hooks/use-get-genres'
 
 export const Route = createFileRoute('/(auth)/_auth/select-genres')({
   component: SelectGenresPage,
 })
 
 function SelectGenresPage() {
-  const { data: genreOptions, isLoading: isLoadingGenres } = useGetBoard();
+  const { data: genreOptions, isLoading: isLoadingGenres } = useGetGenres();
   const { data: movieOptions, isLoading: isLoadingMovies } = useGetMovies();
   const [genres, setGenres] = useState<number[]>([]);
   const [movies, setMovies] = useState<number[]>([]);
