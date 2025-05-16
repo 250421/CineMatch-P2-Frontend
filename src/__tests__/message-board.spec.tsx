@@ -40,24 +40,24 @@ describe("message-board with id component", () => {
     jest.spyOn(axiosInstance, "get").mockResolvedValueOnce({ 
       data: [
         {
-            "image": null,
-            "deleted": 0,
-            "rating": 0,
-            "id": 5,
-            "text": "content is funny",
-            "title": "This is a test post about an action movie",
-            "username": "fadelafuente",
-            "has_spoiler": 0
+          "image": null,
+          "deleted": 0,
+          "rating": 0,
+          "id": 5,
+          "text": "content is funny",
+          "title": "This is a test post about an action movie",
+          "username": "fadelafuente",
+          "has_spoiler": 0
         },
         {
-            "image": null,
-            "deleted": 0,
-            "rating": 0,
-            "id": 6,
-            "text": "content is funny",
-            "title": "This is a test post about an action movie",
-            "username": "fadelafuente",
-            "has_spoiler": 1
+          "image": null,
+          "deleted": 0,
+          "rating": 0,
+          "id": 6,
+          "text": "content is funny",
+          "title": "This is a test post about an action movie",
+          "username": "fadelafuente",
+          "has_spoiler": 1
         },
       ],
       status: 200
