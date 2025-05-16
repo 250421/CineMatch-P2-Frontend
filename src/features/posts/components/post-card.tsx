@@ -15,6 +15,7 @@ import { FormattedDate } from "@/components/shared/formatted-date"
 import { Image } from "@/components/shared/image"
 import { ProfileIcon } from "@/components/shared/profile-icon"
 import { CommentBox } from "@/components/comments/comment-box";
+import { CommentList } from "@/components/comments/comment-list";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -124,8 +125,12 @@ export const PostCard = ({ post, user, setDeleteOpen, setUpdateOpen }: PostCardP
         <InteractionButton Icon={ Heart } value={ 999999 } label="like" onClick={ handleClickLike } />
         <InteractionButton Icon={ MessageSquare } value={ 9999 } label="comment" onClick={ handleClickComment } />
       </CardFooter>
-        {showComment && (<div className="px-4 pb-4 w-full"><CommentBox postId={post.id}  onCommentPosted={() => setShowComment(false)}/> </div>
-        )}
+       {showComment && (
+  <div className="px-4 pb-4">
+    <CommentBox postId={post.id} onCommentPosted={() => setShowComment(false)} />
+    <CommentList postId={post.id} />
+  </div>
+)}
     </Card>
   )
 }
