@@ -7,7 +7,7 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { Link, useNavigate } from "@tanstack/react-router"
-import { Dot, Ellipsis, Heart, MessageSquare } from "lucide-react"
+import { Dot, Ellipsis, MessageSquare } from "lucide-react"
 import { InteractionButton } from "./interaction-button"
 import { useState, type MouseEvent } from "react"
 import { HiddenContent } from "@/components/shared/hidden-content"
@@ -23,6 +23,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Post } from "../models/post"
+import { RatingButtonGroup } from "./rating-button-group"
 
 interface PostCardProps {
   post: any;
@@ -39,11 +40,6 @@ export const PostCard = ({ post, user, setDeleteOpen, setUpdateOpen }: PostCardP
   function handleClickUsername(event: MouseEvent<HTMLAnchorElement>) {
     event.stopPropagation();
     console.log("should redirect to user profile");
-  }
-
-  function handleClickLike(event: MouseEvent<HTMLButtonElement>) {
-    event.stopPropagation();
-    console.log("user liked");
   }
 
   function handleClickComment(event: MouseEvent<HTMLButtonElement>) {
@@ -122,7 +118,7 @@ export const PostCard = ({ post, user, setDeleteOpen, setUpdateOpen }: PostCardP
         }
       </CardContent>
       <CardFooter className="flex flex-row gap-4 px-4 pt-2">
-        <InteractionButton Icon={ Heart } value={ 999999 } label="like" onClick={ handleClickLike } />
+        <RatingButtonGroup id={ post?.id } initialRating={ post?.rating } />
         <InteractionButton Icon={ MessageSquare } value={ 9999 } label="comment" onClick={ handleClickComment } />
       </CardFooter>
        {showComment && (
