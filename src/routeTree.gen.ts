@@ -18,6 +18,7 @@ import { Route as authAuthImport } from './routes/(auth)/_auth'
 import { Route as authAuthIndexImport } from './routes/(auth)/_auth.index'
 import { Route as publicPublicRegisterImport } from './routes/(public)/_public.register'
 import { Route as publicPublicLoginImport } from './routes/(public)/_public.login'
+import { Route as authAuthSelectGenresImport } from './routes/(auth)/_auth.select-genres'
 import { Route as authAuthNewPostImport } from './routes/(auth)/_auth.new-post'
 import { Route as authAuthMessageBoardBoardIdImport } from './routes/(auth)/_auth.message-board.$boardId'
 
@@ -64,6 +65,12 @@ const publicPublicLoginRoute = publicPublicLoginImport.update({
   id: '/login',
   path: '/login',
   getParentRoute: () => publicPublicRoute,
+} as any)
+
+const authAuthSelectGenresRoute = authAuthSelectGenresImport.update({
+  id: '/select-genres',
+  path: '/select-genres',
+  getParentRoute: () => authAuthRoute,
 } as any)
 
 const authAuthNewPostRoute = authAuthNewPostImport.update({
@@ -118,6 +125,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof authAuthNewPostImport
       parentRoute: typeof authAuthImport
     }
+    '/(auth)/_auth/select-genres': {
+      id: '/(auth)/_auth/select-genres'
+      path: '/select-genres'
+      fullPath: '/select-genres'
+      preLoaderRoute: typeof authAuthSelectGenresImport
+      parentRoute: typeof authAuthImport
+    }
     '/(public)/_public/login': {
       id: '/(public)/_public/login'
       path: '/login'
@@ -153,12 +167,14 @@ declare module '@tanstack/react-router' {
 
 interface authAuthRouteChildren {
   authAuthNewPostRoute: typeof authAuthNewPostRoute
+  authAuthSelectGenresRoute: typeof authAuthSelectGenresRoute
   authAuthIndexRoute: typeof authAuthIndexRoute
   authAuthMessageBoardBoardIdRoute: typeof authAuthMessageBoardBoardIdRoute
 }
 
 const authAuthRouteChildren: authAuthRouteChildren = {
   authAuthNewPostRoute: authAuthNewPostRoute,
+  authAuthSelectGenresRoute: authAuthSelectGenresRoute,
   authAuthIndexRoute: authAuthIndexRoute,
   authAuthMessageBoardBoardIdRoute: authAuthMessageBoardBoardIdRoute,
 }
@@ -205,6 +221,7 @@ const publicRouteWithChildren =
 export interface FileRoutesByFullPath {
   '/': typeof authAuthIndexRoute
   '/new-post': typeof authAuthNewPostRoute
+  '/select-genres': typeof authAuthSelectGenresRoute
   '/login': typeof publicPublicLoginRoute
   '/register': typeof publicPublicRegisterRoute
   '/message-board/$boardId': typeof authAuthMessageBoardBoardIdRoute
@@ -213,6 +230,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof authAuthIndexRoute
   '/new-post': typeof authAuthNewPostRoute
+  '/select-genres': typeof authAuthSelectGenresRoute
   '/login': typeof publicPublicLoginRoute
   '/register': typeof publicPublicRegisterRoute
   '/message-board/$boardId': typeof authAuthMessageBoardBoardIdRoute
@@ -225,6 +243,7 @@ export interface FileRoutesById {
   '/(public)': typeof publicRouteWithChildren
   '/(public)/_public': typeof publicPublicRouteWithChildren
   '/(auth)/_auth/new-post': typeof authAuthNewPostRoute
+  '/(auth)/_auth/select-genres': typeof authAuthSelectGenresRoute
   '/(public)/_public/login': typeof publicPublicLoginRoute
   '/(public)/_public/register': typeof publicPublicRegisterRoute
   '/(auth)/_auth/': typeof authAuthIndexRoute
@@ -236,11 +255,18 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/new-post'
+    | '/select-genres'
     | '/login'
     | '/register'
     | '/message-board/$boardId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/new-post' | '/login' | '/register' | '/message-board/$boardId'
+  to:
+    | '/'
+    | '/new-post'
+    | '/select-genres'
+    | '/login'
+    | '/register'
+    | '/message-board/$boardId'
   id:
     | '__root__'
     | '/(auth)'
@@ -248,6 +274,7 @@ export interface FileRouteTypes {
     | '/(public)'
     | '/(public)/_public'
     | '/(auth)/_auth/new-post'
+    | '/(auth)/_auth/select-genres'
     | '/(public)/_public/login'
     | '/(public)/_public/register'
     | '/(auth)/_auth/'
@@ -290,6 +317,7 @@ export const routeTree = rootRoute
       "parent": "/(auth)",
       "children": [
         "/(auth)/_auth/new-post",
+        "/(auth)/_auth/select-genres",
         "/(auth)/_auth/",
         "/(auth)/_auth/message-board/$boardId"
       ]
@@ -310,6 +338,10 @@ export const routeTree = rootRoute
     },
     "/(auth)/_auth/new-post": {
       "filePath": "(auth)/_auth.new-post.tsx",
+      "parent": "/(auth)/_auth"
+    },
+    "/(auth)/_auth/select-genres": {
+      "filePath": "(auth)/_auth.select-genres.tsx",
       "parent": "/(auth)/_auth"
     },
     "/(public)/_public/login": {
