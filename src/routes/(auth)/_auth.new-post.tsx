@@ -23,12 +23,8 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { useCreatePost } from '@/features/posts/hooks/use-create-post'
-
-const messageBoards = [
-  { id: 1, genre: "Action" },
-  { id: 2, genre: "Adventure" },
-  { id: 3, genre: "Comedy" },
-]
+import { useGetBoard } from '@/features/boards/hooks/use-get-board'
+import { Loader2 } from 'lucide-react'
 
 export const Route = createFileRoute('/(auth)/_auth/new-post')({
   component: RouteComponent,
@@ -36,6 +32,7 @@ export const Route = createFileRoute('/(auth)/_auth/new-post')({
 
 function RouteComponent() {
   const { mutate: createPost } = useCreatePost();
+  const { data: messageBoards, isLoading } = useGetBoard();
 
   const form = useForm<CreatePostSchemaType>({
     resolver: zodResolver(CreatePostSchema),
@@ -47,6 +44,23 @@ function RouteComponent() {
       boardId: undefined
     },
   })
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center h-screen items-center">
+        <Loader2 className="animate-spin" />
+      </div>
+    )
+  }
+
+  if (!messageBoards) {
+    return (
+      <div className="flex justify-center h-screen items-center">
+        <h1 className="text-xl">Cannot create post because no message boards were found.</h1>
+      </div>
+    )
+  }
+
 
   function onSubmit(values: any) {
     createPost(values);
@@ -71,7 +85,7 @@ function RouteComponent() {
                     <SelectContent>
                       {
                         messageBoards.map((value) => (
-                          <SelectItem value={ String(value.id) } key={ value.genre }>{ value.genre }</SelectItem>
+                          <SelectItem value={ String(value.id) } key={ value.name }>{ value.name }</SelectItem>
                         ))
                       }
                     </SelectContent>

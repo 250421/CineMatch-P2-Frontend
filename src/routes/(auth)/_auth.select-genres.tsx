@@ -50,12 +50,11 @@ function SelectGenresPage() {
   function onSubmit() {
     setFavoriteGenres(genres, {
       onSuccess: (response) => {
-        setFavoriteMovies(movies, {
-          onSuccess: () => {
-            const firstGenre: string = response.data[0];
-            navigate({ to: genreOptions ? `/message-board/${genreOptions.find((genre) => genre.name === firstGenre)?.id || 0}` : "/" });
-          }
-        });
+        if(movies.length > 0) {
+          setFavoriteMovies(movies);
+        }
+        const firstGenre: string = response.data[0];
+        navigate({ to: genreOptions ? `/message-board/${genreOptions.find((genre) => genre.name === firstGenre)?.id || 0}` : "/" });
       }
     });
   }
