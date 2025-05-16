@@ -76,9 +76,11 @@ export const MessageBoard = ({ posts }: MessageBoardProps) => {
       <UpdatePostDialog open={ updateDetails.open } setOpen={ handleSetUpdateOpen } initialForm={ updateDetails.post } />
       {
         posts.map((post, index) => (
+          post.deleted === 0 ? 
           <article data-testid="post-card" key={ index } className="border-b-2 pb-4 px-2">
             <PostCard post={ post } user={ user } setDeleteOpen={ handleSetDeleteDetails } setUpdateOpen={ handleSetUpdateDetails } />
           </article>
+          : <></>
         ))
       }
     </div>

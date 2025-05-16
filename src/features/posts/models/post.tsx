@@ -7,4 +7,5 @@ export interface Post {
     has_spoiler: number;
     created: string;
     username: string;
+    deleted: number;
 }
