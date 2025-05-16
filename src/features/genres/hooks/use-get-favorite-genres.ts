@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query"
 export const useGetFavoriteGenres = () => {
   return useQuery({
     queryKey: ["favorite-genres"],
-    queryFn: async (): Promise <string[]|null> => {
+    queryFn: async (): Promise <string[] | null> => {
       try {
         const resp = await axiosInstance.get("/api/genre/favorite");
         return resp.data;

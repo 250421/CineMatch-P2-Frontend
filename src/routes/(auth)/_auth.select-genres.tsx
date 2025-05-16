@@ -1,5 +1,5 @@
 import { MultiGenreSelect } from '@/components/shared/multi-genre-select'
-import { createFileRoute, useNavigate } from '@tanstack/react-router'
+import { createFileRoute, useLocation, useNavigate } from '@tanstack/react-router'
 import {
   Card,
   CardContent,
@@ -8,7 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { useGetGenres } from '@/features/genres/hooks/use-get-genres'
 import { Loader2 } from 'lucide-react'
@@ -16,6 +16,7 @@ import { MultiMovieSelect } from '@/components/shared/multi-movie-select'
 import { useGetMovies } from '@/features/genres/hooks/use-get-movies'
 import { useFavoriteGenres } from '@/features/genres/hooks/use-favorite-genres'
 import { useFavoriteMovies } from '@/features/genres/hooks/use-favorite-movies'
+import { useGetFavoriteGenres } from '@/features/genres/hooks/use-get-favorite-genres'
 
 export const Route = createFileRoute('/(auth)/_auth/select-genres')({
   component: SelectGenresPage,
@@ -28,7 +29,15 @@ function SelectGenresPage() {
   const [movies, setMovies] = useState<number[]>([]);
   const { mutate: setFavoriteGenres } = useFavoriteGenres();
   const { mutate: setFavoriteMovies } = useFavoriteMovies();
+  const { data: favoriteGenres, isLoading: isFavoriteGenresLoading } = useGetFavoriteGenres();
   const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    if(!isFavoriteGenresLoading && favoriteGenres?.filter(value => value !== null).length === 0) {
+      navigate({ to: "/select-genres" });
+    }
+  }, [location])
 
   function handleSelect(value: number[]) {
       setGenres(value);
@@ -90,7 +99,7 @@ function SelectGenresPage() {
         <CardFooter>
           <Button 
             onClick={ onSubmit } 
-            className='w-[100%]' disabled={((genreOptions && genreOptions?.length >= 3 && genres.length !== 3) || genreOptions?.length !== genres.length)}
+            className='w-[100%]' disabled={ genres.length !== 3 }
           >
             Submit
           </Button>
