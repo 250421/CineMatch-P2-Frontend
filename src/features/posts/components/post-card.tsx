@@ -121,11 +121,11 @@ export const PostCard = ({ post, user, setDeleteOpen, setUpdateOpen }: PostCardP
         <RatingButtonGroup id={ post?.id } initialRating={ post?.rating } />
         <InteractionButton Icon={ MessageSquare } value={ 9999 } label="comment" onClick={ handleClickComment } />
       </CardFooter>
-       {showComment && (
+        {showComment && (
         <>
-  <div className="px-4 pb-4">
-    <CommentBox postId={post.id} onCommentPosted={() => setShowComment(false)} />
-  </div>
+      <div className="px-4 pb-4">
+        <CommentBox postId={post.id} onCommentPosted={() => setShowComment(false)} />
+      </div>
 
   </>
 )}
