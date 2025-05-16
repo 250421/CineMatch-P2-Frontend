@@ -5,8 +5,11 @@ import { useState } from "react";
 import { Textarea } from "@/components/ui/textarea";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { commentSchema, type CommentSchemaType } from "@/features/comments/schemas/comment-schema";
-import {Comment} from "@/features/comments/model/comment";
+import {
+  commentSchema,
+  type CommentSchemaType,
+} from "@/features/comments/schemas/comment-schema";
+import { Comment } from "@/features/comments/model/comment";
 
 interface CommentListProps {
   postId: number;
@@ -15,7 +18,7 @@ interface CommentListProps {
 export function CommentList({ postId }: CommentListProps) {
   const { comments, deleteComment, editComment } = useComments(postId);
   const [editingId, setEditingId] = useState<number | null>(null);
-  
+
   const {
     register,
     handleSubmit,
@@ -47,19 +50,25 @@ export function CommentList({ postId }: CommentListProps) {
   };
 
   if (!comments || comments.length === 0) {
-    return <div className="text-muted-foreground text-center py-4">No comments yet</div>;
+    return (
+      <div className="text-muted-foreground text-center py-4">
+        No comments yet
+      </div>
+    );
   }
 
   return (
     <div className="space-y-4">
       {comments.map((comment) => {
         if (!comment || comment.deleted === 1) return null;
-        
+
         return (
           <div key={comment.id} className="border rounded-lg p-4">
             {editingId === comment.id ? (
               <form
-                onSubmit={handleSubmit((data) => onSubmitEdit(data, comment.id))}
+                onSubmit={handleSubmit((data) =>
+                  onSubmitEdit(data, comment.id)
+                )}
                 className="space-y-2"
               >
                 <Textarea
@@ -88,7 +97,9 @@ export function CommentList({ postId }: CommentListProps) {
               <>
                 <div className="flex justify-between items-start">
                   <div>
-                    <p className="font-medium">{comment.user?.username|| "Anonymous"}</p>
+                    <p className="font-medium">
+                      {comment.user?.username || "Anonymous"}
+                    </p>
                   </div>
                   <div className="flex gap-2">
                     <Button

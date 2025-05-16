@@ -126,11 +126,16 @@ export const PostCard = ({ post, user, setDeleteOpen, setUpdateOpen }: PostCardP
         <InteractionButton Icon={ MessageSquare } value={ 9999 } label="comment" onClick={ handleClickComment } />
       </CardFooter>
        {showComment && (
+        <>
   <div className="px-4 pb-4">
     <CommentBox postId={post.id} onCommentPosted={() => setShowComment(false)} />
+  </div>
+
+  </>
+)}
+<div className="px-4 pb-4">
     <CommentList postId={post.id} />
   </div>
-)}
     </Card>
   )
 }

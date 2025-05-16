@@ -15,7 +15,7 @@ export const useComments = (postId: number) => {
     queryFn: async () => {
       try {
         const { data } = await axiosInstance.get(`/api/post/${postId}/comment`);
-        console.log("All Comment List", data);
+        // console.log("All Comment List", data);
         return data;
     } catch (error) {
         console.error(error);
