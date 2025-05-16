@@ -5,7 +5,7 @@ import { SidebarItem } from "./sidebar-item";
 import {  Home, Settings } from "lucide-react";
 import { useGetGenres } from "@/features/genres/hooks/use-get-genres";
 import { useGetFavoriteGenres } from "@/features/genres/hooks/use-get-favorite-genres";
-import { SidebarGenreItem } from "@/features/posts/components/SidebarGenreItem";
+import { SidebarGenreItems } from "@/features/posts/components/sidebar-genre-items";
 
 export const AppSidebar = () => {
     const { data: genres } = useGetGenres();
@@ -20,7 +20,7 @@ export const AppSidebar = () => {
                 </SidebarGroup>
                 <SidebarGroup>
                     { !isFavoriteGenresLoading && favoriteGenres && genres ? 
-                        <SidebarGenreItem
+                        <SidebarGenreItems
                             favoriteGenres={favoriteGenres}
                             genres={genres}
                         />

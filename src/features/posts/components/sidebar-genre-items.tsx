@@ -6,15 +6,16 @@ interface SidebarGenreItemProps {
   genres: Genre[];
 }
 
-export const SidebarGenreItem = ({ favoriteGenres, genres }: SidebarGenreItemProps) => {    
+export const SidebarGenreItems = ({ favoriteGenres, genres }: SidebarGenreItemProps) => {    
   return (
     <>
       {
-        favoriteGenres.map((genre) => {
+        favoriteGenres.map((genre, index) => {
           return (
             <SidebarNoIconItem
               label={ genre }
               href={ `/message-board/${genres?.find((g) => g.name === genre)?.id}` }
+              key={ `${genre}-item-${index}` }
             />
           )
         })

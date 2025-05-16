@@ -18,13 +18,15 @@ export function MessageBoardComponent() {
   const { isOpen } = useSidebarJotai();
   const { boardId } = Route.useParams();
   const { data: posts, isLoading } = useGetPosts(boardId);
-  const { data: favoriteGenres } = useGetFavoriteGenres();
+  const { data: favoriteGenres, isLoading: isFavoriteGenresLoading } = useGetFavoriteGenres();
   const { data: genres } = useGetGenres();
   const navigate = useNavigate();
 
   // Check if the user has access to the message board
   useEffect(() => {
-    if(genres && favoriteGenres) {
+    if(!isFavoriteGenresLoading && favoriteGenres?.filter(value => value !== null).length === 0) {
+      navigate({ to: "/select-genres" });
+    } else if(genres && favoriteGenres) {
       const genre: Genre | undefined = genres.find((genre) => genre.id === Number(boardId));
       if(genre && !favoriteGenres.includes(genre.name)) {
         navigate({ to: `/` });

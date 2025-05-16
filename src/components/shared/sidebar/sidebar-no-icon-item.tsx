@@ -12,8 +12,10 @@ export const SidebarNoIconItem = ({ label, href }: SidebarItemProps) => {
   const queryClient = useQueryClient();
 
   function handleClick() {
-    queryClient.invalidateQueries();
-    navigate({ to: href });
+    queryClient.invalidateQueries().then(() => {
+      queryClient.fetchQuery({ queryKey: ["posts"] });
+      navigate({ to: href });
+    });
   }
 
   return (
