@@ -77,9 +77,9 @@ export const MessageBoard = ({ posts }: MessageBoardProps) => {
       {
         posts.map((post, index) => (
           post.deleted === 0 ? 
-          <article data-testid="post-card" key={ index } className="border-b-2 pb-4 px-2">
-            <PostCard post={ post } user={ user } setDeleteOpen={ handleSetDeleteDetails } setUpdateOpen={ handleSetUpdateDetails } />
-          </article>
+            <article data-testid="post-card" key={ index } className="border-b-2 pb-4 px-2">
+              <PostCard post={ post } user={ user } setDeleteOpen={ handleSetDeleteDetails } setUpdateOpen={ handleSetUpdateDetails } />
+            </article>
           : <></>
         ))
       }
