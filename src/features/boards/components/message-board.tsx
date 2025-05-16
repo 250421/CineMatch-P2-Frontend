@@ -5,6 +5,7 @@ import { PostCard } from "@/features/posts/components/post-card"
 import { useDeletePost } from "@/features/posts/hooks/use-delete-post";
 import type { Post } from "@/features/posts/models/post"
 import { useState } from "react";
+import { Loader } from "lucide-react";
 
 interface MessageBoardProps {
   posts: Post[];
@@ -21,7 +22,7 @@ interface updateDialogModel {
 }
 
 export const MessageBoard = ({ posts }: MessageBoardProps) => {
-  const { data: user } = useAuth();
+  const { data: user, isLoading } = useAuth();
   const [ deleteDetails, setDeleteDetails ] = useState<deleteDialogModel>({
     open: false,
     id: 0,
@@ -70,17 +71,25 @@ export const MessageBoard = ({ posts }: MessageBoardProps) => {
     })
   }
 
+  if(isLoading) {
+    return (
+      <div className="flex justify-center h-screen items-center">
+        <Loader className="animate-spin size-8" />
+      </div>
+    )
+  }
+
   return (
     <div data-testid="message-board" className="flex flex-col gap-4 w-full">
       <DeletePromptDialog open={ deleteDetails.open } setOpen={ handleSetDeleteOpen } id={ deleteDetails.id } useDeleteMutate={ deletePost } />
       <UpdatePostDialog open={ updateDetails.open } setOpen={ handleSetUpdateOpen } initialForm={ updateDetails.post } />
       {
-        posts.map((post, index) => (
+        posts.map((post) => (
           post.deleted === 0 ? 
-            <article data-testid="post-card" key={ index } className="border-b-2 pb-4 px-2">
+            <article data-testid="post-card" key={ `post-${post.id}` } className="border-b-2 pb-4 px-2">
               <PostCard post={ post } user={ user } setDeleteOpen={ handleSetDeleteDetails } setUpdateOpen={ handleSetUpdateDetails } />
             </article>
-          : <></>
+          : <div className="hidden" key={ `post-${post.id}` }></ div>
         ))
       }
     </div>
