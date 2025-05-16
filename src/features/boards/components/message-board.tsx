@@ -5,6 +5,7 @@ import { PostCard } from "@/features/posts/components/post-card"
 import { useDeletePost } from "@/features/posts/hooks/use-delete-post";
 import type { Post } from "@/features/posts/models/post"
 import { useState } from "react";
+import { Loader } from "lucide-react";
 
 interface MessageBoardProps {
   posts: Post[];
@@ -21,7 +22,7 @@ interface updateDialogModel {
 }
 
 export const MessageBoard = ({ posts }: MessageBoardProps) => {
-  const { data: user } = useAuth();
+  const { data: user, isLoading } = useAuth();
   const [ deleteDetails, setDeleteDetails ] = useState<deleteDialogModel>({
     open: false,
     id: 0,
@@ -68,6 +69,14 @@ export const MessageBoard = ({ posts }: MessageBoardProps) => {
       const newDetails = { open: open, post: prev.post };
       return newDetails;
     })
+  }
+
+  if(isLoading) {
+    return (
+      <div className="flex justify-center h-screen items-center">
+        <Loader className="animate-spin size-8" />
+      </div>
+    )
   }
 
   return (

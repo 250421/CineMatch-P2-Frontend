@@ -45,7 +45,7 @@ export function MessageBoardComponent() {
           "flex flex-row gap-4 mx-auto mt-[56px] transition-all duration-300 ease-in-out",
           isOpen ? "xl:px-20" : "lg:px-20 xl:px-40"
         )} data-test-id="message-board-container">
-          { posts && (typeof posts === "object") && posts.length > 0 ?
+          { posts && (typeof posts === "object") && posts.length > 0 && posts && posts.length !== posts.filter(post => post.deleted === 1).length ?
               <MessageBoard posts={ posts } />
             :
               <NoPostFound />
