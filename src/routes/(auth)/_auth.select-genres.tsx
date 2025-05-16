@@ -1,5 +1,5 @@
 import { MultiGenreSelect } from '@/components/shared/multi-genre-select'
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import {
   Card,
   CardContent,
@@ -14,6 +14,8 @@ import { useGetGenres } from '@/features/genres/hooks/use-get-genres'
 import { Loader2 } from 'lucide-react'
 import { MultiMovieSelect } from '@/components/shared/multi-movie-select'
 import { useGetMovies } from '@/features/genres/hooks/use-get-movies'
+import { useFavoriteGenres } from '@/features/genres/hooks/use-favorite-genres'
+import { useFavoriteMovies } from '@/features/genres/hooks/use-favorite-movies'
 
 export const Route = createFileRoute('/(auth)/_auth/select-genres')({
   component: SelectGenresPage,
@@ -24,6 +26,9 @@ function SelectGenresPage() {
   const { data: movieOptions, isLoading: isLoadingMovies } = useGetMovies();
   const [genres, setGenres] = useState<number[]>([]);
   const [movies, setMovies] = useState<number[]>([]);
+  const { mutate: setFavoriteGenres } = useFavoriteGenres();
+  const { mutate: setFavoriteMovies } = useFavoriteMovies();
+  const navigate = useNavigate();
 
   function handleSelect(value: number[]) {
       setGenres(value);
@@ -34,8 +39,16 @@ function SelectGenresPage() {
   }
 
   function onSubmit() {
-    console.log(genres);
-    console.log(movies);
+    setFavoriteGenres(genres, {
+      onSuccess: (response) => {
+        setFavoriteMovies(movies, {
+          onSuccess: () => {
+            const firstGenre: string = response.data[0];
+            navigate({ to: genreOptions ? `/message-board/${genreOptions.find((genre) => genre.name === firstGenre)?.id || 0}` : "/" });
+          }
+        });
+      }
+    });
   }
 
   if(isLoadingGenres || isLoadingMovies) {
