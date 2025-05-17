@@ -3,13 +3,13 @@ import { SidebarContent } from "./sidebar-content";
 import { Sidebar } from "./sidebar";
 import { SidebarItem } from "./sidebar-item";
 import {  Home, Settings } from "lucide-react";
-import { useGetGenres } from "@/features/genres/hooks/use-get-genres";
 import { useGetFavoriteGenres } from "@/features/genres/hooks/use-get-favorite-genres";
 import { SidebarGenreItems } from "@/features/posts/components/sidebar-genre-items";
+import { useGetBoard } from "@/features/boards/hooks/use-get-board";
 
 export const AppSidebar = () => {
-    const { data: genres } = useGetGenres();
     const { data: favoriteGenres, isLoading: isFavoriteGenresLoading } = useGetFavoriteGenres();
+    const { data: boards, isLoading: isBoardsLoading } = useGetBoard();
 
     return (
         <Sidebar>
@@ -19,10 +19,10 @@ export const AppSidebar = () => {
                     <SidebarItem label={"Settings"} icon={Settings} href="/settings"/>
                 </SidebarGroup>
                 <SidebarGroup>
-                    { !isFavoriteGenresLoading && favoriteGenres && genres ? 
+                    { (!isFavoriteGenresLoading || !isBoardsLoading) && favoriteGenres && boards ? 
                         <SidebarGenreItems
-                            favoriteGenres={favoriteGenres}
-                            genres={genres}
+                            favoriteGenres={ favoriteGenres }
+                            boards={ boards }
                         />
                     :
                         <></>

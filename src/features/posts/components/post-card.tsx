@@ -6,7 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import { Link, useNavigate } from "@tanstack/react-router"
+import { Link } from "@tanstack/react-router"
 import { Dot, Ellipsis, MessageSquare } from "lucide-react"
 import { InteractionButton } from "./interaction-button"
 import { useState, type MouseEvent } from "react"
@@ -33,7 +33,7 @@ interface PostCardProps {
 }
 
 export const PostCard = ({ post, user, setDeleteOpen, setUpdateOpen }: PostCardProps) => {
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
   const [viewSpoiler, setViewSpoiler] = useState(false);
   const [showComment, setShowComment] = useState(false);
 
@@ -114,7 +114,10 @@ export const PostCard = ({ post, user, setDeleteOpen, setUpdateOpen }: PostCardP
         { post?.has_spoiler && !viewSpoiler ? 
           <HiddenContent setViewSpoiler={ handleViewSpoiler } />
         :
-          post?.image ? <Image src={ post.image } /> : <p>{ post.text }</p>
+          <div className="flex flex-col gap-2">
+            <p>{ post.text }</p>
+            {post?.image && <Image src={ post.image } />}
+            </div>
         }
       </CardContent>
       <CardFooter className="flex flex-row gap-4 px-4 pt-2">
