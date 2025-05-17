@@ -21,7 +21,6 @@ export const useUpdatePost = () => {
       body.hasSpoiler = body.has_spoiler;
       body.image = undefined;
       formData.append("post", new Blob([JSON.stringify(body)], { type: "application/json"}));
-
       
       const response = await axiosInstance.patch(`/api/post`, formData, {
         headers: {
