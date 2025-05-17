@@ -10,13 +10,17 @@ import {
   type CommentSchemaType,
 } from "@/features/comments/schemas/comment-schema";
 import { Comment } from "@/features/comments/model/comment";
+import { useFetchComments } from "@/features/comments/hooks/use-fetch-comments";
+import { useUpdateComment } from "@/features/comments/hooks/use-update-comment";
 
 interface CommentListProps {
   postId: number;
 }
 
 export function CommentList({ postId }: CommentListProps) {
-  const { comments, deleteComment, editComment } = useComments(postId);
+  const comments = useFetchComments(postId);
+  const editComment = useUpdateComment();
+  const { deleteComment } = useComments(postId);
   const [editingId, setEditingId] = useState<number | null>(null);
 
   const {
@@ -38,12 +42,17 @@ export function CommentList({ postId }: CommentListProps) {
     reset();
   };
 
-  const onSubmitEdit = (data: CommentSchemaType, id: number) => {
+  const onSubmitEdit = (data: CommentSchemaType) => {
+    if (!editingId) return;
     editComment.mutate(
-      { id, content: data.text },
+      {
+        id: editingId,
+        text: data.text,
+      },
       {
         onSuccess: () => {
           setEditingId(null);
+          reset();
         },
       }
     );
@@ -66,9 +75,7 @@ export function CommentList({ postId }: CommentListProps) {
           <div key={comment.id} className="border rounded-lg p-4">
             {editingId === comment.id ? (
               <form
-                onSubmit={handleSubmit((data) =>
-                  onSubmitEdit(data, comment.id)
-                )}
+                onSubmit={handleSubmit((data) => onSubmitEdit(data))}
                 className="space-y-2"
               >
                 <Textarea

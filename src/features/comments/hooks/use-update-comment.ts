@@ -5,14 +5,14 @@ import {
 import { AxiosError } from 'axios';
 import { toast } from 'sonner';
 import { axiosInstance } from '@/lib/axios-config';
-import { CommentSchemaType } from '../schemas/comment-schema';
+import {  CommentSchemaType } from '../schemas/comment-schema';
+// import { Comment } from '../model/comment'
 
-export const useEditComment = () => {
+export const useUpdateComment = () => {
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationFn: async (body: CommentSchemaType) => {
-            // const parsed = commentSchema.parse({ text: body.text });
+        mutationFn: async (body: CommentSchemaType & {id:number}) => {
             const response = await axiosInstance.patch(`/api/comment`, body);
             return response;
         },
@@ -29,10 +29,3 @@ export const useEditComment = () => {
     });
 };
 
-
-// return useMutation({
-//     mutationFn: async (body: UpdatePostSchemaType) => {
-//       body.hasSpoiler = body.has_spoiler;
-//       const response = await axiosInstance.patch(`/api/post`, body);
-//       return response;
-//     },
