@@ -33,7 +33,7 @@ interface PostCardProps {
 }
 
 export const PostCard = ({ post, user, setDeleteOpen, setUpdateOpen }: PostCardProps) => {
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
   const [viewSpoiler, setViewSpoiler] = useState(false);
   const [showComment, setShowComment] = useState(false);
 
