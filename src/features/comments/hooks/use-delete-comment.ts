@@ -3,17 +3,14 @@ import { axiosInstance } from "@/lib/axios-config";
 import { toast } from "sonner";
 import { AxiosError } from "axios";
 
-export const useDeleteComment = () => {
+export const useDeleteComment = (commentId: number) => {
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationFn: async (id:number) => {
-            const response = await axiosInstance.delete(`api/comment/${id}`);
-            return response.data;
-                },
+        mutationFn: (id: number) => axiosInstance.delete(`/comments/${id}`),
         onSuccess: () => {
-            toast.success("Comment deleted successfully.");
-            queryClient.invalidateQueries();
+            queryClient.invalidateQueries({ queryKey: ["comments", commentId] });
+            toast.success("Comment deleted.");
         },
         onError: (error) => {
             if (error instanceof AxiosError) {

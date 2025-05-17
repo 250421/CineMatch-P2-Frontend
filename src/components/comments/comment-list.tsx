@@ -1,3 +1,4 @@
+import { useComments } from "@/features/comments/hooks/use-comments";
 import { Button } from "@/components/ui/button";
 import { Pencil, Trash2 } from "lucide-react";
 import { useState } from "react";
@@ -11,8 +12,6 @@ import {
 import { Comment } from "@/features/comments/model/comment";
 import { useFetchComments } from "@/features/comments/hooks/use-fetch-comments";
 import { useUpdateComment } from "@/features/comments/hooks/use-update-comment";
-import { useDeleteComment } from "@/features/comments/hooks/use-delete-comment";
-import { useConfirm } from "@/hooks/use-confirm";
 
 interface CommentListProps {
   postId: number;
@@ -21,10 +20,8 @@ interface CommentListProps {
 export function CommentList({ postId }: CommentListProps) {
   const comments = useFetchComments(postId);
   const editComment = useUpdateComment();
-  const {mutate :deleteComment}  = useDeleteComment();
+  const { deleteComment } = useComments(postId);
   const [editingId, setEditingId] = useState<number | null>(null);
-
-  const [deleteConfirm, DeleteDialog] = useConfirm();
 
   const {
     register,
@@ -43,12 +40,6 @@ export function CommentList({ postId }: CommentListProps) {
   const handleCancelEdit = () => {
     setEditingId(null);
     reset();
-  };
-
-   const handleDelete = async (id:number) => {
-    const ok = await deleteConfirm();
-    if (!ok) return;
-    deleteComment(id);
   };
 
   const onSubmitEdit = (data: CommentSchemaType) => {
@@ -76,7 +67,6 @@ export function CommentList({ postId }: CommentListProps) {
   }
 
   return (
-  <>
     <div className="space-y-4">
       {comments.map((comment) => {
         if (!comment || comment.deleted === 1) return null;
@@ -129,7 +119,7 @@ export function CommentList({ postId }: CommentListProps) {
                     <Button
                       variant="ghost"
                       size="icon"
-                      onClick={() => handleDelete(comment.id)}
+                      onClick={() => deleteComment.mutate(comment.id)}
                     >
                       <Trash2 className="h-4 w-4" />
                     </Button>
@@ -142,11 +132,5 @@ export function CommentList({ postId }: CommentListProps) {
         );
       })}
     </div>
-     <DeleteDialog
-        title="Delete Comment"
-        description="Are you sure you want to delete this comment?"
-        destructive
-      />
-    </>
   );
 }
