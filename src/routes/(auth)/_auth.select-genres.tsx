@@ -24,9 +24,9 @@ export const Route = createFileRoute('/(auth)/_auth/select-genres')({
 })
 
 export function SelectGenresPage() {
+  const [genres, setGenres] = useState<number[]>([]);
   const { data: genreOptions, isLoading: isLoadingGenres } = useGetGenres();
   const { data: movieOptions, isLoading: isLoadingMovies } = useGetMovies();
-  const [genres, setGenres] = useState<number[]>([]);
   const [movies, setMovies] = useState<number[]>([]);
   const { mutate: setFavoriteGenres } = useFavoriteGenres();
   const { mutate: setFavoriteMovies } = useFavoriteMovies();

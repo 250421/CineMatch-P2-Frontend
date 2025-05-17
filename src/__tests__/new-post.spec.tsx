@@ -1,9 +1,8 @@
-import { fireEvent, render, waitFor } from "@testing-library/react";
+import { act, fireEvent, render, waitFor } from "@testing-library/react";
 import { createRouter, createRootRoute, createMemoryHistory, RouterProvider } from "@tanstack/react-router";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { axiosInstance } from "@/lib/axios-config";
 import { NewPostComponent } from "@/routes/(auth)/_auth.new-post";
-import { mockBoards, mockFavoriteGenres, mockGenres, mockPosts } from "@/__mock__/mock-data";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -23,52 +22,11 @@ const router = createRouter({
   })
 });
 
-jest.mock("@/lib/axios-config");
-
-function createMockPointerEvent(
-  type: string,
-  props: PointerEventInit = {}
-): PointerEvent {
-  const event = new Event(type, props) as PointerEvent;
-  Object.assign(event, {
-    button: props.button ?? 0,
-    ctrlKey: props.ctrlKey ?? false,
-    pointerType: props.pointerType ?? "mouse",
-  });
-  return event;
-}
-
-window.PointerEvent = createMockPointerEvent as any;
-
-Object.assign(window.HTMLElement.prototype, {
-  scrollIntoView: jest.fn(),
-  releasePointerCapture: jest.fn(),
-  hasPointerCapture: jest.fn(),
-});
-
 const mockNavigate = jest.fn();
 jest.mock("@tanstack/react-router", () => ({
   ...jest.requireActual("@tanstack/react-router"),
   useNavigate: () => mockNavigate
 }))
-
-jest.mock("@/lib/axios-config", () => ({
-  axiosInstance: {
-    get: (url: string) => {
-      if(url === "/api/board") {
-        return Promise.resolve(mockBoards);
-      } else if(url === "/api/genre/favorite") {
-        return Promise.resolve(mockFavoriteGenres);
-      } else if(url === "/api/genre") {
-        return Promise.resolve(mockGenres);
-      } else if(url === "/api/post") {
-        return Promise.resolve(mockPosts);
-      }
-      return Promise.resolve({ data: [], status: 200 });
-    },
-    post: jest.fn()
-  },
-}));
 
 describe("tests for the new-post page", () => {
   beforeEach(() => {
@@ -86,7 +44,9 @@ describe("tests for the new-post page", () => {
     const dom = render(<RouterProvider router={ router } />);
 
     const response = await dom.findByTestId("title-input");
-    fireEvent.change(response, { target: { value: "This movie was amazing!" } });
+    act(() => {
+      fireEvent.change(response, { target: { value: "This movie was amazing!" } });
+    })
     
     expect(response).toHaveValue("This movie was amazing!");
   })
@@ -95,7 +55,9 @@ describe("tests for the new-post page", () => {
     const dom = render(<RouterProvider router={ router } />);
 
     const hasSpoilerComponent = await dom.findByTestId("has-spoiler-input");
-    fireEvent.click(hasSpoilerComponent);
+    act(() => {
+      fireEvent.click(hasSpoilerComponent);
+    })
     
     await waitFor(() => expect(hasSpoilerComponent).toBeChecked);
   })
@@ -121,16 +83,24 @@ describe("tests for the new-post page", () => {
     fireEvent.click(boardSelect);
 
     const option = dom.getAllByRole("option")[0];
-    fireEvent.click(option);
+    act(() => {
+      fireEvent.click(option);
+    })
 
     const titleInput = await dom.findByTestId("title-input");
-    fireEvent.change(titleInput, { target: { value: "Thunderbolts was amazing!" } });
+    act(() => {
+      fireEvent.change(titleInput, { target: { value: "Thunderbolts was amazing!" } });
+    })
 
     const textInput = await dom.findByTestId("new-post-text");
-    fireEvent.change(textInput, { target: { value: "If I could rate this movie, I would give it a 10/10. I do NOT want to see my shame room though..." } });
+    act(() => {
+      fireEvent.change(textInput, { target: { value: "If I could rate this movie, I would give it a 10/10. I do NOT want to see my shame room though..." } });
+    })
 
     const submitButton = await dom.findByTestId("new-post-submit-button");
-    fireEvent.click(submitButton);
+    act(() => {
+      fireEvent.click(submitButton);
+    })
     
     await waitFor(() => expect(mockNavigate).toHaveBeenCalledTimes(1));
   })

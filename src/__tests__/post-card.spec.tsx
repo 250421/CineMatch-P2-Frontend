@@ -1,5 +1,5 @@
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import { PostCard } from "@/features/posts/components/post-card"; // Adjust path if needed
+import { render, screen, fireEvent, waitFor, act } from "@testing-library/react";
+import { PostCard } from "@/features/posts/components/post-card";
 import { createMemoryHistory, createRootRoute, createRouter, RouterProvider } from "@tanstack/react-router";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Post } from "@/features/posts/models/post";
@@ -41,6 +41,8 @@ const router = createRouter({
   })
 });
 
+jest.mock("@/lib/axios-config");
+
 describe("PostCard Component", () => {
   beforeEach(() => {
     jest.resetAllMocks();
@@ -60,8 +62,10 @@ describe("PostCard Component", () => {
     const hiddenContent = screen.getByTestId("hidden-content");
     expect(hiddenContent).toBeInTheDocument();
 
-    fireEvent.click(hiddenContent);
-
+    act(() => {
+      fireEvent.click(hiddenContent);
+    })
+    
     expect(screen.queryByTestId("hidden-content")).not.toBeInTheDocument();
   });
 

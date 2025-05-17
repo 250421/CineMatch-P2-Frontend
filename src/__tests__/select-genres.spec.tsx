@@ -1,8 +1,8 @@
-import { fireEvent, render, waitFor } from "@testing-library/react";
+import { act, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { createRouter, createRootRoute, createMemoryHistory, RouterProvider } from "@tanstack/react-router";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { mockBoards, mockFavoriteGenres, mockGenres, mockMovies, mockPosts } from "@/__mock__/mock-data";
 import { SelectGenresPage } from "@/routes/(auth)/_auth.select-genres";
+import { axiosInstance } from "@/lib/axios-config";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -22,21 +22,6 @@ const router = createRouter({
   })
 });
 
-jest.mock("@/lib/axios-config", () => ({
-  axiosInstance: {
-    get: (url: string) => {
-      if(url.includes("/board")) {
-        return Promise.resolve(mockBoards);
-      } else if(url === "/api/movie") {
-        return Promise.resolve(mockMovies);
-      } else if(url === "/api/genre") {
-        return Promise.resolve(mockGenres);
-      }
-      return Promise.resolve({ data: [], status: 200 });
-    },
-  },
-}));
-
 function createMockPointerEvent(
   type: string,
   props: PointerEventInit = {}
@@ -49,12 +34,6 @@ function createMockPointerEvent(
   });
   return event;
 }
-
-global.ResizeObserver = jest.fn().mockImplementation(() => ({
-  observe: jest.fn(),
-  unobserve: jest.fn(),
-  disconnect: jest.fn(),
-}));
 
 window.PointerEvent = createMockPointerEvent as any;
 
@@ -76,33 +55,7 @@ jest.mock('@tanstack/react-query', () => ({
   invalidateQueries: () => mockInvalidateQueries
 }))
 
-// const mockButton = jest.fn(function handlePopupTrigger(children) {
-//   return (<button data-testid="mock-popup-trigger">
-//     {children}
-//   </button>
-//   )
-// })
-// jest.mock("@shadcn/ui", () => ({
-//   ...jest.requireActual("@shadcn/ui"),
-//   PopupTrigger: mockButton,
-// }));
-
-jest.mock("@/lib/axios-config", () => ({
-  axiosInstance: {
-    get: (url: string) => {
-      if(url === "/api/board") {
-        return Promise.resolve(mockBoards);
-      } else if(url === "/api/genre/favorite") {
-        return Promise.resolve(mockFavoriteGenres);
-      } else if(url === "/api/genre") {
-        return Promise.resolve(mockGenres);
-      } else if(url === "/api/post") {
-        return Promise.resolve(mockPosts);
-      }
-      return Promise.resolve({ data: [], status: 200 });
-    },
-  },
-}));
+jest.mock("@/lib/axios-config")
 
 describe("tests for the new-post page", () => {
   beforeEach(() => {
@@ -121,21 +74,49 @@ describe("tests for the new-post page", () => {
     const dom = render(<RouterProvider router={ router } />);
 
     const selectGenreSubmitButton = await dom.findByTestId("select-genres-submit-button");
-    fireEvent.click(selectGenreSubmitButton);
+    await act(async () => {
+      fireEvent.click(selectGenreSubmitButton);
+    })
     
     await waitFor(() => expect(mockInvalidateQueries).not.toHaveBeenCalled());
   })
 
-  //   test("Should submit favorite genres with 3 genres selected", async () => {
-  //   const dom = render(<RouterProvider router={ router } />);
+  test("Should submit favorite genres with 3 genres selected", async () => {
+    jest.spyOn(axiosInstance, "post").mockResolvedValueOnce({
+      data: [
+        "Action",
+        "Adventure",
+        "Comedy"
+      ],
+      status: 200
+    });
 
-  //   const selectGenreButton = await dom.findByTestId("select-genres-button");
-  //   fireEvent.click(selectGenreButton);
-
-  //   expect(dom.getByTestId("mock-popup-content")).toBeInTheDocument()
-  //   const selectGenreSubmitButton = await dom.findByTestId("select-genres-submit-button");
-  //   fireEvent.click(selectGenreSubmitButton);
+    jest.spyOn(axiosInstance, "post").mockResolvedValueOnce({
+      data: [
+        {
+          "id": 1,
+          "title": "The Matrix"
+        }
+      ],
+      status: 200
+    });
     
-  //   // await waitFor(() => expect(mockInvalidateQueries).not.toHaveBeenCalled());
-  // })
+    render(<RouterProvider router={ router } />);
+
+    fireEvent.click(screen.getByTestId("select-genres-button"));
+
+    const options = screen.getAllByTestId("select-genres-option");
+    await waitFor(() => expect(options.length).toBeGreaterThanOrEqual(3));
+
+    fireEvent.click(options[0]);
+    fireEvent.click(options[1]);
+    fireEvent.click(options[2]);
+
+    const selectGenreSubmitButton = await screen.findByTestId("select-genres-submit-button");
+    await act(async () => {
+      fireEvent.click(selectGenreSubmitButton);
+    })
+    
+    await waitFor(() => expect(mockNavigate).toHaveBeenCalledWith({"to": "/message-board/1"}));
+  })
 })

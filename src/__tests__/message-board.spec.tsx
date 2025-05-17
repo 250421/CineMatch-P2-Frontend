@@ -3,7 +3,7 @@ import { createRouter, createRootRoute, createMemoryHistory, RouterProvider } fr
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { axiosInstance } from "@/lib/axios-config";
 import { MessageBoardComponent } from "@/routes/(auth)/_auth.message-board.$boardId";
-import { mockBoards, mockFavoriteGenres, mockGenres, mockPosts } from "@/__mock__/mock-data";
+import { mockPosts } from "@/__mock__/mock-data";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -30,22 +30,7 @@ const router = createRouter({
   })
 });
 
-jest.mock("@/lib/axios-config", () => ({
-  axiosInstance: {
-    get: (url: string) => {
-      if(url === "/api/board") {
-        return Promise.resolve(mockBoards);
-      } else if(url === "/api/genre/favorite") {
-        return Promise.resolve(mockFavoriteGenres);
-      } else if(url === "/api/genre") {
-        return Promise.resolve(mockGenres);
-      } else if(url === "/api/post") {
-        return Promise.resolve(mockPosts);
-      }
-      return Promise.resolve({ data: [], status: 200 });
-    },
-  },
-}));
+jest.mock("@/lib/axios-config");
 
 describe("message-board with id component", () => {
   beforeEach(() => {
