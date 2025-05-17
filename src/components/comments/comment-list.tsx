@@ -1,4 +1,3 @@
-import { useComments } from "@/features/comments/hooks/use-comments";
 import { Button } from "@/components/ui/button";
 import { Pencil, Trash2 } from "lucide-react";
 import { useState } from "react";
@@ -12,6 +11,7 @@ import {
 import { Comment } from "@/features/comments/model/comment";
 import { useFetchComments } from "@/features/comments/hooks/use-fetch-comments";
 import { useUpdateComment } from "@/features/comments/hooks/use-update-comment";
+import { useDeleteComment } from "@/features/comments/hooks/use-delete-comment";
 
 interface CommentListProps {
   postId: number;
@@ -20,7 +20,7 @@ interface CommentListProps {
 export function CommentList({ postId }: CommentListProps) {
   const comments = useFetchComments(postId);
   const editComment = useUpdateComment();
-  const { deleteComment } = useComments(postId);
+  const deleteComment  = useDeleteComment();
   const [editingId, setEditingId] = useState<number | null>(null);
 
   const {
