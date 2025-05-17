@@ -22,6 +22,8 @@ jest.mock("@tanstack/react-router", () => ({
   useNavigate: () => mockNavigate
 }))
 
+jest.mock("@/lib/axios-config");
+
 describe("Register component", () => {
   afterEach(() => {
     jest.resetAllMocks();
@@ -89,7 +91,7 @@ describe("Register component", () => {
   })
 
     test("Register button should pass because the form is valid", async () => {
-    jest.spyOn(axiosInstance, "post").mockResolvedValue({ data: {
+    jest.spyOn(axiosInstance, "post").mockResolvedValueOnce({ data: {
       "id": 5,
       "username": "testUser",
       "password": "",

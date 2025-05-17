@@ -69,7 +69,7 @@ export function NewPostComponent() {
   }
 
   return (
-    <div className="flex justify-center h-screen mt-[56px]">
+    <div data-testid="new-post-component" className="flex justify-center h-screen mt-[56px]">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 w-[30em]">
           <h1 className="text-xl mb-4">Create Post</h1>
