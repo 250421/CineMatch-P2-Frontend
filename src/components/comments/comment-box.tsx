@@ -30,6 +30,7 @@ export function CommentBox({ postId, onCommentPosted }: CommentBoxProps) {
   });
 
   const text = useWatch({ control, name: "text" });
+  
   const onSubmit = (data: CommentSchemaType) => {
     addComment.mutate(data, {
       onSuccess: () => {
