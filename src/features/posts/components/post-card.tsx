@@ -6,7 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import { Link, useNavigate } from "@tanstack/react-router"
+import { Link } from "@tanstack/react-router"
 import { Dot, Ellipsis, MessageSquare } from "lucide-react"
 import { InteractionButton } from "./interaction-button"
 import { useState, type MouseEvent } from "react"
