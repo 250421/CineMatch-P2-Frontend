@@ -114,7 +114,10 @@ export const PostCard = ({ post, user, setDeleteOpen, setUpdateOpen }: PostCardP
         { post?.has_spoiler && !viewSpoiler ? 
           <HiddenContent setViewSpoiler={ handleViewSpoiler } />
         :
-          post?.image ? <Image src={ post.image } /> : <p>{ post.text }</p>
+          <div className="flex flex-col gap-2">
+            <p>{ post.text }</p>
+            {post?.image && <Image src={ post.image } />}
+            </div>
         }
       </CardContent>
       <CardFooter className="flex flex-row gap-4 px-4 pt-2">

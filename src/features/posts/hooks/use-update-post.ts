@@ -13,8 +13,21 @@ export const useUpdatePost = () => {
 
   return useMutation({
     mutationFn: async (body: UpdatePostSchemaType) => {
+      const formData = new FormData();
+
+      if (body.image instanceof File)
+        formData.append("imageFile", body.image);
+
       body.hasSpoiler = body.has_spoiler;
-      const response = await axiosInstance.patch(`/api/post`, body);
+      body.image = undefined;
+      formData.append("post", new Blob([JSON.stringify(body)], { type: "application/json"}));
+
+      
+      const response = await axiosInstance.patch(`/api/post`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
       return response;
     },
     onSuccess: () => {
