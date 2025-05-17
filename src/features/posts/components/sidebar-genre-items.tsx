@@ -1,12 +1,12 @@
-import { Genre } from "@/features/genres/models/genres";
 import { SidebarNoIconItem } from "@/components/shared/sidebar/sidebar-no-icon-item";
+import { Board } from "@/features/boards/models/board";
 
 interface SidebarGenreItemProps {
   favoriteGenres: string[];
-  genres: Genre[];
+  boards: Board[];
 }
 
-export const SidebarGenreItems = ({ favoriteGenres, genres }: SidebarGenreItemProps) => {    
+export const SidebarGenreItems = ({ favoriteGenres, boards }: SidebarGenreItemProps) => {
   return (
     <>
       {
@@ -14,7 +14,7 @@ export const SidebarGenreItems = ({ favoriteGenres, genres }: SidebarGenreItemPr
           return (
             <SidebarNoIconItem
               label={ genre }
-              href={ `/message-board/${genres?.find((g) => g.name === genre)?.id}` }
+              href={ `/message-board/${boards?.find((board) => board.name === genre)?.id}` }
               key={ `${genre}-item-${index}` }
             />
           )
