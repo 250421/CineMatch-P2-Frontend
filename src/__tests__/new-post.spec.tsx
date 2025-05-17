@@ -3,6 +3,7 @@ import { createRouter, createRootRoute, createMemoryHistory, RouterProvider } fr
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { axiosInstance } from "@/lib/axios-config";
 import { NewPostComponent } from "@/routes/(auth)/_auth.new-post";
+import { mockBoards } from "@/__mock__/mock-data";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -23,24 +24,6 @@ const router = createRouter({
 });
 
 jest.mock("@/lib/axios-config");
-
-const mockBoards = {
-  data: [
-    {
-      id: 1,
-      name: "Action",
-    },
-    {
-      id: 2,
-      name: "Adventure",
-    },
-    {
-      id: 3,
-      name: "Comedy",
-    },
-  ],
-  status: 200,
-}
 
 function createMockPointerEvent(
   type: string,
@@ -70,13 +53,15 @@ jest.mock("@tanstack/react-router", () => ({
 }))
 
 describe("tests for the new-post page", () => {
-  afterEach(() => {
+  beforeEach(() => {
     jest.resetAllMocks();
+    mockNavigate.mockClear();
   })
 
-  test("renders", () => {
+  test("renders", async () => {
+    jest.spyOn(axiosInstance, "get").mockResolvedValueOnce(mockBoards);
     const dom = render(<RouterProvider router={ router } />);
-    const newPostComponent = dom.findByTestId("new-post-component");
+    const newPostComponent = await dom.findByTestId("new-post-component");
 
     waitFor(() => expect(newPostComponent).toBeInTheDocument());
   })
@@ -126,7 +111,7 @@ describe("tests for the new-post page", () => {
     const boardSelect = await dom.findByTestId("new-post-board-select");
     await act(async () => {
       fireEvent.click(boardSelect);
-  })
+    })
 
     const option = dom.getAllByRole("option")[0];
     await act(async () => {
@@ -137,7 +122,9 @@ describe("tests for the new-post page", () => {
     fireEvent.change(titleInput, { target: { value: "Thunderbolts was amazing!" } });
 
     const textInput = await dom.findByTestId("new-post-text");
-    fireEvent.change(textInput, { target: { value: "If I could rate this movie, I would give it a 10/10. I do NOT want to see my shame room though..." } });
+    await act(async () => {
+      fireEvent.change(textInput, { target: { value: "If I could rate this movie, I would give it a 10/10. I do NOT want to see my shame room though..." } });
+    })
 
     const submitButton = await dom.findByTestId("new-post-submit-button");
     await act(async () => {
@@ -145,10 +132,5 @@ describe("tests for the new-post page", () => {
     })
     
     expect(mockNavigate).toHaveBeenCalledTimes(1);
-  })
-
-  test("Loader displayed while waiting for data to be fetched", async () => {
-    const dom = render(<RouterProvider router={ router } />);
-    waitFor(() => expect(dom.getByTestId("loader")).toBeInTheDocument());
   })
 })

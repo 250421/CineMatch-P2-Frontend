@@ -37,7 +37,8 @@ export default {
     "index.tsx",
     "/components/ui/",
     "axios-config.ts",
-    "routeTree.gen.ts"
+    "routeTree.gen.ts",
+    "/__mock__/",
   ],
   setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
 }

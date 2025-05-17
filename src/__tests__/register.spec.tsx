@@ -27,6 +27,7 @@ jest.mock("@/lib/axios-config");
 describe("Register component", () => {
   afterEach(() => {
     jest.resetAllMocks();
+    mockNavigate.mockClear();
   })
 
   test("renders", () => {

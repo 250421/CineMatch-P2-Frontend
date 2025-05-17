@@ -42,12 +42,13 @@ export function MultiGenreSelect({ values, onSelect, options, maxLimit, label }:
  
   return (
     <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger asChild>
+      <PopoverTrigger asChild data-testid="select-genre-trigger">
         <Button
           variant="outline"
           role="combobox"
           aria-expanded={open}
           className="w-[100%] justify-between h-fit"
+          data-testid="select-genre-button"
         >
           <div className="flex gap-2 justify-start flex-wrap">
             {values.length > 0
@@ -70,6 +71,7 @@ export function MultiGenreSelect({ values, onSelect, options, maxLimit, label }:
                   key={option.id}
                   value={String(option.id)}
                   onSelect={(currentValue) => handleSelect(Number(currentValue)) }
+                  data-testid="select-genre-option"
                 >
                   <Check
                     className={cn(
