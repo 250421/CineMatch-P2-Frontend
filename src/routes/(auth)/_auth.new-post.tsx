@@ -137,7 +137,6 @@ function RouteComponent() {
                 <FormLabel>Image</FormLabel>
                 <FormControl>
                   <Input 
-                    disabled
                     placeholder="image" 
                     accept="image/*" 
                     type="file"
