@@ -33,14 +33,13 @@ interface UpdatePostDialogProps {
 
 export const UpdatePostDialog = ({ open, setOpen, initialForm }: UpdatePostDialogProps) => {
     const { mutate: updatePost } = useUpdatePost();
-
   const form = useForm<UpdatePostSchemaType>({
     resolver: zodResolver(UpdatePostSchema),
     values: {
       id: initialForm.id,
       title: initialForm.title,
       text: initialForm.text,
-      image: initialForm !== null ? initialForm.image : undefined,
+      image: undefined, //image: initialForm !== null ? initialForm.image : undefined,
       has_spoiler: initialForm.has_spoiler,
       hasSpoiler: initialForm.has_spoiler
     }
@@ -99,7 +98,6 @@ export const UpdatePostDialog = ({ open, setOpen, initialForm }: UpdatePostDialo
                   <FormLabel>Image</FormLabel>
                   <FormControl>
                     <Input 
-                      disabled
                       placeholder="image" 
                       accept="image/*" 
                       type="file"

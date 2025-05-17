@@ -25,6 +25,7 @@ import {
 import { useCreatePost } from '@/features/posts/hooks/use-create-post'
 import { useGetBoard } from '@/features/boards/hooks/use-get-board'
 import { Loader2 } from 'lucide-react'
+import { useGetFavoriteGenres } from '@/features/genres/hooks/use-get-favorite-genres'
 
 export const Route = createFileRoute('/(auth)/_auth/new-post')({
   component: RouteComponent,
@@ -32,6 +33,7 @@ export const Route = createFileRoute('/(auth)/_auth/new-post')({
 
 function RouteComponent() {
   const { mutate: createPost } = useCreatePost();
+  const { data: favoriteGenres, isLoading: isFavoriteGenresLoading } = useGetFavoriteGenres();
   const { data: messageBoards, isLoading } = useGetBoard();
 
   const form = useForm<CreatePostSchemaType>({
@@ -45,7 +47,7 @@ function RouteComponent() {
     },
   })
 
-  if (isLoading) {
+  if (isLoading || isFavoriteGenresLoading) {
     return (
       <div className="flex justify-center h-screen items-center">
         <Loader2 className="animate-spin" />
@@ -85,7 +87,10 @@ function RouteComponent() {
                     <SelectContent>
                       {
                         messageBoards.map((value) => (
-                          <SelectItem value={ String(value.id) } key={ value.name }>{ value.name }</SelectItem>
+                          (favoriteGenres as string[])?.includes(value.name) ?
+                            <SelectItem value={ String(value.id) } key={ value.name }>{ value.name }</SelectItem>
+                          :
+                            <div className='hidden' key={ value.name }></div>
                         ))
                       }
                     </SelectContent>
@@ -132,7 +137,6 @@ function RouteComponent() {
                 <FormLabel>Image</FormLabel>
                 <FormControl>
                   <Input 
-                    disabled
                     placeholder="image" 
                     accept="image/*" 
                     type="file"

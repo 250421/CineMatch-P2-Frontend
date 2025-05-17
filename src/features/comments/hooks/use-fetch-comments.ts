@@ -9,7 +9,6 @@ export const useFetchComments = (postId: number) => {
     queryFn: async () => {
       try {
         const { data } = await axiosInstance.get(`/api/post/${postId}/comment`);
-        // console.log("All Comment List", data);
         return data;
     } catch (error) {
         console.error(error);
@@ -23,22 +22,3 @@ refetchInterval: 5000,
 return comments;
 };
 
-// {
-//   const queryClient = useQueryClient();
-
-//   const { data: comments = [] } = useQuery<Comment[]>({
-//     queryKey: ["comments", postId],
-//     queryFn: async () => {
-//       try {
-//         const { data } = await axiosInstance.get(`/api/post/${postId}/comment`);
-//         // console.log("All Comment List", data);
-//         return data;
-//     } catch (error) {
-//         console.error(error);
-//         console.log("All Comment Error", error);
-//         toast.error("Failed to load comments.");
-//         return [];
-//     }
-// },
-// refetchInterval: 5000,
-// });

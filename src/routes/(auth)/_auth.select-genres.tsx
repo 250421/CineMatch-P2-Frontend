@@ -17,6 +17,7 @@ import { useFavoriteGenres } from '@/features/genres/hooks/use-favorite-genres'
 import { useFavoriteMovies } from '@/features/genres/hooks/use-favorite-movies'
 import { useGetFavoriteGenres } from '@/features/genres/hooks/use-get-favorite-genres'
 import { useGetGenres } from '@/features/genres/hooks/use-get-genres'
+import { useGetBoard } from '@/features/boards/hooks/use-get-board'
 
 export const Route = createFileRoute('/(auth)/_auth/select-genres')({
   component: SelectGenresPage,
@@ -30,6 +31,7 @@ function SelectGenresPage() {
   const { mutate: setFavoriteGenres } = useFavoriteGenres();
   const { mutate: setFavoriteMovies } = useFavoriteMovies();
   const { data: favoriteGenres, isLoading: isFavoriteGenresLoading } = useGetFavoriteGenres();
+  const { data: boards, isLoading: isLoadingBoards } = useGetBoard();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -53,14 +55,14 @@ function SelectGenresPage() {
         setFavoriteMovies(movies, {
           onSuccess: () => {
             const firstGenre: string = response.data[0];
-            navigate({ to: genreOptions ? `/message-board/${genreOptions.find((genre) => genre.name === firstGenre)?.id || 0}` : "/" });
+            navigate({ to: genreOptions ? `/message-board/${boards?.find((board) => board.name === firstGenre)?.id || 0}` : "/" });
           }
         });
       }
     });
   }
 
-  if(isLoadingGenres || isLoadingMovies) {
+  if(isLoadingGenres || isLoadingMovies || isLoadingBoards) {
     return (
       <div className="flex items-center justify-center h-screen">
         <Loader2 className="size-8 animate-spin" />
