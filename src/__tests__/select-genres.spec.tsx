@@ -25,13 +25,11 @@ const router = createRouter({
 jest.mock("@/lib/axios-config", () => ({
   axiosInstance: {
     get: (url: string) => {
-      console.log(url);
       if(url.includes("/board")) {
         return Promise.resolve(mockBoards);
       } else if(url === "/api/movie") {
         return Promise.resolve(mockMovies);
       } else if(url === "/api/genre") {
-        console.log("mocked", mockGenres);
         return Promise.resolve(mockGenres);
       }
       return Promise.resolve({ data: [], status: 200 });
@@ -78,6 +76,17 @@ jest.mock('@tanstack/react-query', () => ({
   invalidateQueries: () => mockInvalidateQueries
 }))
 
+// const mockButton = jest.fn(function handlePopupTrigger(children) {
+//   return (<button data-testid="mock-popup-trigger">
+//     {children}
+//   </button>
+//   )
+// })
+// jest.mock("@shadcn/ui", () => ({
+//   ...jest.requireActual("@shadcn/ui"),
+//   PopupTrigger: mockButton,
+// }));
+
 jest.mock("@/lib/axios-config", () => ({
   axiosInstance: {
     get: (url: string) => {
@@ -116,4 +125,17 @@ describe("tests for the new-post page", () => {
     
     await waitFor(() => expect(mockInvalidateQueries).not.toHaveBeenCalled());
   })
+
+  //   test("Should submit favorite genres with 3 genres selected", async () => {
+  //   const dom = render(<RouterProvider router={ router } />);
+
+  //   const selectGenreButton = await dom.findByTestId("select-genres-button");
+  //   fireEvent.click(selectGenreButton);
+
+  //   expect(dom.getByTestId("mock-popup-content")).toBeInTheDocument()
+  //   const selectGenreSubmitButton = await dom.findByTestId("select-genres-submit-button");
+  //   fireEvent.click(selectGenreSubmitButton);
+    
+  //   // await waitFor(() => expect(mockInvalidateQueries).not.toHaveBeenCalled());
+  // })
 })

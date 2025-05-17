@@ -54,6 +54,7 @@ export const RatingButtonGroup = ({ id, initialRating }: RatingButtonGroupProps)
             dir="ltr"
             className="flex items-center gap-1 p-2 rounded-md hover:bg-blue-300 hover:cursor-pointer rounded-l-full"
             onClick={ handleClickLike }
+            data-testid="post-like-button"
           >
             <ArrowBigUp />
           </TooltipTrigger>
@@ -62,7 +63,7 @@ export const RatingButtonGroup = ({ id, initialRating }: RatingButtonGroupProps)
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
-      <p className="w-[3rem] text-center">
+      <p className="w-[3rem] text-center" data-testid="post-rating">
         { convertValue(rating) }
       </p>
       <TooltipProvider>
@@ -71,6 +72,7 @@ export const RatingButtonGroup = ({ id, initialRating }: RatingButtonGroupProps)
           dir="rtl"
             className="flex items-center gap-1 p-2 rounded-md hover:bg-orange-300 hover:cursor-pointer rounded-r-full"
             onClick={ handleClickDisLike }
+            data-testid="post-dislike-button"
           >
             <ArrowBigDown />
           </TooltipTrigger>

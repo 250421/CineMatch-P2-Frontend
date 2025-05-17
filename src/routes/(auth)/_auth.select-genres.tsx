@@ -70,8 +70,6 @@ export function SelectGenresPage() {
     );
   }
 
-  console.log("genres", genres);
-
   return (
     <div data-testid="select-genres-component" className="flex items-center justify-center h-screen">
       <Card className="w-[40em]">

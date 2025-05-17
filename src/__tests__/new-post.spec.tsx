@@ -1,9 +1,9 @@
-import { act, fireEvent, render, waitFor } from "@testing-library/react";
+import { fireEvent, render, waitFor } from "@testing-library/react";
 import { createRouter, createRootRoute, createMemoryHistory, RouterProvider } from "@tanstack/react-router";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { axiosInstance } from "@/lib/axios-config";
 import { NewPostComponent } from "@/routes/(auth)/_auth.new-post";
-import { mockBoards } from "@/__mock__/mock-data";
+import { mockBoards, mockFavoriteGenres, mockGenres, mockPosts } from "@/__mock__/mock-data";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -52,46 +52,55 @@ jest.mock("@tanstack/react-router", () => ({
   useNavigate: () => mockNavigate
 }))
 
+jest.mock("@/lib/axios-config", () => ({
+  axiosInstance: {
+    get: (url: string) => {
+      if(url === "/api/board") {
+        return Promise.resolve(mockBoards);
+      } else if(url === "/api/genre/favorite") {
+        return Promise.resolve(mockFavoriteGenres);
+      } else if(url === "/api/genre") {
+        return Promise.resolve(mockGenres);
+      } else if(url === "/api/post") {
+        return Promise.resolve(mockPosts);
+      }
+      return Promise.resolve({ data: [], status: 200 });
+    },
+    post: jest.fn()
+  },
+}));
+
 describe("tests for the new-post page", () => {
   beforeEach(() => {
-    jest.resetAllMocks();
     mockNavigate.mockClear();
   })
 
   test("renders", async () => {
-    jest.spyOn(axiosInstance, "get").mockResolvedValueOnce(mockBoards);
     const dom = render(<RouterProvider router={ router } />);
     const newPostComponent = await dom.findByTestId("new-post-component");
 
-    waitFor(() => expect(newPostComponent).toBeInTheDocument());
+    await waitFor(() => expect(newPostComponent).toBeInTheDocument());
   })
 
   test("The title input should change based on the user's input", async () => {
-    jest.spyOn(axiosInstance, "get").mockResolvedValueOnce(mockBoards);
     const dom = render(<RouterProvider router={ router } />);
 
     const response = await dom.findByTestId("title-input");
-    act(() => {
-      fireEvent.change(response, { target: { value: "This movie was amazing!" } });
-    })
+    fireEvent.change(response, { target: { value: "This movie was amazing!" } });
     
     expect(response).toHaveValue("This movie was amazing!");
   })
 
   test("Simulate a input change in the hasSpoiler checkbox", async () => {
-    jest.spyOn(axiosInstance, "get").mockResolvedValueOnce(mockBoards);
     const dom = render(<RouterProvider router={ router } />);
 
     const hasSpoilerComponent = await dom.findByTestId("has-spoiler-input");
-    act(() => {
-      fireEvent.click(hasSpoilerComponent);
-    })
+    fireEvent.click(hasSpoilerComponent);
     
-    expect(hasSpoilerComponent).toBeChecked;
+    await waitFor(() => expect(hasSpoilerComponent).toBeChecked);
   })
 
   test("A new post should be successfully created", async () => {
-    jest.spyOn(axiosInstance, "get").mockResolvedValueOnce(mockBoards);
     jest.spyOn(axiosInstance, "post").mockResolvedValueOnce({
       data: {
       "image": null,
@@ -109,28 +118,20 @@ describe("tests for the new-post page", () => {
     const dom = render(<RouterProvider router={ router } />);
 
     const boardSelect = await dom.findByTestId("new-post-board-select");
-    await act(async () => {
-      fireEvent.click(boardSelect);
-    })
+    fireEvent.click(boardSelect);
 
     const option = dom.getAllByRole("option")[0];
-    await act(async () => {
-      fireEvent.click(option);
-    })
+    fireEvent.click(option);
 
     const titleInput = await dom.findByTestId("title-input");
     fireEvent.change(titleInput, { target: { value: "Thunderbolts was amazing!" } });
 
     const textInput = await dom.findByTestId("new-post-text");
-    await act(async () => {
-      fireEvent.change(textInput, { target: { value: "If I could rate this movie, I would give it a 10/10. I do NOT want to see my shame room though..." } });
-    })
+    fireEvent.change(textInput, { target: { value: "If I could rate this movie, I would give it a 10/10. I do NOT want to see my shame room though..." } });
 
     const submitButton = await dom.findByTestId("new-post-submit-button");
-    await act(async () => {
-      fireEvent.click(submitButton);
-    })
+    fireEvent.click(submitButton);
     
-    expect(mockNavigate).toHaveBeenCalledTimes(1);
+    await waitFor(() => expect(mockNavigate).toHaveBeenCalledTimes(1));
   })
 })

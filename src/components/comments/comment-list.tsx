@@ -105,7 +105,7 @@ export function CommentList({ postId }: CommentListProps) {
                   >
                     Cancel
                   </Button>
-                  <Button type="submit" disabled={isSubmitting}>
+                  <Button type="submit" disabled={isSubmitting} data-testid="submit-edit-comment-button">
                     {isSubmitting ? "Saving..." : "Save"}
                   </Button>
                 </div>
@@ -123,6 +123,7 @@ export function CommentList({ postId }: CommentListProps) {
                       variant="ghost"
                       size="icon"
                       onClick={() => handleEdit(comment)}
+                      data-testid="edit-comment-button"
                     >
                       <Pencil className="h-4 w-4" />
                     </Button>
