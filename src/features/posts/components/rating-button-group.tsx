@@ -47,7 +47,7 @@ export const RatingButtonGroup = ({ id, initialRating }: RatingButtonGroupProps)
   }
 
   return (
-    <div className="flex items-center gap-2 bg-slate-200 rounded-full">
+    <div data-testid="rating-button-group" className="flex items-center gap-2 bg-slate-200 rounded-full">
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger 

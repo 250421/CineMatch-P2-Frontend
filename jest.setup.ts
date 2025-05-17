@@ -24,7 +24,9 @@ jest.mock("@/lib/axios-config", () => ({
       }
       return Promise.resolve({ data: [], status: 200 });
     },
-    post: jest.fn()
+    post: jest.fn(),
+    patch: jest.fn(),
+    delete: jest.fn()
   },
 }));
 

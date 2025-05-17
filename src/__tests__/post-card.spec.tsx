@@ -4,7 +4,8 @@ import { createMemoryHistory, createRootRoute, createRouter, RouterProvider } fr
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Post } from "@/features/posts/models/post";
 import { mockNavigate } from "../../jest.setup";
-import userEvent from '@testing-library/user-event';
+import userEvent from "@testing-library/user-event";
+import { axiosInstance } from "@/lib/axios-config";
 
 const mockPost = {
   "image": undefined,
@@ -75,7 +76,7 @@ describe("PostCard Component", () => {
     const dropdownTrigger = await screen.findByTestId("post-card-dropdown-trigger");
     await userEvent.click(dropdownTrigger);
 
-    const updateButton = screen.getByTestId('post-card-update-button');
+    const updateButton = screen.getByTestId("post-card-update-button");
     expect(updateButton).toBeInTheDocument();
     expect(screen.getByTestId("post-card-update-button")).toBeInTheDocument();
   });
@@ -98,8 +99,98 @@ describe("PostCard Component", () => {
     const dropdownTrigger = await screen.findByTestId("post-card-dropdown-trigger");
     await userEvent.click(dropdownTrigger);
 
-    const updateButton = screen.queryByTestId('post-card-update-button');
+    const updateButton = screen.queryByTestId("post-card-update-button");
     expect(updateButton).not.toBeInTheDocument();
     expect(screen.queryByTestId("post-card-update-button")).not.toBeInTheDocument();
+  });
+
+  test("clicking the down-arrow button should add or remove a -1 rating", async () => {
+    jest.spyOn(axiosInstance, "patch").mockResolvedValueOnce({
+      data: {
+        "image": null,
+        "deleted": 0,
+        "rating": -1,
+        "id": 6,
+        "text": "content is funny",
+        "title": "This is a test post about an action movie",
+        "username": "fadelafuente",
+        "has_spoiler": 1
+    },
+      status: 200
+    });
+
+    jest.spyOn(axiosInstance, "patch").mockResolvedValueOnce({
+      data: {
+        "image": null,
+        "deleted": 0,
+        "rating": 0,
+        "id": 6,
+        "text": "content is funny",
+        "title": "This is a test post about an action movie",
+        "username": "fadelafuente",
+        "has_spoiler": 1
+    },
+      status: 200
+    });
+    render(<RouterProvider router={ router } />);
+
+    const postDislikeButton = await screen.findByTestId("post-dislike-button");
+    await act(async () => {
+      fireEvent.click(postDislikeButton);
+    })
+
+    const postRating = screen.getByTestId("post-rating");
+    await waitFor(() => expect(postRating).toContainHTML('<p class="w-[3rem] text-center" data-testid="post-rating">-1</p>'));
+
+    await act(async () => {
+      fireEvent.click(postDislikeButton);
+    })
+
+    await waitFor(() => expect(postRating).toContainHTML('<p class="w-[3rem] text-center" data-testid="post-rating">0</p>'));
+  });
+
+  test("clicking the up-arrow button should add or remove a +1 rating", async () => {
+    jest.spyOn(axiosInstance, "patch").mockResolvedValueOnce({
+      data: {
+        "image": null,
+        "deleted": 0,
+        "rating": 1,
+        "id": 6,
+        "text": "content is funny",
+        "title": "This is a test post about an action movie",
+        "username": "fadelafuente",
+        "has_spoiler": 1
+    },
+      status: 200
+    });
+
+    jest.spyOn(axiosInstance, "patch").mockResolvedValueOnce({
+      data: {
+        "image": null,
+        "deleted": 0,
+        "rating": 0,
+        "id": 6,
+        "text": "content is funny",
+        "title": "This is a test post about an action movie",
+        "username": "fadelafuente",
+        "has_spoiler": 1
+    },
+      status: 200
+    });
+    render(<RouterProvider router={ router } />);
+
+    const postLikeButton = await screen.findByTestId("post-like-button");
+    await act(async () => {
+      fireEvent.click(postLikeButton);
+    })
+
+    const postRating = screen.getByTestId("post-rating");
+    await waitFor(() => expect(postRating).toContainHTML('<p class="w-[3rem] text-center" data-testid="post-rating">1</p>'));
+
+    await act(async () => {
+      fireEvent.click(postLikeButton);
+    })
+
+    await waitFor(() => expect(postRating).toContainHTML('<p class="w-[3rem] text-center" data-testid="post-rating">0</p>'));
   });
 });
