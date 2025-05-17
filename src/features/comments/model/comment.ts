@@ -1,4 +1,5 @@
 export interface Comment {
+  username: string;
   id: number;
   post: {
     id: number;
