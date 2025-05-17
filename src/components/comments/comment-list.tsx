@@ -115,7 +115,7 @@ export function CommentList({ postId }: CommentListProps) {
                 <div className="flex justify-between items-start">
                   <div>
                     <p className="font-medium">
-                      {comment.user?.username || "Anonymous"}
+                      {comment.username || "Anonymous"}
                     </p>
                   </div>
                   <div className="flex gap-2">
