@@ -16,11 +16,13 @@ export const AppSidebar = () => {
     return (
         <Sidebar>
             <SidebarContent>
-                <SidebarGroup>
-                    <SidebarItem label={"Dashboard"} icon={Home} href="/dashboard"/>
-                    <SidebarItem label={"Settings"} icon={Settings} href="/settings"/>
-                </SidebarGroup>
-                <Separator className="bg-focus" />
+                <div className="hidden">
+                    <SidebarGroup>
+                        <SidebarItem label={"Dashboard"} icon={Home} href="/dashboard"/>
+                        <SidebarItem label={"Settings"} icon={Settings} href="/settings"/>
+                    </SidebarGroup>
+                    <Separator className="bg-focus" />
+                </div>
                 <Collapsible className="group/collapsible">
                     <SidebarGroup>
                         <CollapsibleTrigger className="flex flex-row p-2 rounded-md cursor-pointer text-border-green hover:bg-focus hover:text-card-green3 font-medium">

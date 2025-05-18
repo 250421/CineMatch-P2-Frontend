@@ -110,7 +110,7 @@ export const UpdatePostDialog = ({ open, setOpen, initialForm }: UpdatePostDialo
                       onChange={(e) => {
                         onChange(e.target.files?.[0]);
                       }}
-                      className="pl-0 border-0 file:bg-button file:rounded-full file:px-2 file:cursor-pointer file:mr-2"
+                      className="pl-0 border-0 file:bg-button file:rounded-full file:px-2 file:cursor-pointer file:mr-2 file:align-middle"
                     />
                   </FormControl>
                   <FormMessage />

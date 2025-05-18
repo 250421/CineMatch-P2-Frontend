@@ -88,7 +88,7 @@ function SelectGenresPage() {
           </div>
           
           { genres.length === 3 || genreOptions?.length === genres.length ?
-              <div className="flex flex-col gap-4">
+              <div className="flex flex-col gap-4 hidden">
                 <CardDescription className='text-button-hover'>And select your top five favorite movies!</CardDescription>
                 {
                   movieOptions ? 
