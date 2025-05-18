@@ -7,7 +7,7 @@ interface HiddenContentProps {
 
 export const HiddenContent = ({ setViewSpoiler }: HiddenContentProps) => {
   return (
-    <div className="overflow-hidden w-full aspect-3/2 rounded-lg border-2 relative" onClick={ e => setViewSpoiler(e) }>
+    <div data-testid="hidden-content" className="overflow-hidden w-full aspect-3/2 rounded-lg border-2 relative" onClick={ e => setViewSpoiler(e) }>
       <div className="z-1 blur-xl bg-slate-300 w-full h-full hover:bg-slate-400">
       </div>
       <div className="absolute w-full h-full top-0 left-0 z-1 display flex justify-center items-center">

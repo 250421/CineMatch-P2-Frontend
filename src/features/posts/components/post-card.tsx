@@ -72,7 +72,7 @@ export const PostCard = ({ post, user, setDeleteOpen, setUpdateOpen }: PostCardP
           <div className="flex flex-row items-center">
           <Link to="/" onClick={ e => handleClickUsername(e) } className="flex flex-row items-center gap-1 hover:text-slate-500">
             <ProfileIcon name={ post?.username ?? "Anonymous" } />
-            <span className="hover:underline">
+            <span className="hover:underline" data-testid="post-card-username">
               { post?.username ?? "Anonymous" }
             </span>
           </Link>
@@ -84,6 +84,7 @@ export const PostCard = ({ post, user, setDeleteOpen, setUpdateOpen }: PostCardP
                 <DropdownMenuTrigger 
                   disabled={ post?.username !== user?.username && user?.role !== "ADMIN" } 
                   className="w-full h-full rounded-full flex justify-center items-center hover:bg-slate-200 hover:border-2"
+                  data-testid="post-card-dropdown-trigger"
                 >
                   <Ellipsis />
                 </DropdownMenuTrigger>
@@ -92,8 +93,10 @@ export const PostCard = ({ post, user, setDeleteOpen, setUpdateOpen }: PostCardP
                 {
                   post?.username === user?.username ?
                   <>
-                    <DropdownMenuItem onClick={ e => handleUpdate(e) }>Edit</DropdownMenuItem>
-                    <DropdownMenuItem onClick={ e => handleDelete(e) }>Delete</DropdownMenuItem>
+                    <DropdownMenuItem onClick={ e => handleUpdate(e) }>
+                      <span data-testid="post-card-update-button">Edit</span>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem data-testid="post-card-delete-button" onClick={ e => handleDelete(e) }>Delete</DropdownMenuItem>
                   </>
                 :
                   user?.role === "ADMIN" ? 
@@ -108,9 +111,9 @@ export const PostCard = ({ post, user, setDeleteOpen, setUpdateOpen }: PostCardP
             </DropdownMenu>
           </div>
         </div>
-        <CardTitle className="text-xl mt-2">{ post?.title }</CardTitle>
+        <CardTitle className="text-xl mt-2" data-testid="post-card-title">{ post?.title }</CardTitle>
       </CardHeader>
-      <CardContent className="px-4">
+      <CardContent className="px-4" data-testid="post-card-content">
         { post?.has_spoiler && !viewSpoiler ? 
           <HiddenContent setViewSpoiler={ handleViewSpoiler } />
         :

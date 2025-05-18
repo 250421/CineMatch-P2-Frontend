@@ -41,7 +41,7 @@ export function CommentBox({ postId, onCommentPosted }: CommentBoxProps) {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-2">
+    <form data-testid="comment-form" onSubmit={handleSubmit(onSubmit)} className="space-y-2">
       <Textarea
         {...register("text")}
         maxLength={255}

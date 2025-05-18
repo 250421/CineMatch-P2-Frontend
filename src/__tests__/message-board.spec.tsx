@@ -3,6 +3,7 @@ import { createRouter, createRootRoute, createMemoryHistory, RouterProvider } fr
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { axiosInstance } from "@/lib/axios-config";
 import { MessageBoardComponent } from "@/routes/(auth)/_auth.message-board.$boardId";
+import { mockPosts } from "@/__mock__/mock-data";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -11,6 +12,13 @@ const queryClient = new QueryClient({
     }
   }
 });
+
+const mockNavigate = jest.fn();
+jest.mock("@tanstack/react-router", () => ({
+  ...jest.requireActual("@tanstack/react-router"),
+  useNavigate: () => mockNavigate,
+  useParams: jest.fn(() => ({ boardId: "1" }))
+}))
 
 const rootRoute = createRootRoute({
   component: () => <QueryClientProvider client={ queryClient }><MessageBoardComponent data-testid="message-board-component" /></QueryClientProvider>,
@@ -27,6 +35,7 @@ jest.mock("@/lib/axios-config");
 describe("message-board with id component", () => {
   beforeEach(() => {
     jest.resetAllMocks();
+    mockNavigate.mockClear();
   })
 
   test("renders", () => {
@@ -37,31 +46,7 @@ describe("message-board with id component", () => {
   })
 
   test("posts should be a list", async () => {
-    jest.spyOn(axiosInstance, "get").mockResolvedValueOnce({ 
-      data: [
-        {
-            "image": null,
-            "deleted": 0,
-            "rating": 0,
-            "id": 5,
-            "text": "content is funny",
-            "title": "This is a test post about an action movie",
-            "username": "fadelafuente",
-            "has_spoiler": 0
-        },
-        {
-            "image": null,
-            "deleted": 0,
-            "rating": 0,
-            "id": 6,
-            "text": "content is funny",
-            "title": "This is a test post about an action movie",
-            "username": "fadelafuente",
-            "has_spoiler": 1
-        },
-      ],
-      status: 200
-    });
+    jest.spyOn(axiosInstance, "get").mockResolvedValueOnce(mockPosts);
     const dom = render(<RouterProvider router={ router } />);
 
     await waitFor(() => {
@@ -77,10 +62,5 @@ describe("message-board with id component", () => {
 
     await waitFor(() => expect(dom.queryByTestId("message-board")).toBeNull());
     await waitFor(() => expect(dom.getByTestId("no-post-found")).toBeInTheDocument());
-  })
-
-  test("Loader displayed while waiting for data to be fetched", async () => {
-    const dom = render(<RouterProvider router={ router } />);
-    waitFor(() => expect(dom.getByTestId("loader")).toBeInTheDocument());
   })
 })

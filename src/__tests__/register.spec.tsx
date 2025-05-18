@@ -22,9 +22,12 @@ jest.mock("@tanstack/react-router", () => ({
   useNavigate: () => mockNavigate
 }))
 
+jest.mock("@/lib/axios-config");
+
 describe("Register component", () => {
   afterEach(() => {
     jest.resetAllMocks();
+    mockNavigate.mockClear();
   })
 
   test("renders", () => {
@@ -57,7 +60,7 @@ describe("Register component", () => {
     const dom = render(<RouterProvider router={ router } />);
 
     const registerButton = await dom.findByTestId("register-submit");
-    act(() => {
+    await act(async () => {
       fireEvent.click(registerButton);
     })
 
@@ -72,16 +75,22 @@ describe("Register component", () => {
     const dom = render(<RouterProvider router={ router } />);
 
     const username = await dom.findByTestId("username-input");
-    fireEvent.change(username, { target: { value: "testUser" } });
-
+    await act(async () => {
+      fireEvent.change(username, { target: { value: "testUser" } });
+    })
+   
     const password = await dom.findByTestId("password-input");
-    fireEvent.change(password, { target: { value: "testPassword1" } });
+    await act(async () => {
+      fireEvent.change(password, { target: { value: "testPassword1" } });
+    })
 
     const re_password = await dom.findByTestId("re-password-input");
-    fireEvent.change(re_password, { target: { value: "testPassword1" } });
+    await act(async () => {
+      fireEvent.change(re_password, { target: { value: "testPassword1" } });
+    })
 
     const registerButton = await dom.findByTestId("register-submit");
-    act(() => {
+    await act(async () => {
       fireEvent.click(registerButton);
     })
 
@@ -89,7 +98,7 @@ describe("Register component", () => {
   })
 
     test("Register button should pass because the form is valid", async () => {
-    jest.spyOn(axiosInstance, "post").mockResolvedValue({ data: {
+    jest.spyOn(axiosInstance, "post").mockResolvedValueOnce({ data: {
       "id": 5,
       "username": "testUser",
       "password": "",
@@ -104,16 +113,22 @@ describe("Register component", () => {
     const dom = render(<RouterProvider router={ router } />);
 
     const username = await dom.findByTestId("username-input");
-    fireEvent.change(username, { target: { value: "testUser" } });
+    await act(async () => {
+      fireEvent.change(username, { target: { value: "testUser" } });
+    })
 
     const password = await dom.findByTestId("password-input");
-    fireEvent.change(password, { target: { value: "testPassword1@" } });
+    await act(async () => {
+      fireEvent.change(password, { target: { value: "testPassword1@" } });
+    })
 
     const re_password = await dom.findByTestId("re-password-input");
-    fireEvent.change(re_password, { target: { value: "testPassword1@" } });
+    await act(async () => {
+      fireEvent.change(re_password, { target: { value: "testPassword1@" } });
+    })
     
     const registerButton = await dom.findByTestId("register-submit");
-    act(() => {
+    await act(async () => {
       fireEvent.click(registerButton);
     })
 

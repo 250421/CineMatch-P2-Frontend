@@ -28,10 +28,10 @@ import { Loader2 } from 'lucide-react'
 import { useGetFavoriteGenres } from '@/features/genres/hooks/use-get-favorite-genres'
 
 export const Route = createFileRoute('/(auth)/_auth/new-post')({
-  component: RouteComponent,
+  component: NewPostComponent,
 })
 
-function RouteComponent() {
+export function NewPostComponent() {
   const { mutate: createPost } = useCreatePost();
   const { data: favoriteGenres, isLoading: isFavoriteGenresLoading } = useGetFavoriteGenres();
   const { data: messageBoards, isLoading } = useGetBoard();
@@ -69,7 +69,7 @@ function RouteComponent() {
   }
 
   return (
-    <div className="flex justify-center h-screen mt-[56px]">
+    <div data-testid="new-post-component" className="flex justify-center h-screen mt-[56px]">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 w-[30em]">
           <h1 className="text-xl mb-4">Create Post</h1>
@@ -81,7 +81,7 @@ function RouteComponent() {
                 <FormLabel>Select a Message Board</FormLabel>
                 <FormControl>
                   <Select onValueChange={ (field.onChange) } value={ field.value ? String(field.value) : "" }>
-                    <SelectTrigger className="w-[180px]">
+                    <SelectTrigger data-testid="new-post-board-select" className="w-[180px]">
                       <SelectValue placeholder="message board*" />
                     </SelectTrigger>
                     <SelectContent>
@@ -108,7 +108,7 @@ function RouteComponent() {
               <FormItem>
                 <FormLabel>Title</FormLabel>
                 <FormControl>
-                  <Input placeholder="title*" {...field} />
+                  <Input data-testid="title-input" placeholder="title*" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -122,7 +122,7 @@ function RouteComponent() {
               <FormItem>
                 <FormLabel>Content</FormLabel>
                 <FormControl>
-                  <AutosizeTextarea {...field} placeholder="content" maxHeight={ 200 } className="resize-none"  />
+                  <AutosizeTextarea data-testid="new-post-text" {...field} placeholder="content" maxHeight={ 200 } className="resize-none"  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -159,7 +159,8 @@ function RouteComponent() {
               <FormItem className="flex flex-row items-center gap-4">
                 <FormLabel>Contains Spoiler?</FormLabel>
                 <FormControl>
-                  <Input 
+                  <Input
+                    data-testid="has-spoiler-input"
                     type="checkbox"
                     ref={ ref }
                     { ...fieldProps }
@@ -173,7 +174,7 @@ function RouteComponent() {
               </FormItem>
             )}
           />
-          <Button type="submit">Submit</Button>
+          <Button data-testid="new-post-submit-button" type="submit">Submit</Button>
         </form>
       </Form>
     </div>
