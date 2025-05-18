@@ -8,7 +8,15 @@ pipeline {
     }
 
     stages {
-
+        stage('Test') {
+            agent {
+                docker { image 'node:18' }
+            }
+            steps {
+                sh 'npm ci'
+                sh 'npm test -- --ci'
+            }
+        }
         stage('Docker Build') {
             steps {
                 script {
