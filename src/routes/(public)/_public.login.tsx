@@ -88,7 +88,7 @@ export function LoginPage() {
                 </FormItem>
               )}
             />
-            <Button type="submit" className="w-[100%] bg-button text-card-blue hover:bg-button-hover cursor-pointer">Login</Button>
+            <Button data-testid="login-submit-button" type="submit" className="w-[100%] bg-button text-card-blue hover:bg-button-hover cursor-pointer">Login</Button>
           </form>
         </Form>
       </CardContent>

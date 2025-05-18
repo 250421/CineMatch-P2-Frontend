@@ -140,13 +140,13 @@ describe("PostCard Component", () => {
     })
 
     const postRating = screen.getByTestId("post-rating");
-    await waitFor(() => expect(postRating).toContainHTML('<p class="w-[3rem] text-center" data-testid="post-rating">-1</p>'));
+    await waitFor(() => expect(postRating).toContainHTML('<p class="min-w-[2rem] text-center font-medium" data-testid="post-rating">-1</p>'));
 
     await act(async () => {
       fireEvent.click(postDislikeButton);
     })
 
-    await waitFor(() => expect(postRating).toContainHTML('<p class="w-[3rem] text-center" data-testid="post-rating">0</p>'));
+    await waitFor(() => expect(postRating).toContainHTML('<p class="min-w-[2rem] text-center font-medium" data-testid="post-rating">0</p>'));
   });
 
   test("clicking the up-arrow button should add or remove a +1 rating", async () => {
@@ -185,12 +185,12 @@ describe("PostCard Component", () => {
     })
 
     const postRating = screen.getByTestId("post-rating");
-    await waitFor(() => expect(postRating).toContainHTML('<p class="w-[3rem] text-center" data-testid="post-rating">1</p>'));
+    await waitFor(() => expect(postRating).toContainHTML('<p class="min-w-[2rem] text-center font-medium" data-testid="post-rating">1</p>'));
 
     await act(async () => {
       fireEvent.click(postLikeButton);
     })
 
-    await waitFor(() => expect(postRating).toContainHTML('<p class="w-[3rem] text-center" data-testid="post-rating">0</p>'));
+    await waitFor(() => expect(postRating).toContainHTML('<p class="min-w-[2rem] text-center font-medium" data-testid="post-rating">0</p>'));
   });
 });

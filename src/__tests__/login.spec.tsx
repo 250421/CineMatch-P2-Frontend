@@ -38,7 +38,7 @@ describe("Login component", () => {
 
   test("renders login form", async () => {
     const dom = render(<RouterProvider router={router} />);
-    const loginTitle = await dom.findByText(/login/i);
+    const loginTitle = await dom.findByTestId("login");
     expect(loginTitle).toBeInTheDocument();
   });
 
@@ -55,7 +55,7 @@ describe("Login component", () => {
     const password = await dom.findByPlaceholderText("Password");
     fireEvent.change(password, { target: { value: "wrongPassword" } });
 
-    const submitButton = await dom.findByRole("button", { name: /submit/i });
+    const submitButton = await dom.findByTestId("login-submit-button");
     act(() => {
       fireEvent.click(submitButton);
     });
@@ -83,7 +83,7 @@ describe("Login component", () => {
     const password = await dom.findByPlaceholderText("Password");
     fireEvent.change(password, { target: { value: "validPassword1!" } });
 
-    const submitButton = await dom.findByRole("button", { name: /submit/i });
+    const submitButton = await dom.findByTestId("login-submit-button");
     act(() => {
       fireEvent.click(submitButton);
     });
