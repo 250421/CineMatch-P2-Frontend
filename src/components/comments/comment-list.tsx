@@ -9,7 +9,6 @@ import {
   type CommentSchemaType,
 } from "@/features/comments/schemas/comment-schema";
 import { Comment } from "@/features/comments/model/comment";
-import { useFetchComments } from "@/features/comments/hooks/use-fetch-comments";
 import { useUpdateComment } from "@/features/comments/hooks/use-update-comment";
 import { useDeleteComment } from "@/features/comments/hooks/use-delete-comment";
 import { useConfirm } from "@/hooks/use-confirm";
@@ -17,11 +16,10 @@ import { useAuth } from "@/features/auth/hooks/use-auth";
 import { Separator } from "../ui/separator";
 
 interface CommentListProps {
-  postId: number;
   comments: Comment[];
 }
 
-export function CommentList({ postId, comments }: CommentListProps) {
+export function CommentList({ comments }: CommentListProps) {
   
   const editComment = useUpdateComment();
   const {mutate :deleteComment}  = useDeleteComment();

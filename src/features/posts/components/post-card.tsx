@@ -140,7 +140,7 @@ export const PostCard = ({ post, user, setDeleteOpen, setUpdateOpen }: PostCardP
   </>
 )}
 <div className="px-4 pb-4">
-    <CommentList postId={post.id} comments={filteredComments} />
+    <CommentList comments={filteredComments} />
   </div>
     </Card>
   )

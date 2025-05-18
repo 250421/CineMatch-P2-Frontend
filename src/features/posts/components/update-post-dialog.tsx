@@ -127,6 +127,7 @@ export const UpdatePostDialog = ({ open, setOpen, initialForm }: UpdatePostDialo
                   <FormControl>
                     <Checkbox
                       checked={ value > 0}
+                      { ...fieldProps }
                       onCheckedChange={onChange}
                       className="size-4 bg-bg-green2 border-border-green data-[state=checked]:bg-button data-[state=checked]:text-card-green text-red-500 cursor-pointer"
                     />
