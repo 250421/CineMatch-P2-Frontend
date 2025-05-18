@@ -9,12 +9,13 @@ pipeline {
 
     stages {
         stage('Test') {
-            agent {
-                docker { image 'node:22-alpine' }
-            }
             steps {
-                sh 'npm ci'
-                sh 'npm test -- --ci'
+                script {
+                    docker.image('node:22-alpine').inside {
+                        sh 'npm ci'
+                        sh 'npm test -- --ci'
+                    }
+                }
             }
         }
         stage('Docker Build') {
