@@ -8,22 +8,22 @@ pipeline {
     }
 
     stages {
-        stage('Test') {
-            steps {
-                script {
-                    docker.image('node:22-alpine').inside {
-                        sh 'npm ci'
-                        sh 'npm test -- --ci'
-                    }
-                }
-            }
-        }
         stage('Docker Build') {
             steps {
                 script {
                     sh "docker build \
                         --build-arg VITE_API_URL=${BACKEND_URL} \
                         -t ${DOCKER_IMAGE}:${DOCKER_TAG} ."
+                }
+            }
+        }
+        stage('Test') {
+            steps {
+                script {
+                    docker.image(${DOCKER_IMAGE}).inside {
+                        sh 'npm ci'
+                        sh 'npm test -- --ci'
+                    }
                 }
             }
         }
