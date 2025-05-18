@@ -13,6 +13,7 @@ import { useFetchComments } from "@/features/comments/hooks/use-fetch-comments";
 import { useUpdateComment } from "@/features/comments/hooks/use-update-comment";
 import { useDeleteComment } from "@/features/comments/hooks/use-delete-comment";
 import { useConfirm } from "@/hooks/use-confirm";
+import { useAuth } from "@/features/auth/hooks/use-auth";
 
 interface CommentListProps {
   postId: number;
@@ -25,6 +26,7 @@ export function CommentList({ postId }: CommentListProps) {
   const [editingId, setEditingId] = useState<number | null>(null);
 
   const [deleteConfirm, DeleteDialog] = useConfirm();
+  const  user  = useAuth();
 
   const {
     register,
@@ -81,6 +83,10 @@ export function CommentList({ postId }: CommentListProps) {
       {comments.map((comment) => {
         if (!comment || comment.deleted === 1) return null;
 
+        const isOwner = user?.data?.username === comment.username;
+        const isAdmin = user?.data?.role === "ADMIN";
+        const canManage = isOwner || isAdmin;
+
         return (
           <div key={comment.id} className="border rounded-lg p-4">
             {editingId === comment.id ? (
@@ -118,7 +124,8 @@ export function CommentList({ postId }: CommentListProps) {
                       {comment.username || "Anonymous"}
                     </p>
                   </div>
-                  <div className="flex gap-2">
+                  {canManage && (
+                    <div className="flex gap-2">
                     <Button
                       variant="ghost"
                       size="icon"
@@ -135,6 +142,7 @@ export function CommentList({ postId }: CommentListProps) {
                       <Trash2 className="h-4 w-4" />
                     </Button>
                   </div>
+                  )}
                 </div>
                 <p className="mt-2">{comment.text}</p>
               </>
