@@ -29,7 +29,7 @@ export const Route = createFileRoute('/(public)/_public/register')({
   component: Register,
 })
 
-function Register() {
+export function Register() {
   const { mutate: registerUser } = useRegister();
   const form = useForm<RegisterSchemaType>({
     resolver: zodResolver(registerSchema),
@@ -48,10 +48,10 @@ function Register() {
   }
 
   return (
-    <Card className='w-[30rem]'>
+    <Card className='w-[30rem] bg-card-blue/60 border-border-blue text-text-bright'>
       <CardHeader>
         <CardTitle className='text-2xl'>Register</CardTitle>
-        <CardDescription>Create an account to continue</CardDescription>
+        <CardDescription className='text-muted-text-blue2'>Create an account to continue</CardDescription>
       </CardHeader>
       <CardContent>
         <Form {...form}>
@@ -63,9 +63,9 @@ function Register() {
                 <FormItem>
                   <FormLabel>Username</FormLabel>
                   <FormControl>
-                    <Input placeholder="Username*" {...field} />
+                    <Input className="border-border-blue focus-visible:ring-0 focus-visible:border-focus bg-bg-blue2 placeholder:text-muted-text-blue2 selection:bg-focus caret-focus" data-testid="username-input" placeholder="Username*" {...field} />
                   </FormControl>
-                  <FormDescription>
+                  <FormDescription className='text-muted-text-blue2'>
                     This is your public display name.
                   </FormDescription>
                   <FormMessage />
@@ -80,9 +80,9 @@ function Register() {
                 <FormItem>
                   <FormLabel>Password</FormLabel>
                   <FormControl>
-                    <Input placeholder="Password*" {...field} type='password' />
+                    <Input className="border-border-blue focus-visible:ring-0 focus-visible:border-focus bg-bg-blue2 placeholder:text-muted-text-blue2 selection:bg-focus caret-focus" data-testid="password-input" placeholder="Password*" {...field} type='password' />
                   </FormControl>
-                  <FormDescription>
+                  <FormDescription className='text-muted-text-blue2'>
                     <span>Password must contain: </span>
                     <Requirement hasBoolean={ hasLowerCase }>at least one lowercase letter</Requirement>
                     <Requirement hasBoolean={ hasUpperCase }>at least one uppercase letter</Requirement>
@@ -101,18 +101,18 @@ function Register() {
                 <FormItem>
                   <FormLabel>Confirm Password</FormLabel>
                   <FormControl>
-                    <Input placeholder="Confirm Password*" {...field} type='password' />
+                    <Input className="border-border-blue focus-visible:ring-0 focus-visible:border-focus bg-bg-blue2 placeholder:text-muted-text-blue2 selection:bg-focus caret-focus" data-testid="re-password-input" placeholder="Confirm Password*" {...field} type='password' />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <Button type="submit" className="w-[100%]">Submit</Button>
+            <Button data-testid="register-submit" type="submit" className="w-[100%] bg-button hover:bg-button-hover text-card-blue cursor-pointer">Register</Button>
           </form>
         </Form>
-        <CardFooter className='flex flex-row gap-2 mt-4'>
+        <CardFooter className='flex items-center justify-center gap-1 text-sm mt-1 text-muted-text-blue2 p-0'>
           <p>Already have an account?</p>
-          <Link to='/login' className='text-blue-300'>Log in</Link>
+          <Link to='/login' className='text-link-green underline'>Login</Link>
         </CardFooter>
       </CardContent>
     </Card>
