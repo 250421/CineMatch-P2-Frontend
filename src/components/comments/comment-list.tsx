@@ -124,8 +124,8 @@ export function CommentList({ postId }: CommentListProps) {
                       {comment.username || "Anonymous"}
                     </p>
                   </div>
-                  {canManage && (
-                    <div className="flex gap-2">
+                   <div className="flex gap-2">
+                    {isOwner && (
                     <Button
                       variant="ghost"
                       size="icon"
@@ -134,6 +134,8 @@ export function CommentList({ postId }: CommentListProps) {
                     >
                       <Pencil className="h-4 w-4" />
                     </Button>
+                  )}
+                  {canManage && (
                     <Button
                       variant="ghost"
                       size="icon"
@@ -141,8 +143,8 @@ export function CommentList({ postId }: CommentListProps) {
                     >
                       <Trash2 className="h-4 w-4" />
                     </Button>
+                  )} 
                   </div>
-                  )}
                 </div>
                 <p className="mt-2">{comment.text}</p>
               </>
