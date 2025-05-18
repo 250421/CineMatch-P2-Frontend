@@ -7,6 +7,7 @@ COPY package.json /app/package.json
 COPY package-lock.json /app/package-lock.json
 RUN npm ci
 COPY . /app
+RUN npm test -- --ci
 RUN npm run build
 
 # Production Stage

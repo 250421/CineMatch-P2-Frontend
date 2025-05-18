@@ -17,16 +17,6 @@ pipeline {
                 }
             }
         }
-        stage('Test') {
-            steps {
-                script {
-                    docker.image(${DOCKER_IMAGE}).inside {
-                        sh 'npm ci'
-                        sh 'npm test -- --ci'
-                    }
-                }
-            }
-        }
 
         stage('Deploy') {
             steps {
