@@ -46,7 +46,7 @@ export function CommentBox({ postId, onCommentPosted }: CommentBoxProps) {
         {...register("text")}
         maxLength={255}
         placeholder="Write a comment..."
-        className={errors.text ? "border-red-500" : ""}
+        className={"field-sizing-fixed bg-bg-blue2 focus-visible:ring-0 focus-visible:border-focus " + (errors.text ? "border-red-500" : "border-border-blue")}
       />
       {errors.text && (
         <p className="text-sm text-red-500">{errors.text.message}</p>
@@ -55,7 +55,7 @@ export function CommentBox({ postId, onCommentPosted }: CommentBoxProps) {
         <span className="text-sm text-muted-foreground">
           {text?.length || 0}/255
         </span>
-        <Button type="submit" disabled={isSubmitting}>
+        <Button type="submit" disabled={isSubmitting} className="bg-button text-card-blue hover:bg-text-light cursor-pointer">
           {isSubmitting ? "Posting..." : "Post"}
         </Button>
       </div>

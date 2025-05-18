@@ -47,33 +47,34 @@ export function MultiGenreSelect({ values, onSelect, options, maxLimit, label }:
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-[100%] justify-between h-fit"
+          className="w-[100%] justify-between h-fit bg-bg-green2 border-border-green hover:bg-focus cursor-pointer"
         >
           <div className="flex gap-2 justify-start flex-wrap">
             {values.length > 0
               ? values.map((value) => (
-                <Badge key={value} variant="outline">{ options.find(option => option.id === value)?.name }</Badge>
+                <Badge key={value} variant="outline" className="border-border-green bg-button">{ options.find(option => option.id === value)?.name }</Badge>
               ))
               : `Select ${label}...`}
           </div>
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[var(--radix-popover-trigger-width)] p-0">
-        <Command>
-          <CommandInput placeholder={ `Search ${label}...` } />
+      <PopoverContent className="w-[var(--radix-popover-trigger-width)] p-0 border-border-green">
+        <Command className="bg-card-green3 text-button">
+          <CommandInput placeholder={ `Search ${label}...` }/>
           <CommandList>
             <CommandEmpty>No { label } found.</CommandEmpty>
-            <CommandGroup>
+            <CommandGroup className="text-button">
               {options.map((option) => (
                 <CommandItem
                   key={option.id}
                   value={String(option.id)}
                   onSelect={(currentValue) => handleSelect(Number(currentValue)) }
+                  className="focus:bg-focus data-[selected=true]:bg-focus"
                 >
                   <Check
                     className={cn(
-                      "mr-2 h-4 w-4",
+                      "mr-2 h-4 w-4 text-text-light",
                       values.includes(option.id) ? "opacity-100" : "opacity-0"
                     )}
                   />

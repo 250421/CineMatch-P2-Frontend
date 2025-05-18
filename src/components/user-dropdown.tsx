@@ -21,11 +21,11 @@ export const UserDropdown = () => {
   return (
     <>
       <DropdownMenu>
-        <DropdownMenuTrigger>
+        <DropdownMenuTrigger className="cursor-pointer">
           <UserProfile />
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
-          <DropdownMenuItem onClick={handleLogOut}>
+        <DropdownMenuContent align="end" className="bg-card-green2 border-border-green text-text-light">
+          <DropdownMenuItem onClick={handleLogOut} className="hover:bg-red-500 focus:bg-red-500 cursor-pointer">
             <LogOut className="size-4 mr-2" />
             Log Out
           </DropdownMenuItem>

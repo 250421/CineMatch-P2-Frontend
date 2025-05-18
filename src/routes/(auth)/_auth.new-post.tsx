@@ -26,6 +26,7 @@ import { useCreatePost } from '@/features/posts/hooks/use-create-post'
 import { useGetBoard } from '@/features/boards/hooks/use-get-board'
 import { Loader2 } from 'lucide-react'
 import { useGetFavoriteGenres } from '@/features/genres/hooks/use-get-favorite-genres'
+import { Checkbox } from '@/components/ui/checkbox'
 
 export const Route = createFileRoute('/(auth)/_auth/new-post')({
   component: RouteComponent,
@@ -69,10 +70,10 @@ function RouteComponent() {
   }
 
   return (
-    <div className="flex justify-center h-screen mt-[56px]">
+    <div className="flex justify-center mt-[56px]">
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 w-[30em]">
-          <h1 className="text-xl mb-4">Create Post</h1>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 w-[30em] bg-card-green/90 p-5 rounded-lg border-1 border-border-green text-text-light">
+          <h1 className="text-2xl mb-4 font-medium">Create Post</h1>
           <FormField
             control={form.control}
             name="boardId"
@@ -81,14 +82,17 @@ function RouteComponent() {
                 <FormLabel>Select a Message Board</FormLabel>
                 <FormControl>
                   <Select onValueChange={ (field.onChange) } value={ field.value ? String(field.value) : "" }>
-                    <SelectTrigger className="w-[180px]">
-                      <SelectValue placeholder="message board*" />
+                    <SelectTrigger className="w-[180px] text-text-bright border-border-green focus-visible:ring-0 focus-visible:border-text-light bg-bg-green2 selection:bg-focus">
+                      <SelectValue placeholder="Message Board*" />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent className='bg-card-green3 border-border-green text-text-light'>
                       {
                         messageBoards.map((value) => (
                           (favoriteGenres as string[])?.includes(value.name) ?
-                            <SelectItem value={ String(value.id) } key={ value.name }>{ value.name }</SelectItem>
+                            <SelectItem value={ String(value.id) } key={ value.name }
+                              className='focus:bg-button'>
+                                { value.name }
+                            </SelectItem>
                           :
                             <div className='hidden' key={ value.name }></div>
                         ))
@@ -108,7 +112,8 @@ function RouteComponent() {
               <FormItem>
                 <FormLabel>Title</FormLabel>
                 <FormControl>
-                  <Input placeholder="title*" {...field} />
+                  <Input placeholder="title*" {...field}
+                    className='text-text-bright border-border-green focus-visible:ring-0 focus-visible:border-text-light bg-bg-green2 placeholder:text-focus selection:bg-focus caret-focus'/>
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -122,7 +127,8 @@ function RouteComponent() {
               <FormItem>
                 <FormLabel>Content</FormLabel>
                 <FormControl>
-                  <AutosizeTextarea {...field} placeholder="content" maxHeight={ 200 } className="resize-none"  />
+                  <AutosizeTextarea {...field} placeholder="content" maxHeight={ 200 }
+                    className="field-sizing-fixed resize-none text-text-bright border-border-green focus-visible:ring-offset-0 focus-visible:ring-0 focus-visible:border-text-light bg-bg-green2 placeholder:text-focus selection:bg-focus caret-focus"  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -145,6 +151,7 @@ function RouteComponent() {
                     onChange={(e) => {
                       onChange(e.target.files?.[0]);
                     }}
+                    className='pl-0 border-0 file:bg-button file:rounded-full file:px-2 file:cursor-pointer file:mr-2'
                   />
                 </FormControl>
                 <FormMessage />
@@ -159,21 +166,17 @@ function RouteComponent() {
               <FormItem className="flex flex-row items-center gap-4">
                 <FormLabel>Contains Spoiler?</FormLabel>
                 <FormControl>
-                  <Input 
-                    type="checkbox"
-                    ref={ ref }
-                    { ...fieldProps }
-                    onChange={() => {
-                      onChange(!value);
-                    }}
-                    className="size-4"
-                  />
+                  <Checkbox
+                      checked={ value > 0}
+                      onCheckedChange={onChange}
+                      className="size-4 bg-bg-green2 border-border-green data-[state=checked]:bg-button data-[state=checked]:text-card-green text-red-500 cursor-pointer"
+                    />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-          <Button type="submit">Submit</Button>
+          <Button type="submit" className="bg-button hover:bg-text-light text-card-green cursor-pointer">Submit</Button>
         </form>
       </Form>
     </div>

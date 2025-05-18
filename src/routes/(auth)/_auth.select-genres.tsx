@@ -72,13 +72,14 @@ function SelectGenresPage() {
 
   return (
     <div className="flex items-center justify-center h-screen">
-      <Card className="w-[40em]">
+      <Card className="w-[40em] bg-card-green/90 border-border-green text-text-light">
         <CardHeader>
-          <CardTitle className="text-2xl">Welcome to CineMatch!</CardTitle>
+          <CardTitle className="text-2xl text-text-bright">Welcome to CineMatch!</CardTitle>
+          <CardDescription className='pl-1 text-button-hover'>To get started, select your three favorite movie genres.</CardDescription>
         </CardHeader>
         <CardContent className='flex flex-col gap-6'>
           <div className="flex flex-col gap-4">
-            <CardDescription>To get started, select your three favorite movie genres.</CardDescription>
+            
             {
               genreOptions ? 
                 <MultiGenreSelect values={ genres } onSelect={ handleSelect } options={ genreOptions } maxLimit={ 3 } label="genres" />
@@ -88,7 +89,7 @@ function SelectGenresPage() {
           
           { genres.length === 3 || genreOptions?.length === genres.length ?
               <div className="flex flex-col gap-4">
-                <CardDescription>And select your top five favorite movies!</CardDescription>
+                <CardDescription className='text-button-hover'>And select your top five favorite movies!</CardDescription>
                 {
                   movieOptions ? 
                     <MultiMovieSelect values={ movies } onSelect={ handleSelectMovies } options={ movieOptions } maxLimit={ 5 } label="movies" />
@@ -101,7 +102,8 @@ function SelectGenresPage() {
         <CardFooter>
           <Button 
             onClick={ onSubmit } 
-            className='w-[100%]' disabled={ genres.length !== 3 }
+            disabled={ genres.length !== 3 }
+            className='cursor-pointer w-[100%] bg-button text-card-green2 hover:bg-text-light disabled:bg-bg-green'
           >
             Submit
           </Button>

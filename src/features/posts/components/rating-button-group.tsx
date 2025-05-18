@@ -47,12 +47,12 @@ export const RatingButtonGroup = ({ id, initialRating }: RatingButtonGroupProps)
   }
 
   return (
-    <div className="flex items-center gap-2 bg-slate-200 rounded-full">
+    <div className="flex items-center gap-0 rounded-full bg-card-blue2">
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger 
             dir="ltr"
-            className="flex items-center gap-1 p-2 rounded-md hover:bg-blue-300 hover:cursor-pointer rounded-l-full"
+            className="flex items-center gap-1 p-2 rounded-md hover:bg-muted-text-blue hover:cursor-pointer rounded-l-full hover:text-blue-500"
             onClick={ handleClickLike }
           >
             <ArrowBigUp />
@@ -62,14 +62,14 @@ export const RatingButtonGroup = ({ id, initialRating }: RatingButtonGroupProps)
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
-      <p className="w-[3rem] text-center">
+      <p className="min-w-[2rem] text-center font-medium">
         { convertValue(rating) }
       </p>
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger
           dir="rtl"
-            className="flex items-center gap-1 p-2 rounded-md hover:bg-orange-300 hover:cursor-pointer rounded-r-full"
+            className="flex items-center gap-1 p-2 rounded-md hover:bg-muted-text-blue hover:cursor-pointer rounded-r-full hover:text-red-500"
             onClick={ handleClickDisLike }
           >
             <ArrowBigDown />
