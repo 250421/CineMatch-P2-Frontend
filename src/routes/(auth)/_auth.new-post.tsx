@@ -29,10 +29,10 @@ import { useGetFavoriteGenres } from '@/features/genres/hooks/use-get-favorite-g
 import { Checkbox } from '@/components/ui/checkbox'
 
 export const Route = createFileRoute('/(auth)/_auth/new-post')({
-  component: RouteComponent,
+  component: NewPostComponent,
 })
 
-function RouteComponent() {
+export function NewPostComponent() {
   const { mutate: createPost } = useCreatePost();
   const { data: favoriteGenres, isLoading: isFavoriteGenresLoading } = useGetFavoriteGenres();
   const { data: messageBoards, isLoading } = useGetBoard();
@@ -70,7 +70,7 @@ function RouteComponent() {
   }
 
   return (
-    <div className="flex justify-center mt-[56px]">
+    <div data-testid="new-post-component" className="flex justify-center mt-[56px]">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 w-[30em] bg-card-green/90 p-5 rounded-lg border-1 border-border-green text-text-light">
           <h1 className="text-2xl mb-4 font-medium">Create Post</h1>
@@ -82,7 +82,7 @@ function RouteComponent() {
                 <FormLabel>Select a Message Board</FormLabel>
                 <FormControl>
                   <Select onValueChange={ (field.onChange) } value={ field.value ? String(field.value) : "" }>
-                    <SelectTrigger className="w-[180px] text-text-bright border-border-green focus-visible:ring-0 focus-visible:border-text-light bg-bg-green2 selection:bg-focus">
+                    <SelectTrigger data-testid="new-post-board-select" className="w-[180px] text-text-bright border-border-green focus-visible:ring-0 focus-visible:border-text-light bg-bg-green2 selection:bg-focus">
                       <SelectValue placeholder="Message Board*" />
                     </SelectTrigger>
                     <SelectContent className='bg-card-green3 border-border-green text-text-light'>
@@ -112,7 +112,7 @@ function RouteComponent() {
               <FormItem>
                 <FormLabel>Title</FormLabel>
                 <FormControl>
-                  <Input placeholder="title*" {...field}
+                  <Input data-testid="title-input" placeholder="title*" {...field}
                     className='text-text-bright border-border-green focus-visible:ring-0 focus-visible:border-text-light bg-bg-green2 placeholder:text-focus selection:bg-focus caret-focus'/>
                 </FormControl>
                 <FormMessage />
@@ -127,8 +127,8 @@ function RouteComponent() {
               <FormItem>
                 <FormLabel>Content</FormLabel>
                 <FormControl>
-                  <AutosizeTextarea {...field} placeholder="content" maxHeight={ 200 }
-                    className="field-sizing-fixed resize-none text-text-bright border-border-green focus-visible:ring-offset-0 focus-visible:ring-0 focus-visible:border-text-light bg-bg-green2 placeholder:text-focus selection:bg-focus caret-focus"  />
+                  <AutosizeTextarea data-testid="new-post-text" {...field} placeholder="content" maxHeight={ 200 }
+                    className="field-sizing-fixed resize-none text-text-bright border-border-green focus-visible:ring-offset-0 focus-visible:ring-0 focus-visible:border-text-light bg-bg-green2 placeholder:text-focus selection:bg-focus caret-focus"/>
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -167,6 +167,7 @@ function RouteComponent() {
                 <FormLabel>Contains Spoiler?</FormLabel>
                 <FormControl>
                   <Checkbox
+                      data-testid="has-spoiler-input"
                       checked={ value > 0}
                       onCheckedChange={onChange}
                       className="size-4 bg-bg-green2 border-border-green data-[state=checked]:bg-button data-[state=checked]:text-card-green text-red-500 cursor-pointer"
@@ -176,7 +177,7 @@ function RouteComponent() {
               </FormItem>
             )}
           />
-          <Button type="submit" className="bg-button hover:bg-text-light text-card-green cursor-pointer">Submit</Button>
+          <Button data-testid="new-post-submit-button" type="submit" className="bg-button hover:bg-text-light text-card-green cursor-pointer">Submit</Button>
         </form>
       </Form>
     </div>

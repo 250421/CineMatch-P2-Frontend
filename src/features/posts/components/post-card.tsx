@@ -76,7 +76,7 @@ export const PostCard = ({ post, user, setDeleteOpen, setUpdateOpen }: PostCardP
           <div className="flex flex-row items-center">
           <Link to="/" onClick={ e => handleClickUsername(e) } className="flex flex-row items-center gap-1 hover:text-link-green">
             <ProfileIcon name={ post?.username ?? "Anonymous" } />
-            <span className="font-medium pl-1 text-button hover:text-text-light">
+            <span className="font-medium pl-1 text-button hover:text-text-light" data-testid="post-card-username">
               { post?.username ?? "Anonymous" }
             </span>
           </Link>
@@ -88,6 +88,7 @@ export const PostCard = ({ post, user, setDeleteOpen, setUpdateOpen }: PostCardP
                 <DropdownMenuTrigger 
                   disabled={ post?.username !== user?.username && user?.role !== "ADMIN" } 
                   className="w-full h-full rounded-full flex justify-center items-center hover:bg-muted-text-blue cursor-pointer"
+                  data-testid="post-card-dropdown-trigger"
                 >
                   <Ellipsis />
                 </DropdownMenuTrigger>
@@ -96,8 +97,10 @@ export const PostCard = ({ post, user, setDeleteOpen, setUpdateOpen }: PostCardP
                 {
                   post?.username === user?.username ?
                   <>
-                    <DropdownMenuItem className="focus:bg-button cursor-pointer" onClick={ e => handleUpdate(e) }>Edit</DropdownMenuItem>
-                    <DropdownMenuItem className="focus:bg-red-500 cursor-pointer text-red-500" onClick={ e => handleDelete(e) }>Delete</DropdownMenuItem>
+                    <DropdownMenuItem className="focus:bg-button cursor-pointer" onClick={ e => handleUpdate(e) }>
+                      <span data-testid="post-card-update-button">Edit</span>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem data-testid="post-card-delete-button" className="focus:bg-red-500 cursor-pointer text-red-500" onClick={ e => handleDelete(e) }>Delete</DropdownMenuItem>
                   </>
                 :
                   user?.role === "ADMIN" ? 
@@ -112,9 +115,9 @@ export const PostCard = ({ post, user, setDeleteOpen, setUpdateOpen }: PostCardP
             </DropdownMenu>
           </div>
         </div>
-        <CardTitle className="text-xl mt-2">{ post?.title }</CardTitle>
+        <CardTitle className="text-xl mt-2" data-testid="post-card-title">{ post?.title }</CardTitle>
       </CardHeader>
-      <CardContent className="px-4 text-muted-text-blue3">
+      <CardContent className="px-4 text-muted-text-blue3" data-testid="post-card-content">
         { post?.has_spoiler && !viewSpoiler ? 
           <HiddenContent setViewSpoiler={ handleViewSpoiler } />
         :

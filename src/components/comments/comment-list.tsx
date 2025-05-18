@@ -13,6 +13,7 @@ import { useFetchComments } from "@/features/comments/hooks/use-fetch-comments";
 import { useUpdateComment } from "@/features/comments/hooks/use-update-comment";
 import { useDeleteComment } from "@/features/comments/hooks/use-delete-comment";
 import { useConfirm } from "@/hooks/use-confirm";
+import { useAuth } from "@/features/auth/hooks/use-auth";
 import { Separator } from "../ui/separator";
 
 interface CommentListProps {
@@ -27,6 +28,7 @@ export function CommentList({ postId, comments }: CommentListProps) {
   const [editingId, setEditingId] = useState<number | null>(null);
 
   const [deleteConfirm, DeleteDialog] = useConfirm();
+  const  user  = useAuth();
 
   const {
     register,
@@ -83,6 +85,10 @@ export function CommentList({ postId, comments }: CommentListProps) {
       {comments.map((comment, index) => {
         if (!comment || comment.deleted === 1) return null;
 
+        const isOwner = user?.data?.username === comment.username;
+        const isAdmin = user?.data?.role === "ADMIN";
+        const canManage = isOwner || isAdmin;
+
         return (
           <div key={comment.id} className="px-4">
             {index != 0 && <Separator className="bg-muted-text-blue2"/>}
@@ -109,7 +115,7 @@ export function CommentList({ postId, comments }: CommentListProps) {
                     >
                       Cancel
                     </Button>
-                    <Button type="submit" disabled={isSubmitting} className="cursor-pointer bg-button text-card-blue hover:bg-text-light">
+                    <Button type="submit" disabled={isSubmitting} className="cursor-pointer bg-button text-card-blue hover:bg-text-light" data-testid="submit-edit-comment-button">
                       {isSubmitting ? "Saving..." : "Save"}
                     </Button>
                   </div>
@@ -123,14 +129,18 @@ export function CommentList({ postId, comments }: CommentListProps) {
                       </p>
                     </div>
                     <div className="flex gap-1 absolute top-2 right-1">
+                      {isOwner && (
                       <Button
                         variant="ghost"
                         size="icon"
                         onClick={() => handleEdit(comment)}
                         className="hover:bg-muted-text-blue cursor-pointer hover:text-blue-500"
+                        data-testid="edit-comment-button"
                       >
                         <Pencil className="h-4 w-4" />
                       </Button>
+                      )}
+                      {canManage && (
                       <Button
                         variant="ghost"
                         size="icon"
@@ -139,6 +149,7 @@ export function CommentList({ postId, comments }: CommentListProps) {
                       >
                         <Trash2 className="h-4 w-4" />
                       </Button>
+                    )} 
                     </div>
                   </div>
                   <p className="mt-1 text-muted-text-blue3">{comment.text}</p>

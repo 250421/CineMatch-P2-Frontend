@@ -37,7 +37,16 @@ export default {
     "index.tsx",
     "/components/ui/",
     "axios-config.ts",
-    "routeTree.gen.ts"
+    "routeTree.gen.ts",
+    "/__mock__/",
+    "main.tsx",
+    ".*/hooks/",
+    "/components/shared/sidebar",
+    "./schemas/",
+    "__root.tsx",
+    "_auth.tsx",
+    "_public.tsx",
+    "/lib/"
   ],
   setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
 }

@@ -48,6 +48,7 @@ export function MultiMovieSelect({ values, onSelect, options, maxLimit, label }:
           role="combobox"
           aria-expanded={open}
           className="w-[100%] justify-between h-fit bg-bg-green2 border-border-green hover:bg-focus cursor-pointer"
+          data-testid="select-movie-button"
         >
           <div className="flex gap-2 justify-start flex-wrap">
             {values.length > 0

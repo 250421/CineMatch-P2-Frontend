@@ -23,10 +23,10 @@ export const Route = createFileRoute('/(auth)/_auth/select-genres')({
   component: SelectGenresPage,
 })
 
-function SelectGenresPage() {
+export function SelectGenresPage() {
+  const [genres, setGenres] = useState<number[]>([]);
   const { data: genreOptions, isLoading: isLoadingGenres } = useGetGenres();
   const { data: movieOptions, isLoading: isLoadingMovies } = useGetMovies();
-  const [genres, setGenres] = useState<number[]>([]);
   const [movies, setMovies] = useState<number[]>([]);
   const { mutate: setFavoriteGenres } = useFavoriteGenres();
   const { mutate: setFavoriteMovies } = useFavoriteMovies();
@@ -71,7 +71,7 @@ function SelectGenresPage() {
   }
 
   return (
-    <div className="flex items-center justify-center h-screen">
+    <div data-testid="select-genres-component" className="flex items-center justify-center h-screen">
       <Card className="w-[40em] bg-card-green/90 border-border-green text-text-light">
         <CardHeader>
           <CardTitle className="text-2xl text-text-bright">Welcome to CineMatch!</CardTitle>
@@ -104,6 +104,7 @@ function SelectGenresPage() {
             onClick={ onSubmit } 
             disabled={ genres.length !== 3 }
             className='cursor-pointer w-[100%] bg-button text-card-green2 hover:bg-text-light disabled:bg-bg-green'
+            data-testid="select-genres-submit-button"
           >
             Submit
           </Button>
