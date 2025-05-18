@@ -32,7 +32,7 @@ export const Route = createFileRoute("/(public)/_public/login")({
   component: LoginPage,
 });
 
-function LoginPage() {
+export function LoginPage() {
   const { mutate: login } = useLogin();
   const form = useForm<LoginSchemaType>({
     resolver: zodResolver(loginSchema),
