@@ -47,10 +47,10 @@ export function LoginPage() {
   }
 
   return (
-    <Card data-testid="login" className="w-[400px]">
-      <CardHeader>
-        <CardTitle className="font-bold text-2xl"> Login</CardTitle>
-        <CardDescription>
+    <Card data-testid="login" className="w-[400px] bg-card-blue/60 border-border-blue text-text-bright gap-0">
+      <CardHeader className="gap-0 mb-8">
+        <CardTitle className="font-bold text-2xl"> Welcome back</CardTitle>
+        <CardDescription className="text-muted-text-blue2">
           Please enter your username and password to continue.
         </CardDescription>
       </CardHeader>
@@ -64,7 +64,9 @@ export function LoginPage() {
                 <FormItem>
                   <FormLabel>Username</FormLabel>
                   <FormControl>
-                    <Input placeholder="Username" {...field} />
+                    <Input
+                    className="border-border-blue focus-visible:ring-0 focus-visible:border-focus bg-bg-blue2 placeholder:text-muted-text-blue2 selection:bg-focus caret-focus"
+                    placeholder="Username" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -78,19 +80,21 @@ export function LoginPage() {
                 <FormItem>
                   <FormLabel>Password</FormLabel>
                   <FormControl>
-                    <Input placeholder="Password" {...field} type="password" />
+                    <Input
+                    className="border-border-blue focus-visible:ring-0 focus-visible:border-focus bg-bg-blue2 placeholder:text-muted-text-blue2 selection:bg-focus caret-focus"
+                    placeholder="Password" {...field} type="password" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <Button type="submit" className="w-[100%]">Submit</Button>
+            <Button data-testid="login-submit-button" type="submit" className="w-[100%] bg-button text-card-blue hover:bg-button-hover cursor-pointer">Login</Button>
           </form>
         </Form>
       </CardContent>
-      <CardFooter className="flex items-center gap-2">
+      <CardFooter className="flex items-center gap-1 text-sm mx-auto mt-1 text-muted-text-blue2">
         <p>Don&apos;t have an account?</p>
-        <Link to={"/register"} className="text-blue-500 underline">
+        <Link to={"/register"} className="text-link-green underline">
           Register
         </Link>
       </CardFooter>

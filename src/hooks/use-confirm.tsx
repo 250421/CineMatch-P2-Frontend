@@ -44,18 +44,19 @@ export const useConfirm = (): [
     destructive = false,
   }: ConfirmDialogProps): JSX.Element => (
     <Dialog open={!!state} onOpenChange={(open) => !open && handleCancel()}>
-      <DialogContent>
+      <DialogContent className="bg-card-green2/95 border-border-green text-text-light min-w-fit [&>button]:cursor-pointer [&>button]:focus:ring-0 [&>button]:focus:ring-offset-0 [&>button]:hover:bg-focus [&>button]:p-1">
         <DialogHeader>
-          <DialogTitle>{title}</DialogTitle>
-          <DialogDescription>{description}</DialogDescription>
+          <DialogTitle className="text-bright">{title}</DialogTitle>
+          <DialogDescription className="pb-4 text-button-hover">{description}</DialogDescription>
         </DialogHeader>
-        <DialogFooter>
-          <Button variant="outline" onClick={handleCancel}>
+        <DialogFooter className="flex flex-row mx-auto w-[100%]">
+          <Button onClick={handleCancel} className="w-[50%] bg-focus hover:bg-text-light text-card-green cursor-pointer">
             {cancelLabel}
           </Button>
           <Button
             variant={destructive ? "destructive" : "default"}
             onClick={handleConfirm}
+            className="w-[50%] text-bright cursor-pointer"
           >
             {confirmLabel}
           </Button>

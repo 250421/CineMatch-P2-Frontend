@@ -26,6 +26,7 @@ import { useCreatePost } from '@/features/posts/hooks/use-create-post'
 import { useGetBoard } from '@/features/boards/hooks/use-get-board'
 import { Loader2 } from 'lucide-react'
 import { useGetFavoriteGenres } from '@/features/genres/hooks/use-get-favorite-genres'
+import { Checkbox } from '@/components/ui/checkbox'
 
 export const Route = createFileRoute('/(auth)/_auth/new-post')({
   component: NewPostComponent,
@@ -69,10 +70,10 @@ export function NewPostComponent() {
   }
 
   return (
-    <div data-testid="new-post-component" className="flex justify-center h-screen mt-[56px]">
+    <div data-testid="new-post-component" className="flex justify-center mt-[56px]">
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 w-[30em]">
-          <h1 className="text-xl mb-4">Create Post</h1>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 w-[30em] bg-card-green/90 p-5 rounded-lg border-1 border-border-green text-text-light">
+          <h1 className="text-2xl mb-4 font-medium">Create Post</h1>
           <FormField
             control={form.control}
             name="boardId"
@@ -81,14 +82,17 @@ export function NewPostComponent() {
                 <FormLabel>Select a Message Board</FormLabel>
                 <FormControl>
                   <Select onValueChange={ (field.onChange) } value={ field.value ? String(field.value) : "" }>
-                    <SelectTrigger data-testid="new-post-board-select" className="w-[180px]">
-                      <SelectValue placeholder="message board*" />
+                    <SelectTrigger data-testid="new-post-board-select" className="w-[180px] text-text-bright border-border-green focus-visible:ring-0 focus-visible:border-text-light bg-bg-green2 selection:bg-focus">
+                      <SelectValue placeholder="Message Board*" />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent className='bg-card-green3 border-border-green text-text-light'>
                       {
                         messageBoards.map((value) => (
                           (favoriteGenres as string[])?.includes(value.name) ?
-                            <SelectItem value={ String(value.id) } key={ value.name }>{ value.name }</SelectItem>
+                            <SelectItem value={ String(value.id) } key={ value.name }
+                              className='focus:bg-button'>
+                                { value.name }
+                            </SelectItem>
                           :
                             <div className='hidden' key={ value.name }></div>
                         ))
@@ -108,7 +112,8 @@ export function NewPostComponent() {
               <FormItem>
                 <FormLabel>Title</FormLabel>
                 <FormControl>
-                  <Input data-testid="title-input" placeholder="title*" {...field} />
+                  <Input data-testid="title-input" placeholder="title*" {...field}
+                    className='text-text-bright border-border-green focus-visible:ring-0 focus-visible:border-text-light bg-bg-green2 placeholder:text-focus selection:bg-focus caret-focus'/>
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -122,7 +127,8 @@ export function NewPostComponent() {
               <FormItem>
                 <FormLabel>Content</FormLabel>
                 <FormControl>
-                  <AutosizeTextarea data-testid="new-post-text" {...field} placeholder="content" maxHeight={ 200 } className="resize-none"  />
+                  <AutosizeTextarea data-testid="new-post-text" {...field} placeholder="content" maxHeight={ 200 }
+                    className="field-sizing-fixed resize-none text-text-bright border-border-green focus-visible:ring-offset-0 focus-visible:ring-0 focus-visible:border-text-light bg-bg-green2 placeholder:text-focus selection:bg-focus caret-focus"/>
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -145,6 +151,7 @@ export function NewPostComponent() {
                     onChange={(e) => {
                       onChange(e.target.files?.[0]);
                     }}
+                    className='pl-0 border-0 file:bg-button file:rounded-full file:px-2 file:cursor-pointer file:mr-2 file:align-middle'
                   />
                 </FormControl>
                 <FormMessage />
@@ -159,22 +166,18 @@ export function NewPostComponent() {
               <FormItem className="flex flex-row items-center gap-4">
                 <FormLabel>Contains Spoiler?</FormLabel>
                 <FormControl>
-                  <Input
-                    data-testid="has-spoiler-input"
-                    type="checkbox"
-                    ref={ ref }
-                    { ...fieldProps }
-                    onChange={() => {
-                      onChange(!value);
-                    }}
-                    className="size-4"
-                  />
+                  <Checkbox
+                      data-testid="has-spoiler-input"
+                      checked={ value > 0}
+                      onCheckedChange={onChange}
+                      className="size-4 bg-bg-green2 border-border-green data-[state=checked]:bg-button data-[state=checked]:text-card-green text-red-500 cursor-pointer"
+                    />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-          <Button data-testid="new-post-submit-button" type="submit">Submit</Button>
+          <Button data-testid="new-post-submit-button" type="submit" className="bg-button hover:bg-text-light text-card-green cursor-pointer">Submit</Button>
         </form>
       </Form>
     </div>

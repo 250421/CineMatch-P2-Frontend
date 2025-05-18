@@ -21,7 +21,7 @@ export const SidebarNoIconItem = ({ label, href }: SidebarItemProps) => {
   return (
     <div>
       <Link to={ href }>
-        <Button className="w-full flex justify-start" variant={ "ghost" } onClick={ handleClick }>
+        <Button className="w-full flex justify-start text-base text-text-light hover:bg-focus cursor-pointer" variant={ "ghost" } onClick={ handleClick }>
           { label }
         </Button>
       </Link>

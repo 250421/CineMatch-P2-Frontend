@@ -23,6 +23,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog"
 import { DialogDescription } from "@radix-ui/react-dialog"
+import { Checkbox } from "@/components/ui/checkbox"
 
 
 interface UpdatePostDialogProps {
@@ -33,6 +34,7 @@ interface UpdatePostDialogProps {
 
 export const UpdatePostDialog = ({ open, setOpen, initialForm }: UpdatePostDialogProps) => {
     const { mutate: updatePost } = useUpdatePost();
+
   const form = useForm<UpdatePostSchemaType>({
     resolver: zodResolver(UpdatePostSchema),
     values: {
@@ -55,10 +57,10 @@ export const UpdatePostDialog = ({ open, setOpen, initialForm }: UpdatePostDialo
 
   return (
     <Dialog open={ open } onOpenChange={ (open) => setOpen(open, initialForm) }>
-      <DialogContent>
+      <DialogContent className="bg-card-green2/95 border-border-green text-text-light min-w-fit [&>button]:cursor-pointer [&>button]:focus:ring-0 [&>button]:focus:ring-offset-0 [&>button]:hover:bg-focus [&>button]:p-1">
         <DialogHeader>
-          <DialogTitle>Update your Post</DialogTitle>
-          <DialogDescription>Update your post details below:</DialogDescription>
+          <DialogTitle className="text-3xl text-bright">Update your Post</DialogTitle>
+          <DialogDescription className="ml-1 text-button-hover">Update your post details below:</DialogDescription>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 w-[30em]">
@@ -69,7 +71,8 @@ export const UpdatePostDialog = ({ open, setOpen, initialForm }: UpdatePostDialo
                 <FormItem>
                   <FormLabel>Title</FormLabel>
                   <FormControl>
-                    <Input placeholder="title*" {...field} />
+                    <Input className="text-text-bright border-border-green focus-visible:ring-0 focus-visible:border-text-light bg-bg-green2 placeholder:text-focus selection:bg-focus caret-focus"
+                    placeholder="title*" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -83,7 +86,8 @@ export const UpdatePostDialog = ({ open, setOpen, initialForm }: UpdatePostDialo
                 <FormItem>
                   <FormLabel>Content</FormLabel>
                   <FormControl>
-                    <AutosizeTextarea {...field} placeholder="content" maxHeight={ 200 } className="resize-none"  />
+                    <AutosizeTextarea {...field} placeholder="Write content here..." maxHeight={ 200 }
+                    className="field-sizing-fixed resize-none text-text-bright border-border-green focus-visible:ring-offset-0 focus-visible:ring-0 focus-visible:border-text-light bg-bg-green2 placeholder:text-focus selection:bg-focus caret-focus"  />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -106,6 +110,7 @@ export const UpdatePostDialog = ({ open, setOpen, initialForm }: UpdatePostDialo
                       onChange={(e) => {
                         onChange(e.target.files?.[0]);
                       }}
+                      className="pl-0 border-0 file:bg-button file:rounded-full file:px-2 file:cursor-pointer file:mr-2 file:align-middle"
                     />
                   </FormControl>
                   <FormMessage />
@@ -120,22 +125,17 @@ export const UpdatePostDialog = ({ open, setOpen, initialForm }: UpdatePostDialo
                 <FormItem className="flex flex-row items-center gap-4">
                   <FormLabel>Contains Spoiler?</FormLabel>
                   <FormControl>
-                    <Input 
-                      type="checkbox"
-                      ref={ ref }
-                      { ...fieldProps }
-                      onChange={() => {
-                        onChange(!value);
-                      }}
-                      checked={ value > 0 }
-                      className="size-4"
+                    <Checkbox
+                      checked={ value > 0}
+                      onCheckedChange={onChange}
+                      className="size-4 bg-bg-green2 border-border-green data-[state=checked]:bg-button data-[state=checked]:text-card-green text-red-500 cursor-pointer"
                     />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <Button type="submit">Submit</Button>
+            <Button type="submit" className="bg-button hover:bg-text-light text-card-green cursor-pointer">Submit</Button>
           </form>
         </Form>
       </DialogContent>

@@ -12,8 +12,8 @@ export const SidebarItem = ({ label, icon: Icon, href }: SidebarItemProps) => {
     return (
         <div>
             <Link to={href}>
-            <Button className="w-full flex justify-start" variant={"ghost"}>
-                <Icon className="size-4 mr-2" />
+            <Button className="w-full flex justify-start text-base text-text-light hover:bg-focus cursor-pointer" variant={"ghost"}>
+                <Icon className="size-6 mr-2" />
                 {label}
             </Button>
             </Link>
